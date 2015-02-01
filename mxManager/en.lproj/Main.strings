@@ -16,6 +16,8 @@
 // Site Main View
 "LPG-WI-sht.normalTitle" = "Edit settings";
 "o13-N5-vLQ.normalTitle" = "Delete site";
+"Ipm-cT-0Sq.normalTitle" = "Refresh";
+"saf-p9-FdZ.normalTitle" = "Clear";
 "cJC-56-KWs.text" = "Resources";
 "u90-88-8TN.text" = "Error log";
 "IE0-s3-TNZ.text" = "Manager log";
@@ -41,3 +43,5 @@
 "site_err_base_auth" = "Wrong credentials for basic authentication";
 "site_err_no_manager" = "Unable to connect to site. Maybe app backend is not installed?";
 "site_delete_confirm" = "Are you sure you want to remove this site?";
+"error_log_too_large" = "The error log is too large to be viewed";
+"error_log_empty" = "The error log is empty";

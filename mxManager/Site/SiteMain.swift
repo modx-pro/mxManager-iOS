@@ -23,27 +23,21 @@ class SiteMain: DefaultView, UITableViewDelegate, UITableViewDataSource {
 	}
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-		//self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
+		if segue.identifier! == "ShowSettings" {
+			var controller = segue.destinationViewController as SiteSettings
+			controller.data = self.data
+		}
+		else {
+			let cell = sender as DefaultCell
+			var controller = segue.destinationViewController as DefaultView
+			controller.data = self.data
 
-		switch segue.identifier! {
-			case "ShowSettings":
-				var controller = segue.destinationViewController as SiteSettings
-				controller.data = self.data
-			case "ShowResources":
-				self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
-				var controller = segue.destinationViewController as ResourcesList
-				controller.data = self.data
-			case "ShowErrorLog":
-				self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
-				//var controller = segue.destinationViewController as ResourcesList
-				//controller.data = self.data
-			default:
-				self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
+			controller.navigationItem.title = cell.textLabel?.text
+			self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
 		}
 	}
 
 	override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-
 		if self.popup != nil {
 			let original_width = self.view.frame.size.width
 			let original_height = self.view.frame.size.height

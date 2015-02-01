@@ -18,7 +18,7 @@ class ResourceCell: DefaultCell {
 		super.template(idx: idx)
 
 		//self.textLabel?.text = data["pagetitle"] as NSString
-		self.textLabel?.text = NSString.init(format: "%@ (%i)", data["pagetitle"] as String, data["id"] as Int)
+		self.textLabel?.text = NSString.init(format: "%@ (%i)", self.data["pagetitle"] as String, self.data["id"] as Int)
 		self.detailTextLabel?.text = data["longtitle"] as NSString
 
 		if self.data["isfolder"] as Int == 1 {
@@ -27,6 +27,7 @@ class ResourceCell: DefaultCell {
 		}
 		else {
 			self.imageView?.image = Utils().getIcon("file")
+			self.accessoryType = UITableViewCellAccessoryType.None
 		}
 
 		var normalColor = Colors().defaultText()

@@ -17,6 +17,17 @@ class DefaultButton: UIButton {
 		self.layer.masksToBounds = true;
 		self.layer.borderColor = Colors().borderColor().CGColor
 		self.layer.borderWidth = 1;
+		self.backgroundColor = UIColor.whiteColor()
+	}
+
+}
+
+class BlueButton: DefaultButton {
+
+	override init(coder aDecoder: NSCoder) {
+		super.init(coder:aDecoder)
+		self.setTitleColor(Colors().defaultText(), forState: UIControlState.Normal)
+		self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)
 	}
 
 	override var highlighted: Bool {
@@ -25,12 +36,58 @@ class DefaultButton: UIButton {
 		}
 		set {
 			super.highlighted = newValue
-
 			if newValue {
-				let color = self.tag != 0
-						? Colors().red()
-						: Colors().blue()
-				self.backgroundColor = color
+				self.backgroundColor = Colors().blue()
+			}
+			else {
+				self.backgroundColor = UIColor.whiteColor()
+			}
+		}
+	}
+
+}
+
+class RedButton: DefaultButton {
+
+	override init(coder aDecoder: NSCoder) {
+		super.init(coder:aDecoder)
+		self.setTitleColor(Colors().red(), forState: UIControlState.Normal)
+		self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)
+	}
+
+	override var highlighted: Bool {
+		get {
+			return super.highlighted
+		}
+		set {
+			super.highlighted = newValue
+			if newValue {
+				self.backgroundColor = Colors().red()
+			}
+			else {
+				self.backgroundColor = UIColor.whiteColor()
+			}
+		}
+	}
+
+}
+
+class GreenButton: DefaultButton {
+
+	override init(coder aDecoder: NSCoder) {
+		super.init(coder:aDecoder)
+		self.setTitleColor(Colors().green(), forState: UIControlState.Normal)
+		self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)
+	}
+
+	override var highlighted: Bool {
+		get {
+			return super.highlighted
+		}
+		set {
+			super.highlighted = newValue
+			if newValue {
+				self.backgroundColor = Colors().green()
 			}
 			else {
 				self.backgroundColor = UIColor.whiteColor()

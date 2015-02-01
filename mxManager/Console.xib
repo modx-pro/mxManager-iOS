@@ -20,13 +20,13 @@
                     <rect key="frame" x="8" y="8" width="284" height="200"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lV5-x0-icm">
-                            <rect key="frame" x="0.0" y="0.0" width="284" height="200"/>
+                            <rect key="frame" x="0.0" y="0.0" width="284" height="14"/>
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="284" id="4tV-Yd-cmJ"/>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="aSB-ms-HUE"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="250" constant="200" id="aSB-ms-HUE"/>
                             </constraints>
                             <attributedString key="attributedText">
-                                <fragment content="Messages">
+                                <fragment content=" ">
                                     <attributes>
                                         <font key="NSFont" size="12" name="CourierNewPSMT"/>
                                         <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
@@ -43,7 +43,7 @@
                         <constraint firstItem="lV5-x0-icm" firstAttribute="leading" secondItem="mog-K4-1U3" secondAttribute="leading" id="jUd-3J-BhA"/>
                     </constraints>
                 </scrollView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eO2-0C-BAf" customClass="DefaultButton" customModule="mxManager" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eO2-0C-BAf" customClass="BlueButton" customModule="mxManager" customModuleProvider="target">
                     <rect key="frame" x="8" y="216" width="284" height="42"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>

@@ -60,7 +60,7 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 			Utils().showSpinner(self.view)
 		}
 		let site = Site.init(params: self.data) as Site
-		site.getResources(self.parent, offset:0, {
+		site.getResources(self.parent, start:0, {
 			data in
 			let tmp = data["data"] as NSDictionary
 			let rows = tmp["rows"] as NSArray
@@ -344,7 +344,7 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		self.tableFooterView?.hidden = false
 
 		let site = Site.init(params: self.data) as Site
-		site.getResources(self.parent, offset: self.count, {
+		site.getResources(self.parent, start: self.count, {
 			data in
 			let tmp = data["data"] as NSDictionary
 			let rows = tmp["rows"] as NSArray
@@ -371,7 +371,6 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 			self.sections = sections
 
 			self.tableView?.reloadData();
-			self.refreshControl?.endRefreshing()
 			self.isLoading = false
 			if self.tableFooterView != nil {
 				if self.count >= self.total {
@@ -380,7 +379,6 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 			}
 		}, {
 			data in
-			self.refreshControl?.endRefreshing()
 			Utils().alert("", message: data["message"] as String, view: self)
 			self.isLoading = false
 			self.tableFooterView?.hidden = true

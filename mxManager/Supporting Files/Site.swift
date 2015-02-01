@@ -25,11 +25,19 @@ class Site: NSObject {
 		self.Request(parameters, success, failure)
 	}
 
-	func getResources(parent: NSNumber, offset: NSNumber = 0, success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
+	func getManagerLog(start: NSNumber = 0, success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
+		let parameters = [
+				"mx_action": "main/log/getlist",
+				"start": start as NSNumber,
+		]
+		self.Request(parameters, success, failure)
+	}
+
+	func getResources(parent: NSNumber, start: NSNumber = 0, success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
 		let parameters = [
 				"mx_action": "resource/getlist",
 				"parent": parent as NSNumber,
-				"offset": offset as NSNumber,
+				"start": start as NSNumber,
 		]
 		self.Request(parameters, success, failure)
 	}
@@ -46,7 +54,7 @@ class Site: NSObject {
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
 		var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
 		// Set timeout
-		configuration.timeoutIntervalForResource = 5
+		configuration.timeoutIntervalForResource = 10
 
 		let AlamofireManager = Alamofire.Manager(configuration: configuration)
 
