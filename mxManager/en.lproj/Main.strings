@@ -1,0 +1,43 @@
+// Main
+"qVD-Ik-Fjz.title" = "mxManager";
+
+// Site settings
+"2wo-ha-oOD.title" = "Site settings";
+"6vo-wq-XXz.text" = "Password";
+"OlN-mj-pPq.text" = "Manager address";
+"PTA-MF-zHp.placeholder" = "http://mysite.com/manager";
+"Uhc-DW-JKP.text" = "Username";
+"bdT-OZ-Not.text" = "Site name";
+"cFa-I7-sET.placeholder" = "My favorite site";
+"p5V-KN-IfC.text" = "Basic authentication";
+"hpf-EP-fja.text" = "Username";
+"nTe-nZ-58l.text" = "Password";
+
+// Site Main View
+"LPG-WI-sht.normalTitle" = "Edit settings";
+"o13-N5-vLQ.normalTitle" = "Delete site";
+"cJC-56-KWs.text" = "Resources";
+"u90-88-8TN.text" = "Error log";
+"IE0-s3-TNZ.text" = "Manager log";
+"64N-Jv-j2a.text" = "Clear cache";
+
+// Messages
+"error" = "Error";
+"warning" = "Warning";
+"close" = "Close";
+"cancel" = "Cancel";
+"ok" = "Ok";
+"edit" = "Edit";
+"view" = "View";
+"delete" = "Delete";
+"undelete" = "Restore";
+"publish" = "Publish";
+"unpublish" = "Unpublish";
+"actions" = "Actions";
+
+"site_err_site_ae" = "You already have an account with this site name";
+"site_err_manager_ae" = "You already have an account with this manager address";
+"site_err_connect" = "The site is not responding";
+"site_err_base_auth" = "Wrong credentials for basic authentication";
+"site_err_no_manager" = "Unable to connect to site. Maybe app backend is not installed?";
+"site_delete_confirm" = "Are you sure you want to remove this site?";

@@ -1,0 +1,43 @@
+// Main
+"qVD-Ik-Fjz.title" = "mxManager";
+
+// Site settings
+"2wo-ha-oOD.title" = "Настройки сайта";
+"6vo-wq-XXz.text" = "Пароль";
+"OlN-mj-pPq.text" = "Адрес менеджера";
+"PTA-MF-zHp.placeholder" = "http://mysite.com/manager";
+"Uhc-DW-JKP.text" = "Имя пользователя";
+"bdT-OZ-Not.text" = "Название сайта";
+"cFa-I7-sET.placeholder" = "Мой любимый сайт";
+"p5V-KN-IfC.text" = "Базовая авторизация";
+"hpf-EP-fja.text" = "Username";
+"nTe-nZ-58l.text" = "Password";
+
+// Site Main View
+"LPG-WI-sht.normalTitle" = "Настройки";
+"o13-N5-vLQ.normalTitle" = "Удалить сайт";
+"cJC-56-KWs.text" = "Ресурсы";
+"u90-88-8TN.text" = "Журнал ошибок";
+"IE0-s3-TNZ.text" = "Журнал системы";
+"64N-Jv-j2a.text" = "Очистить кэш";
+
+// Messages
+"error" = "Ошибка";
+"warning" = "Внимание";
+"close" = "Закрыть";
+"cancel" = "Отмена";
+"ok" = "Ok";
+"edit" = "Редактировать";
+"view" = "Просмотреть";
+"delete" = "Удалить";
+"undelete" = "Восстановить";
+"publish" = "Опубликовать";
+"unpublish" = "Снять с публикации";
+"actions" = "Действия";
+
+"site_err_site_ae" = "У вас с уже есть запись с таким именем сайта";
+"site_err_manager_ae" = "У вас с уже есть запись с таким адресом менеджера";
+"site_err_connect" = "Сайт не отвечает";
+"site_err_base_auth" = "Неверные данные для базовой авторизации";
+"site_err_no_manager" = "Не могу подключиться к сайту, возможно не установлено дополнение";
+"site_delete_confirm" = "Вы уверены, что хотите удалить этот сайт?";
