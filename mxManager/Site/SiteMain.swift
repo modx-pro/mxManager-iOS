@@ -22,9 +22,12 @@ class SiteMain: DefaultTable {
 	}
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-		if segue.identifier! == "ShowSettings" {
+		if segue.identifier == "ShowSettings" {
 			var controller = segue.destinationViewController as SiteSettings
 			controller.data = self.data
+		}
+		else if segue.identifier == "ExitView" {
+			// Nothing
 		}
 		else {
 			let cell = sender as DefaultCell
@@ -52,12 +55,47 @@ class SiteMain: DefaultTable {
 	}
 
 	override func loadRows(spinner: Bool = false) {
+		if self.isLoading {
+			return
+		}
+		self.isLoading = true
+
+		if spinner {
+			Utils().showSpinner(self.view)
+		}
+		let site = Site.init(params: self.data) as Site
+
 		self.request = [
-			"mx_action": "auth",
-			"username": self.data["user"] as String,
-			"password": self.data["password"] as String,
+				"mx_action": "auth",
+				"username": self.data["user"] as String,
+				"password": self.data["password"] as String,
 		]
-		super.loadRows(spinner: spinner)
+		site.Request(self.request, {
+			data in
+			let tmp = data["data"] as NSDictionary
+			self.rows = tmp["sections"] as NSArray
+			self.updateSite(tmp)
+
+			self.tableView?.reloadData();
+			if spinner {
+				Utils().hideSpinner(self.view)
+			}
+			if self.tableFooterView != nil {
+				if self.count < self.total {
+					self.tableView?.tableFooterView = self.tableFooterView
+				}
+			}
+			self.refreshControl?.endRefreshing()
+			self.isLoading = false
+		}, {
+			data in
+			if spinner {
+				Utils().hideSpinner(self.view)
+			}
+			self.refreshControl?.endRefreshing()
+			self.isLoading = false
+			Utils().alert("", message: data["message"] as String, view: self)
+		})
 	}
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -72,7 +110,13 @@ class SiteMain: DefaultTable {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let identifier = self.rows[indexPath.row] as NSString
 
-		if identifier == "clear_cache" {
+		if identifier == "view_site" {
+			if self.data["site_url"] != nil {
+				let url = NSURL(string: self.data["site_url"] as String)
+				UIApplication.sharedApplication().openURL(url!)
+			}
+		}
+		else if identifier == "clear_cache" {
 			let site = Site.init(params:self.data) as Site
 			Utils().showSpinner(self.view)
 			site.clearCache({
@@ -125,6 +169,22 @@ class SiteMain: DefaultTable {
 	func updateTitle() {
 		if self.data["site"] != nil {
 			self.title = self.data["site"] as NSString
+		}
+	}
+
+	func updateSite(data: NSDictionary) {
+		let site = [:] as NSMutableDictionary
+		site.addEntriesFromDictionary(self.data)
+
+		if data["site_url"] != nil {
+			site["site_url"] = data["site_url"] as String
+		}
+		if data["version"] != nil {
+			site["version"] = data["version"] as String
+		}
+
+		if Utils().updateSite(site["key"] as String, site: site, notify: false) {
+			self.data = site
 		}
 	}
 

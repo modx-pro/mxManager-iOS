@@ -18,10 +18,12 @@
 "o13-N5-vLQ.normalTitle" = "Удалить сайт";
 "Ipm-cT-0Sq.normalTitle" = "Обновить";
 "saf-p9-FdZ.normalTitle" = "Очистить";
+
 "cJC-56-KWs.text" = "Ресурсы";
 "u90-88-8TN.text" = "Журнал ошибок";
 "IE0-s3-TNZ.text" = "Журнал системы";
 "64N-Jv-j2a.text" = "Очистить кэш";
+"Syj-Z0-wz0.text" = "Перейти на сайт";
 
 // Messages
 "error" = "Ошибка";

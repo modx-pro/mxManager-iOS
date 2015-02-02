@@ -38,6 +38,7 @@
 		515DD7B01A494AC000B5C2F5 /* KeychainQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515DD7AA1A494AC000B5C2F5 /* KeychainQuery.swift */; };
 		515DD7B11A494AC000B5C2F5 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515DD7AB1A494AC000B5C2F5 /* KeychainService.swift */; };
 		518421081A7F6D3200323E67 /* ResourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518421071A7F6D3200323E67 /* ResourceCell.swift */; };
+		5184210A1A7FBCA000323E67 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 518421091A7FBCA000323E67 /* share.png */; };
 		5185F0BF1A4171F9008B42A1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5185F0BE1A4171F9008B42A1 /* Images.xcassets */; };
 		51B127421A4A885600603921 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51B127441A4A885600603921 /* Main.storyboard */; };
 		51B1274B1A4A9E2800603921 /* DefaultTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B1274A1A4A9E2800603921 /* DefaultTextField.swift */; };
@@ -84,6 +85,7 @@
 		515DD7AA1A494AC000B5C2F5 /* KeychainQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainQuery.swift; sourceTree = "<group>"; };
 		515DD7AB1A494AC000B5C2F5 /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		518421071A7F6D3200323E67 /* ResourceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceCell.swift; path = Resource/ResourceCell.swift; sourceTree = "<group>"; };
+		518421091A7FBCA000323E67 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		5185F0BE1A4171F9008B42A1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		51B127451A4A885C00603921 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		51B127461A4A888000603921 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				5151127B1A7A0A01004F8C18 /* trash.png */,
 				5135C8DF1A7CCF3600817A0C /* list.png */,
 				5135C8E11A7CD2D700817A0C /* plug.png */,
+				518421091A7FBCA000323E67 /* share.png */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5135C8E61A7D066300817A0C /* Console.xib in Resources */,
+				5184210A1A7FBCA000323E67 /* share.png in Resources */,
 				515061291A79051E00019287 /* chevron-right.png in Resources */,
 				5151127D1A7A0A01004F8C18 /* power-off.png in Resources */,
 				515061271A79036E00019287 /* chevron-left.png in Resources */,

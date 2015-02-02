@@ -18,10 +18,12 @@
 "o13-N5-vLQ.normalTitle" = "Delete site";
 "Ipm-cT-0Sq.normalTitle" = "Refresh";
 "saf-p9-FdZ.normalTitle" = "Clear";
+
 "cJC-56-KWs.text" = "Resources";
 "u90-88-8TN.text" = "Error log";
 "IE0-s3-TNZ.text" = "Manager log";
 "64N-Jv-j2a.text" = "Clear cache";
+"Syj-Z0-wz0.text" = "Preview site";
 
 // Messages
 "error" = "Error";

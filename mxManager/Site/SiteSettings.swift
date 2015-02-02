@@ -148,28 +148,27 @@ class SiteSettings: DefaultView, UITextFieldDelegate {
 				"base_auth": self.fieldBaseAuth.on,
 				"base_user": self.fieldBaseAuth.on ? self.fieldBaseUser.text : "",
 				"base_password": self.fieldBaseAuth.on ? self.fieldBasePassword.text : "",
-		]
+		] as NSMutableDictionary
 		var key = NSUUID().UUIDString
 		if self.data["key"] != nil {
-			key = self.data["key"] as NSString
+			key = self.data["key"] as String
 		}
 
-		let keychain = Keychain()
-		if let tmp = keychain.get(ArchiveKey(keyName: "Sites")).item?.object as? NSDictionary {
-			for (ex_key, value) in tmp {
+		let sites = Utils().getSites()
+		if sites.count > 0 {
+			for (index, existing_site) in enumerate(sites) {
 				// Check for existing site with the same name or url
-				var message = ""
-				let s = value["site"] as NSString
-				let m = value["manager"] as NSString
+				let s = existing_site["site"] as NSString
+				let m = existing_site["manager"] as NSString
 				let s2 = self.fieldSite.text
 				let m2 = self.fieldManager.text
-				if s.lowercaseString == s2.lowercaseString && key != ex_key as NSString {
+				var message = ""
+				if s.lowercaseString == s2.lowercaseString && key != existing_site["key"] as String {
 					message = "site_err_site_ae"
 				}
-				else if m.lowercaseString == m2.lowercaseString && key != ex_key as NSString {
+				else if m.lowercaseString == m2.lowercaseString && key != existing_site["key"] as String {
 					message = "site_err_manager_ae"
 				}
-
 				if message != "" {
 					Utils().alert("error", message: message, view: self)
 					return
@@ -182,6 +181,14 @@ class SiteSettings: DefaultView, UITextFieldDelegate {
 		self.btnCancel.enabled = false;
 		Site.init(params: site).Auth({
 			data in
+				if let tmp = data["data"] as? NSDictionary {
+					if tmp["site_url"] != nil {
+						site["site_url"] = tmp["site_url"] as String
+					}
+					if tmp["version"] != nil {
+						site["version"] = tmp["version"] as String
+					}
+				}
 				if Utils().addSite(key, site:site) {
 					self.closePopup()
 				}

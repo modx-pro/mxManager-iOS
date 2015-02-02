@@ -15,9 +15,9 @@ class SitesList: DefaultTable {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRows", name:"SiteAdded", object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRows", name:"SiteUpdated", object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRows", name:"SiteDeleted", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent", name:"SiteAdded", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent", name:"SiteUpdated", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent", name:"SiteDeleted", object: nil)
 
 		self.loadRows()
 	}
@@ -36,19 +36,16 @@ class SitesList: DefaultTable {
 	}
 
 	override func loadRows(spinner: Bool = false) {
-		let keychain = Keychain()
-		if let tmp = keychain.get(ArchiveKey(keyName: "Sites")).item?.object as? NSDictionary {
-			var rows = [] as NSMutableArray
-			for (key, value) in tmp {
-				var object = [:] as NSMutableDictionary
-				object.addEntriesFromDictionary(value as NSDictionary)
-				object["key"] = key
-				rows.addObject(object)
-			}
+		let rows = Utils().getSites()
+		if rows.count > 0 {
 			self.rows = rows
+			self.refreshControl?.endRefreshing()
+			self.tableView?.reloadData()
 		}
+	}
 
-		self.tableView?.reloadData()
+	func loadRowsFromEvent() {
+		self.loadRows()
 	}
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -57,8 +54,14 @@ class SitesList: DefaultTable {
 
 		let data = self.rows[indexPath.row] as NSDictionary
 		cell.data = data
-		cell.textLabel?.text = data["site"] as NSString
-		cell.detailTextLabel?.text = data["manager"] as NSString
+		cell.textLabel?.text = data["site"] as String?
+		//cell.detailTextLabel?.text = data["manager"] as String?
+		if data["version"] != nil {
+			cell.detailTextLabel?.text = data["version"] as String?
+		}
+		else {
+			cell.detailTextLabel?.text = ""
+		}
 		cell.template(idx:indexPath.row)
 
 		return cell

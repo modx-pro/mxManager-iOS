@@ -116,82 +116,91 @@ class Utils: NSObject {
 		return icon.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
 	}
 
-	func addSite(key: NSString, site: NSDictionary) -> Bool {
+	func addSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
 		let keychain = Keychain.init()
-		var sites = [:] as NSMutableDictionary
+		let sites = [] as NSMutableArray
+		sites.addObjectsFromArray(self.getSites())
 
-		if let data = keychain.get(ArchiveKey(keyName: "Sites")).item?.object as? NSDictionary {
-			if data[key] != nil {
+		for (index, existing_site) in enumerate(sites) {
+			if key == existing_site["key"] as String {
 				return self.updateSite(key, site: site)
 			}
-			sites.addEntriesFromDictionary(data)
+		}
+		if site["key"] == nil {
+			let tmp = [:] as NSMutableDictionary
+			tmp.addEntriesFromDictionary(site)
+			tmp["key"] = key
+			sites.addObject(tmp)
 		}
 		else {
-			keychain.add(ArchiveKey(keyName: "Sites", object: sites))
+			sites.addObject(site)
 		}
 
-		var object = [:] as NSMutableDictionary
-		object.addEntriesFromDictionary(site)
-		object["key"] = key
-		sites[key] = object
 		if let error = keychain.update(ArchiveKey(keyName: "Sites", object: sites)) {
 			return false
 		}
-		else {
-			NSNotificationCenter.defaultCenter().postNotificationName("SiteAdded", object: object)
-			return true
+		else if notify {
+			NSNotificationCenter.defaultCenter().postNotificationName("SiteAdded", object: site)
 		}
+		return true
 	}
 
-	func updateSite(key: NSString, site: NSDictionary) -> Bool {
+	func updateSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
 		let keychain = Keychain.init()
-		var sites = [:] as NSMutableDictionary
+		let sites = [] as NSMutableArray
+		sites.addObjectsFromArray(self.getSites())
 
-		if let data = keychain.get(ArchiveKey(keyName: "Sites")).item?.object as? NSDictionary {
-			if data[key] == nil {
-				return false
-			}
-			sites.addEntriesFromDictionary(data)
-		}
-		else {
-			return false
-		}
-
-		var object = [:] as NSMutableDictionary
-		object.addEntriesFromDictionary(site)
-		object["key"] = key
-		sites[key] = object
-		if let error = keychain.update(ArchiveKey(keyName: "Sites", object: sites)) {
-			return false
-		}
-		else {
-			NSNotificationCenter.defaultCenter().postNotificationName("SiteUpdated", object: object)
-			return true
-		}
-	}
-
-	func removeSite(key: NSString) -> Bool {
-		let keychain = Keychain.init()
-		var sites = [:] as NSMutableDictionary
-
-		if let data = keychain.get(ArchiveKey(keyName: "Sites")).item?.object as? NSDictionary {
-			if data[key] == nil {
-				return false
-			}
-			for (tmp, value) in data {
-				var key2 = tmp as NSString
-				if key2 != key {
-					sites[key2] = value
+		for (index, existing_site) in enumerate(sites) {
+			if key == existing_site["key"] as String {
+				if site["key"] == nil {
+					let tmp = [:] as NSMutableDictionary
+					tmp["key"] = key
+					var site = tmp as NSDictionary
 				}
+				sites[index] = site
+				//sites.replaceObjectAtIndex(index: index, withObject: site)
 			}
 		}
 
 		if let error = keychain.update(ArchiveKey(keyName: "Sites", object: sites)) {
 			return false
 		}
-		else {
+		else if notify {
+			NSNotificationCenter.defaultCenter().postNotificationName("SiteUpdated", object: site)
+		}
+		return true
+	}
+
+	func removeSite(key: String, notify: Bool = true) -> Bool {
+		let keychain = Keychain.init()
+		let sites = [] as NSMutableArray
+		sites.addObjectsFromArray(self.getSites())
+
+		for (index, site) in enumerate(sites) {
+			if key == site["key"] as String {
+				sites.removeObjectAtIndex(index)
+			}
+		}
+
+		if let error = keychain.update(ArchiveKey(keyName: "Sites", object: sites)) {
+			return false
+		}
+		else if notify {
 			NSNotificationCenter.defaultCenter().postNotificationName("SiteDeleted", object: key)
-			return true
+		}
+		return true
+	}
+
+	func getSites() -> NSArray {
+		let keychain = Keychain.init()
+
+		let sites = keychain.get(ArchiveKey(keyName: "Sites")).item?.object as? NSArray
+		if sites != nil {
+			return sites!
+		}
+		else {
+			keychain.add(ArchiveKey(keyName: "Sites", object: []))
+			return []
 		}
 	}
 
