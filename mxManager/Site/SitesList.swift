@@ -8,9 +8,8 @@
 
 import UIKit
 
-class SitesList: DefaultView, UITableViewDelegate, UITableViewDataSource {
+class SitesList: DefaultTable {
 
-	var rows = []
 	@IBOutlet var btnAdd: UIBarButtonItem!
 
 	override func viewDidLoad() {
@@ -36,7 +35,7 @@ class SitesList: DefaultView, UITableViewDelegate, UITableViewDataSource {
 	@IBAction func unwindFromViewController(sender: UIStoryboardSegue) {
 	}
 
-	func loadRows() {
+	override func loadRows(spinner: Bool = false) {
 		let keychain = Keychain()
 		if let tmp = keychain.get(ArchiveKey(keyName: "Sites")).item?.object as? NSDictionary {
 			var rows = [] as NSMutableArray
@@ -52,11 +51,7 @@ class SitesList: DefaultView, UITableViewDelegate, UITableViewDataSource {
 		self.tableView?.reloadData()
 	}
 
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return self.rows.count
-	}
-
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let identifier = "cell"
 		let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as DefaultCell
 

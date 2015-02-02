@@ -12,10 +12,6 @@ class DefaultCell: UITableViewCell {
 
 	var data = [:]
 
-	override func awakeFromNib() {
-		super.awakeFromNib()
-	}
-
 	override func setSelected(selected: Bool, animated: Bool) {
 		super.setSelected(false, animated: animated);
 	}
@@ -54,7 +50,7 @@ class DefaultCell: UITableViewCell {
 				? Colors().tableAlternate()
 				: UIColor.whiteColor()
 
-		var textColor = Colors().defaultText()
+		let textColor = Colors().defaultText()
 		self.textLabel?.textColor = textColor
 		self.detailTextLabel?.textColor = textColor
 		self.imageView?.tintColor = textColor

@@ -8,9 +8,8 @@
 
 import UIKit
 
-class SiteMain: DefaultView, UITableViewDelegate, UITableViewDataSource {
+class SiteMain: DefaultTable {
 
-	var rows = []
 	var popup: UIViewController?
 
 	override func viewDidLoad() {
@@ -52,25 +51,16 @@ class SiteMain: DefaultView, UITableViewDelegate, UITableViewDataSource {
 		}
 	}
 
-	func loadRows() {
-		Utils().showSpinner(self.view)
-		Site.init(params: self.data).Auth({
-			data in
-				self.rows = data["data"] as NSArray
-				self.tableView?.reloadData()
-				Utils().hideSpinner(self.view)
-		}, {
-			data in
-				Utils().hideSpinner(self.view)
-				Utils().alert("", message: data["message"] as String, view: self)
-		})
+	override func loadRows(spinner: Bool = false) {
+		self.request = [
+			"mx_action": "auth",
+			"username": self.data["user"] as String,
+			"password": self.data["password"] as String,
+		]
+		super.loadRows(spinner: spinner)
 	}
 
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return self.rows.count
-	}
-
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let identifier = self.rows[indexPath.row] as NSString
 
 		let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as DefaultCell

@@ -9,28 +9,12 @@
 import UIKit
 import Alamofire
 
-class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
+class ResourcesList: DefaultTable {
 
 	var sections = [:]
 	var contexts = []
 	var collapsed = [:]
 	var parent = 0
-	var isLoading = false
-	var count = 0
-	var total = 0
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		var refreshControl = UIRefreshControl.init() as UIRefreshControl
-		refreshControl.addTarget(self, action: "refreshRows", forControlEvents: UIControlEvents.ValueChanged)
-		self.refreshControl = refreshControl
-
-		if self.tableView != nil {
-			self.tableView!.addSubview(self.refreshControl!)
-			self.loadRows()
-		}
-	}
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
@@ -50,7 +34,7 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		}
 	}
 
-	func loadRows(spinner: Bool = true) {
+	override func loadRows(spinner: Bool = true) {
 		if self.isLoading {
 			return
 		}
@@ -60,7 +44,13 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 			Utils().showSpinner(self.view)
 		}
 		let site = Site.init(params: self.data) as Site
-		site.getResources(self.parent, start:0, {
+
+		self.request = [
+			"mx_action": "resource/getlist",
+			"parent": self.parent,
+			"start": 0,
+		]
+		site.Request(self.request, {
 			data in
 			let tmp = data["data"] as NSDictionary
 			let rows = tmp["rows"] as NSArray
@@ -105,15 +95,11 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		})
 	}
 
-	func refreshRows() {
-		self.loadRows(spinner: false)
-	}
-
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		return self.contexts.count
 	}
 
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if self.collapsed[section] != nil {
 			return 0
 		}
@@ -189,7 +175,7 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		return view
 	}
 
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		//let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as ResourceCell
 		let cell = ResourceCell.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell") as ResourceCell
 
@@ -324,19 +310,7 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 
 
 	// Lazy isLoading
-	func scrollViewDidScroll(scrollView: UIScrollView!) {
-		if !self.isLoading && self.parent != 0 && self.count < self.total {
-			let currentOffset = scrollView.contentOffset.y
-			let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-			let deltaOffset = maximumOffset - currentOffset
-
-			if deltaOffset <= 0 {
-				self.loadMore()
-			}
-		}
-	}
-
-	func loadMore() {
+	override func loadMore() {
 		if self.isLoading || self.parent == 0 || self.count >= self.total {
 			return;
 		}
@@ -344,11 +318,17 @@ class ResourcesList: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		self.tableFooterView?.hidden = false
 
 		let site = Site.init(params: self.data) as Site
-		site.getResources(self.parent, start: self.count, {
+		self.request = [
+			"mx_action": "resource/getlist",
+			"parent": self.parent,
+			"start": self.count,
+		]
+		site.Request(self.request, {
 			data in
 			let tmp = data["data"] as NSDictionary
-			let rows = tmp["rows"] as NSArray
+			self.total = tmp["total"] as Int
 			self.count += tmp["count"] as Int
+			let rows = tmp["rows"] as NSArray
 			// Split to contexts
 			var contexts = [] as NSMutableArray
 			contexts.addObjectsFromArray(self.contexts)

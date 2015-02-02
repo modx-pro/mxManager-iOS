@@ -10,10 +10,6 @@ import UIKit
 
 class ResourceCell: DefaultCell {
 
-	override func awakeFromNib() {
-		super.awakeFromNib()
-	}
-
 	override func template(idx: Int = 0) {
 		super.template(idx: idx)
 
