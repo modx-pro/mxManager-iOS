@@ -2,7 +2,7 @@
 "qVD-Ik-Fjz.title" = "mxManager";
 
 // Site settings
-"2wo-ha-oOD.title" = "Настройки сайта";
+"2wo-ha-oOD.title" = "Настройки";
 "6vo-wq-XXz.text" = "Пароль";
 "OlN-mj-pPq.text" = "Адрес менеджера";
 "PTA-MF-zHp.placeholder" = "http://mysite.com/manager";
@@ -14,8 +14,6 @@
 "nTe-nZ-58l.text" = "Password";
 
 // Site Main View
-"LPG-WI-sht.normalTitle" = "Настройки";
-"o13-N5-vLQ.normalTitle" = "Удалить сайт";
 "Ipm-cT-0Sq.normalTitle" = "Обновить";
 "saf-p9-FdZ.normalTitle" = "Очистить";
 

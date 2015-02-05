@@ -92,6 +92,7 @@
                     <connections>
                         <outlet property="btnAdd" destination="Uqj-3B-bNV" id="fd6-Vm-vLz"/>
                         <outlet property="tableView" destination="atg-hZ-gyH" id="SD8-Ca-gSa"/>
+                        <segue destination="gqC-yA-Dzc" kind="showDetail" identifier="ShowSettings" id="YJd-8c-ry4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G4P-dV-d45" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -251,69 +252,10 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="tableFooterView" destination="g5w-ql-B9Q" id="txB-cv-dCi"/>
                         <outlet property="tableView" destination="SFG-dF-eHf" id="0Ei-WS-3Yo"/>
-                        <segue destination="JNo-Jl-ZTk" kind="unwind" identifier="ExitView" unwindAction="unwindFromViewController:" id="VOb-UW-1IW"/>
-                        <segue destination="gqC-yA-Dzc" kind="showDetail" identifier="ShowSettings" id="bxA-mz-Xfq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ior-Rl-r22" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <view autoresizesSubviews="NO" contentMode="scaleToFill" id="g5w-ql-B9Q" userLabel="Buttons">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPG-WI-sht" customClass="BlueButton" customModule="mxManager" customModuleProvider="target">
-                            <rect key="frame" x="8" y="8" width="100" height="34"/>
-                            <color key="backgroundColor" red="0.99607843139999996" green="0.99607843139999996" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="100" id="hca-7X-mWD"/>
-                                <constraint firstAttribute="height" constant="34" id="jF1-K4-gY7"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="Edit settings">
-                                <color key="titleColor" red="0.33333333329999998" green="0.42352941179999998" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="editSite" destination="Ity-RF-jm0" eventType="touchUpInside" id="LIU-5J-agJ"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o13-N5-vLQ" customClass="RedButton" customModule="mxManager" customModuleProvider="target">
-                            <rect key="frame" x="212" y="8" width="100" height="34"/>
-                            <color key="backgroundColor" red="0.99607843139999996" green="0.99607843139999996" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="34" id="6eG-f1-7Tb"/>
-                                <constraint firstAttribute="width" constant="100" id="xI7-qX-MrR"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="Delete site">
-                                <color key="titleColor" red="0.74509803919999995" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="deleteSite" destination="Ity-RF-jm0" eventType="touchUpInside" id="oLM-fT-Xj8"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="o13-N5-vLQ" secondAttribute="trailing" constant="8" id="0QL-iX-UaU"/>
-                        <constraint firstItem="LPG-WI-sht" firstAttribute="top" secondItem="g5w-ql-B9Q" secondAttribute="top" constant="8" id="O4p-mh-sD9"/>
-                        <constraint firstItem="LPG-WI-sht" firstAttribute="top" secondItem="g5w-ql-B9Q" secondAttribute="top" id="W32-WW-8Sh"/>
-                        <constraint firstItem="o13-N5-vLQ" firstAttribute="top" secondItem="g5w-ql-B9Q" secondAttribute="top" constant="8" id="vC7-Me-pgi"/>
-                        <constraint firstItem="LPG-WI-sht" firstAttribute="leading" secondItem="g5w-ql-B9Q" secondAttribute="leading" constant="8" id="yyc-AQ-G2N"/>
-                    </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="W32-WW-8Sh"/>
-                        </mask>
-                    </variation>
-                </view>
-                <exit id="JNo-Jl-ZTk" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="668" y="432"/>
         </scene>
@@ -964,7 +906,7 @@
         <image name="trash.png" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bxA-mz-Xfq"/>
+        <segue reference="YJd-8c-ry4"/>
         <segue reference="4pt-1a-vLf"/>
         <segue reference="vci-AX-8KV"/>
     </inferredMetricsTieBreakers>
