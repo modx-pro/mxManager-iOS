@@ -20,8 +20,8 @@ class ManagerLog: DefaultTable {
 
 	override func loadMore() {
 		self.request = [
-				"mx_action": "main/log/getlist",
-				"start": self.count as NSNumber
+			"mx_action": "main/log/getlist",
+			"start": self.count as NSNumber
 		]
 		super.loadMore()
 	}
