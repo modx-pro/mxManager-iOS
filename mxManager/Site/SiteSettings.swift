@@ -152,6 +152,7 @@ class SiteSettings: DefaultView, UITextFieldDelegate {
 		var key = NSUUID().UUIDString
 		if self.data["key"] != nil {
 			key = self.data["key"] as String
+			site["key"] = key
 		}
 
 		let sites = Utils().getSites()
