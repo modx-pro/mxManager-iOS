@@ -180,7 +180,12 @@ class SiteSettings: DefaultView, UITextFieldDelegate {
 		Utils().showSpinner(self.view)
 		self.btnSave.enabled = false;
 		self.btnCancel.enabled = false;
-		Site.init(params: site).Auth({
+		self.data = site
+		self.Request([
+				"mx_action": "auth",
+				"username": site["user"] as String,
+				"password": site["password"] as String,
+			], {
 			data in
 				if let tmp = data["data"] as? NSDictionary {
 					if tmp["site_url"] != nil {

@@ -46,13 +46,13 @@ class SiteMain: DefaultTable {
 		if spinner {
 			Utils().showSpinner(self.view)
 		}
-		let site = Site.init(params: self.data) as Site
+
 		self.request = [
 				"mx_action": "auth",
 				"username": self.data["user"] as String,
 				"password": self.data["password"] as String,
 		]
-		site.Request(self.request, {
+		self.Request(self.request, {
 			data in
 			let tmp = data["data"] as NSDictionary
 			self.rows = tmp["sections"] as NSArray
@@ -99,9 +99,8 @@ class SiteMain: DefaultTable {
 			}
 		}
 		else if identifier == "clear_cache" {
-			let site = Site.init(params:self.data) as Site
 			Utils().showSpinner(self.view)
-			site.clearCache({
+			self.Request(["mx_action": "main/clearcache"], {
 				data in
 				Utils().hideSpinner(self.view)
 				if self.navigationController != nil {

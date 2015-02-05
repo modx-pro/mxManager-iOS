@@ -60,9 +60,8 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		if spinner {
 			Utils().showSpinner(self.view)
 		}
-		let site = Site.init(params: self.data) as Site
 
-		site.Request(self.request, {
+		self.Request(self.request, {
 			data in
 			let tmp = data["data"] as NSDictionary
 			self.rows = tmp["rows"] as NSArray
@@ -115,8 +114,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		self.isLoading = true
 		self.tableFooterView?.hidden = false
 
-		let site = Site.init(params: self.data) as Site
-		site.Request(self.request, {
+		self.Request(self.request, {
 			data in
 			let tmp = data["data"] as NSDictionary
 			let rows = [] as NSMutableArray

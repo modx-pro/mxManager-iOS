@@ -19,13 +19,12 @@ class ErrorLog: DefaultView {
 	}
 
 	@IBAction func refreshLog() {
-		let site = Site.init(params:self.data) as Site
 		let parameters = [
 			"mx_action": "main/errorlog/get"
 		]
 
 		Utils().showSpinner(self.view)
-		site.Request(parameters, {
+		self.Request(parameters, {
 			data in
 			Utils().hideSpinner(self.view)
 			self.setLog(data["data"] as NSDictionary)
@@ -37,13 +36,12 @@ class ErrorLog: DefaultView {
 	}
 
 	@IBAction func clearLog() {
-		let site = Site.init(params:self.data) as Site
 		let parameters = [
 				"mx_action": "main/errorlog/clear"
 		]
 
 		Utils().showSpinner(self.view)
-		site.Request(parameters, {
+		self.Request(parameters, {
 			data in
 			Utils().hideSpinner(self.view)
 			self.setLog(data["data"] as NSDictionary)

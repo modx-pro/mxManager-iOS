@@ -51,7 +51,6 @@
 		51A9B2BA1A8103E8008DEAD8 /* bug.png in Resources */ = {isa = PBXBuildFile; fileRef = 51A9B2B91A8103E8008DEAD8 /* bug.png */; };
 		51B127421A4A885600603921 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51B127441A4A885600603921 /* Main.storyboard */; };
 		51B1274B1A4A9E2800603921 /* DefaultTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B1274A1A4A9E2800603921 /* DefaultTextField.swift */; };
-		51C09B3F1A627DE20090C671 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C09B3E1A627DE20090C671 /* Site.swift */; };
 		51D9DA531A4ADB570076C94A /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D9DA521A4ADB570076C94A /* DefaultCell.swift */; };
 		51EA6CCA1A7E2ACE00E00280 /* ErrorLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EA6CC91A7E2ACE00E00280 /* ErrorLog.swift */; };
 		51EA6CCC1A7E32CB00E00280 /* ManagerLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EA6CCB1A7E32CB00E00280 /* ManagerLog.swift */; };
@@ -108,7 +107,6 @@
 		51B127451A4A885C00603921 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		51B127461A4A888000603921 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		51B1274A1A4A9E2800603921 /* DefaultTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultTextField.swift; path = "Supporting Files/DefaultTextField.swift"; sourceTree = "<group>"; };
-		51C09B3E1A627DE20090C671 /* Site.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Site.swift; path = "Supporting Files/Site.swift"; sourceTree = "<group>"; };
 		51D9DA521A4ADB570076C94A /* DefaultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultCell.swift; path = "Supporting Files/DefaultCell.swift"; sourceTree = "<group>"; };
 		51D9DA551A4BE0510076C94A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		51EA6CC91A7E2ACE00E00280 /* ErrorLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorLog.swift; path = Site/ErrorLog.swift; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 				79DBBEA4339EFCBADB139782 /* LaunchScreen.xib */,
 				79DBBFF4A9F9F9F4F0CF362E /* Info.plist */,
 				51589AB81A44058700146AB1 /* Regex.swift */,
-				51C09B3E1A627DE20090C671 /* Site.swift */,
 				5105A1261A762123004DF472 /* Utils.swift */,
 				5131836E1A4352C7002497F2 /* DefaultView.swift */,
 				79DBBB9BAC43706F0D047798 /* DefaultTable.swift */,
@@ -427,7 +424,6 @@
 				51B1274B1A4A9E2800603921 /* DefaultTextField.swift in Sources */,
 				515DD7AD1A494AC000B5C2F5 /* GenericKey.swift in Sources */,
 				5105A11F1A761EE0004DF472 /* SiteSettings.swift in Sources */,
-				51C09B3F1A627DE20090C671 /* Site.swift in Sources */,
 				518421081A7F6D3200323E67 /* ResourceCell.swift in Sources */,
 				515DD7AE1A494AC000B5C2F5 /* Keychain.swift in Sources */,
 				51D9DA531A4ADB570076C94A /* DefaultCell.swift in Sources */,
