@@ -18,8 +18,6 @@ class SitesList: DefaultTable {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent", name:"SiteAdded", object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent", name:"SiteUpdated", object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent", name:"SiteDeleted", object: nil)
-
-		self.loadRows()
 	}
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -49,20 +47,10 @@ class SitesList: DefaultTable {
 	}
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let identifier = "cell"
-		let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as DefaultCell
-
+		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as SiteCell
 		let data = self.rows[indexPath.row] as NSDictionary
 		cell.data = data
-		cell.textLabel?.text = data["site"] as String?
-		//cell.detailTextLabel?.text = data["manager"] as String?
-		if data["version"] != nil {
-			cell.detailTextLabel?.text = data["version"] as String?
-		}
-		else {
-			cell.detailTextLabel?.text = ""
-		}
-		cell.template(idx:indexPath.row)
+		cell.template(idx: indexPath.row)
 
 		return cell
 	}

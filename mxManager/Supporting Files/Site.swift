@@ -12,6 +12,7 @@ import Alamofire
 
 class Site: NSObject {
 
+	let version = "1.0-beta"
 	var params = [:]
 
 	init(params: NSDictionary) {
@@ -57,9 +58,14 @@ class Site: NSObject {
 		configuration.timeoutIntervalForResource = 10
 
 		let AlamofireManager = Alamofire.Manager(configuration: configuration)
-
 		UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-		AlamofireManager.request(.GET, self.params["manager"] as String, parameters: parameters)
+
+		var request:[String:AnyObject] = [:]
+		for (key, value) in parameters {
+			request[key as String] = value
+		}
+		request["mx_version"] = self.version
+		AlamofireManager.request(.POST, self.params["manager"] as String, parameters: request)
 		.authenticate(user: self.params["base_user"] as String, password: self.params["base_password"] as String)
 		.responseJSON {
 			(request, response, object, error) in

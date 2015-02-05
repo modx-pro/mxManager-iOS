@@ -39,7 +39,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="jje-eq-ar3" detailTextLabel="lNu-pP-HIa" imageView="qYS-Ae-jyg" style="IBUITableViewCellStyleSubtitle" id="l0z-cP-6BW" customClass="DefaultCell" customModule="mxManager" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="jje-eq-ar3" detailTextLabel="lNu-pP-HIa" imageView="qYS-Ae-jyg" style="IBUITableViewCellStyleSubtitle" id="l0z-cP-6BW" customClass="SiteCell" customModule="mxManager" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l0z-cP-6BW" id="WUS-aH-Ems">
@@ -153,6 +153,27 @@
                                             <segue destination="06X-Hy-wad" kind="show" identifier="ShowResources" id="4pt-1a-vLf"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="files" textLabel="n2m-Mu-2UP" imageView="9FU-Fb-aBL" style="IBUITableViewCellStyleDefault" id="6xt-wT-eiH" userLabel="files" customClass="DefaultCell" customModule="mxManager" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6xt-wT-eiH" id="Vrp-Th-mhh">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Files" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="n2m-Mu-2UP">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="file-code.png" id="9FU-Fb-aBL">
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qV4-SQ-1TR" kind="show" identifier="ShowFiles" id="vci-AX-8KV"/>
+                                        </connections>
+                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="error_log" textLabel="u90-88-8TN" imageView="qXU-Mf-GoE" style="IBUITableViewCellStyleDefault" id="qRD-Cb-bdt" userLabel="error_log" customClass="DefaultCell" customModule="mxManager" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -165,7 +186,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="plug.png" id="qXU-Mf-GoE">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="bug.png" id="qXU-Mf-GoE">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -192,7 +213,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="0gV-Sk-RiT" kind="show" identifier="showManagerLog" id="I55-hQ-KbH"/>
+                                            <segue destination="0gV-Sk-RiT" kind="show" identifier="ShowManagerLog" id="I55-hQ-KbH"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="clear_cache" textLabel="64N-Jv-j2a" imageView="eKK-0z-K02" style="IBUITableViewCellStyleDefault" id="SsF-ir-Ptv" customClass="DefaultCell" customModule="mxManager" customModuleProvider="target">
@@ -295,6 +316,70 @@
                 <exit id="JNo-Jl-ZTk" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="668" y="432"/>
+        </scene>
+        <!--Files List-->
+        <scene sceneID="1Tt-5f-LTC">
+            <objects>
+                <viewController id="qV4-SQ-1TR" userLabel="Files List" customClass="FilesList" customModule="mxManager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="VwN-v3-hfL"/>
+                        <viewControllerLayoutGuide type="bottom" id="Teg-Jy-k4D"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TRn-Rj-KMN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="VJd-2s-2Uq">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="ljv-QQ-qlO" detailTextLabel="ggL-zI-Mro" style="IBUITableViewCellStyleSubtitle" id="QZz-qT-Dj8" customClass="FileCell" customModule="mxManager" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QZz-qT-Dj8" id="1Tf-Cb-Zhu">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ljv-QQ-qlO">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ggL-zI-Mro">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qV4-SQ-1TR" kind="show" identifier="getFiles" id="Phm-5d-E1I"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="qV4-SQ-1TR" id="TJZ-k9-Yfu"/>
+                                    <outlet property="delegate" destination="qV4-SQ-1TR" id="ew2-WM-Yhx"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Teg-Jy-k4D" firstAttribute="top" secondItem="VJd-2s-2Uq" secondAttribute="bottom" id="HoR-tb-orz"/>
+                            <constraint firstItem="VJd-2s-2Uq" firstAttribute="leading" secondItem="TRn-Rj-KMN" secondAttribute="leading" id="hKe-KP-nLX"/>
+                            <constraint firstItem="VJd-2s-2Uq" firstAttribute="top" secondItem="TRn-Rj-KMN" secondAttribute="top" id="nLg-tU-A5X"/>
+                            <constraint firstAttribute="trailing" secondItem="VJd-2s-2Uq" secondAttribute="trailing" id="qXp-F7-AP7"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="tableView" destination="VJd-2s-2Uq" id="f0S-9N-GhC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WJg-3W-YYV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1492" y="-19"/>
         </scene>
         <!--Error Log-->
         <scene sceneID="gkH-7i-y3p">
@@ -548,7 +633,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="50" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="v2I-eR-WV2">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="v2I-eR-WV2">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -867,18 +952,20 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bug.png" width="64" height="64"/>
         <image name="desktop.png" width="64" height="64"/>
+        <image name="file-code.png" width="64" height="64"/>
         <image name="file.png" width="64" height="64"/>
         <image name="icon-check" width="66" height="66"/>
         <image name="icon-close" width="66" height="66"/>
         <image name="icon-plus" width="66" height="66"/>
         <image name="list.png" width="64" height="64"/>
-        <image name="plug.png" width="64" height="64"/>
         <image name="share.png" width="64" height="64"/>
         <image name="trash.png" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="bxA-mz-Xfq"/>
         <segue reference="4pt-1a-vLf"/>
+        <segue reference="vci-AX-8KV"/>
     </inferredMetricsTieBreakers>
 </document>
