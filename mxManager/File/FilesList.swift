@@ -49,10 +49,6 @@ class FilesList: DefaultTable {
 		super.loadRows(spinner: spinner)
 	}
 
-	func loadRowsFromEvent() {
-		self.loadRows()
-	}
-
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = FileCell.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell") as FileCell
 		let data = self.rows[indexPath.row] as NSDictionary
@@ -63,10 +59,9 @@ class FilesList: DefaultTable {
 	}
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		let data = self.rows[indexPath.row] as NSDictionary
+		let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as FileCell
 
-		if data["type"] as String == "source" || data["type"] as String == "dir" {
-			let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as FileCell
+		if cell.accessoryType == UITableViewCellAccessoryType.DisclosureIndicator {
 			self.performSegueWithIdentifier("getFiles", sender: cell)
 		}
 	}

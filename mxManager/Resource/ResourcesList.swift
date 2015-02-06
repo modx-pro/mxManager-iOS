@@ -71,11 +71,9 @@ class ResourcesList: DefaultTable {
 	}
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		let data = self.rows[indexPath.row] as NSDictionary
-		let type = data["type"] as String
+		let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as ResourceCell
 
-		if type == "folder" || type == "context" {
-			let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as ResourceCell
+		if cell.accessoryType == UITableViewCellAccessoryType.DisclosureIndicator {
 			self.performSegueWithIdentifier("getResources", sender: cell)
 		}
 	}
