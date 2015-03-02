@@ -8,12 +8,10 @@
 
 import UIKit
 
-class SiteSettings: DefaultView, UITextFieldDelegate {
+class SiteSettings: DefaultPanel {
 
-	@IBOutlet var scrollView: UIScrollView!
 	@IBOutlet var navigationBar: UINavigationBar!
 	@IBOutlet var btnCancel: UIBarButtonItem!
-	@IBOutlet var btnSave: UIBarButtonItem!
 
 	// Main fields
 	@IBOutlet var fieldSite: UITextField!
@@ -32,18 +30,9 @@ class SiteSettings: DefaultView, UITextFieldDelegate {
 		super.viewDidLoad()
 		self.fixTopOffset(UIApplication.sharedApplication().statusBarOrientation.isLandscape)
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadShow:", name: UIKeyboardDidShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadHide", name: UIKeyboardDidHideNotification, object: nil)
-
 		if self.data.count != 0 {
 			self.setForm(self.data)
 		}
-	}
-
-	override func viewWillDisappear(animated: Bool) {
-		super.viewWillDisappear(animated)
-		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidHideNotification, object: nil)
 	}
 
 	override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
@@ -208,29 +197,8 @@ class SiteSettings: DefaultView, UITextFieldDelegate {
 		})
 	}
 
-	@IBAction func finishEdit(sender: UITextField) {
-		sender.resignFirstResponder()
-	}
-
 	@IBAction func closePopup() {
 		self.dismissViewControllerAnimated(true, nil)
-	}
-
-	func onKeyboadShow(notification: NSNotification) {
-		let info: NSDictionary = notification.userInfo!
-		if let rectValue = info[UIKeyboardFrameBeginUserInfoKey] as? NSValue {
-			let kbSize: CGRect = rectValue.CGRectValue()
-			var contentInset: UIEdgeInsets = self.scrollView.contentInset;
-
-			contentInset.bottom = kbSize.size.height;
-			self.scrollView.contentInset = contentInset;
-		}
-	}
-
-	func onKeyboadHide() {
-		let contentInsets: UIEdgeInsets = UIEdgeInsetsZero;
-		self.scrollView.contentInset = contentInsets;
-		self.scrollView.scrollIndicatorInsets = contentInsets;
 	}
 
 	func fixTopOffset(landscape: Bool) {

@@ -12,6 +12,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 
 	var rows = []
 	var isLoading = false
+	var invokeEvent = ""
 	var count = 0
 	var total = 0
 	var request:[String:AnyObject] = [:]
@@ -79,6 +80,9 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 			}
 			self.refreshControl?.endRefreshing()
 			self.isLoading = false
+			if self.invokeEvent != "" {
+				NSNotificationCenter.defaultCenter().postNotificationName(self.invokeEvent, object: tmp)
+			}
 		}, {
 			data in
 			if spinner {

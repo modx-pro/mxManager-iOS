@@ -25,6 +25,13 @@
 "64N-Jv-j2a.text" = "Clear cache";
 "Syj-Z0-wz0.text" = "Preview site";
 
+// File panel
+"NxT-c7-h4i.text" = "File name";
+"bZm-wh-m3i.text" = "Path";
+"jC6-7s-Q5F.text" = "File size";
+"4G3-ZV-zh4.text" = "Last accessed";
+"oGz-DJ-qKY.text" = "Last modified";
+
 // Messages
 "error" = "Error";
 "warning" = "Warning";
@@ -37,7 +44,20 @@
 "undelete" = "Restore";
 "publish" = "Publish";
 "unpublish" = "Unpublish";
+"save" = "Save";
+"create" = "Create";
 "actions" = "Actions";
+
+"new_file" = "Create file";
+"create_file" = "Create empty file";
+"create_dir" = "Create directory";
+"create_dir_intro" = "Specify a directory name";
+"create_file_intro" = "Specify a file name";
+//"update_dir" = "Update directory";
+"update_dir_intro" = "Specify a new directory name";
+"update_file_intro" = "Specify a new file name";
+"remove_file_confirm" = "Are you sure you want to delete this file?";
+"remove_dir_confirm" = "Are you sure you want to delete this directory with all sub-files?";
 
 "site_err_site_ae" = "You already have an account with this site name";
 "site_err_manager_ae" = "You already have an account with this manager address";

@@ -22,7 +22,7 @@ class Utils: NSObject {
 		}
 	}
 
-	func alert(title: NSString, message: NSString, view: UIViewController) {
+	func alert(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)? = nil ) {
 		let alert: UIAlertController = UIAlertController(
 			title: self.lexicon(title),
 			message: self.lexicon(message),
@@ -32,7 +32,9 @@ class Utils: NSObject {
 		alert.addAction(UIAlertAction(
 			title: self.lexicon("close"),
 			style: UIAlertActionStyle.Cancel,
-			handler: nil
+			handler: closure != nil
+				? { (alert: UIAlertAction!) in closure!() }
+				: nil
 		))
 
 		view.presentViewController(alert, animated: true, completion: nil)
@@ -96,16 +98,19 @@ class Utils: NSObject {
 	}
 
 	func showSpinner(view: UIView, animated: Bool = true) {
-		let spinner = MBProgressHUD.showHUDAddedTo(view, animated: animated)
-		spinner.mode = MBProgressHUDModeIndeterminate
-		spinner.backgroundColor = UIColor.init(red: 1, green: 1, blue: 1, alpha: 0.3)
-		spinner.color = UIColor.clearColor()
-		spinner.activityIndicatorColor = UIColor.blackColor()
-		//loadingNotification.labelText = "Loading"
+		let huds = MBProgressHUD.allHUDsForView(view) as NSArray
+		if huds.count == 0 {
+			let spinner = MBProgressHUD.showHUDAddedTo(view, animated: animated)
+			spinner.mode = MBProgressHUDModeIndeterminate
+			spinner.backgroundColor = UIColor.init(red: 1, green: 1, blue: 1, alpha: 0.3)
+			spinner.color = UIColor.clearColor()
+			spinner.activityIndicatorColor = UIColor.blackColor()
+			//loadingNotification.labelText = "Loading"
+		}
 	}
 
-	func hideSpinner(view: UIView) {
-		MBProgressHUD.hideAllHUDsForView(view, animated: true)
+	func hideSpinner(view: UIView, animated: Bool = true) {
+		MBProgressHUD.hideAllHUDsForView(view, animated: animated)
 	}
 
 	func getIcon(name: NSString) -> UIImage {
