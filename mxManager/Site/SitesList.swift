@@ -15,9 +15,9 @@ class SitesList: DefaultTable {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent", name:"SiteAdded", object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent", name:"SiteDeleted", object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent", name:"SiteUpdated", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"SiteAdded", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"SiteDeleted", object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"SiteUpdated", object: nil)
 	}
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -42,10 +42,6 @@ class SitesList: DefaultTable {
 			self.refreshControl?.endRefreshing()
 			self.tableView?.reloadData()
 		}
-	}
-
-	func loadRowsFromEvent() {
-		self.loadRows()
 	}
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

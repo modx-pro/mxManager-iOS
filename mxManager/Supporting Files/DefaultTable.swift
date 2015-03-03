@@ -39,6 +39,18 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 			}
 			self.loadRows()
 		}
+
+		if self.invokeEvent != "" {
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: "onLoadRows:", name: self.invokeEvent, object: nil)
+		}
+	}
+
+	override func viewWillDisappear(animated: Bool) {
+		super.viewWillDisappear(animated)
+
+		if self.invokeEvent != "" {
+			NSNotificationCenter.defaultCenter().removeObserver(self, name: self.invokeEvent, object: nil)
+		}
 	}
 
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -96,6 +108,10 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 
 	func refreshRows() {
 		self.loadRows(spinner: false)
+	}
+
+	func onLoadRows(notification: NSNotification) {
+		// By default do nothing
 	}
 
 	// Lazy isLoading

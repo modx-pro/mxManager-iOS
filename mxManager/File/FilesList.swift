@@ -18,18 +18,15 @@ class FilesList: DefaultTable {
 	var permissions = [:]
 	var selectedRow = NSIndexPath.init(index: 0)
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
+	override init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
 		self.invokeEvent = "LoadFiles"
-
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadRowsFromEvent:", name:"LoadFiles", object: nil)
-		NSNotificationCenter.defaultCenter().removeObserver(self, name:"FileUpdated", object: nil)
 	}
 
-	override func viewWillDisappear(animated: Bool) {
-		super.viewWillDisappear(animated)
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-		NSNotificationCenter.defaultCenter().removeObserver(self, name: "LoadFiles", object: nil)
+		NSNotificationCenter.defaultCenter().removeObserver(self, name:"FileUpdated", object: nil)
 	}
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -101,7 +98,7 @@ class FilesList: DefaultTable {
 		}
 	}
 
-	func loadRowsFromEvent(notification: NSNotification) {
+	override func onLoadRows(notification: NSNotification) {
 		if self.source > 0 {
 			if self.permissions["create"] != nil || self.path == "" {
 				self.btnAdd.enabled = true
