@@ -17,6 +17,7 @@ class FilesList: DefaultTable {
 	var pathRelative = ""
 	var permissions = [:]
 	var selectedRow = NSIndexPath.init(index: 0)
+	var tmpName = ""
 
 	override init(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -120,7 +121,7 @@ class FilesList: DefaultTable {
 		}
 	}
 
-	// Операции с файлами и директориями
+	// Операции с файлами и директориями из строки таблицы
 
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
 		self.selectedRow = indexPath
@@ -129,7 +130,7 @@ class FilesList: DefaultTable {
 		let type = item["type"] as String
 		var buttons = [] as NSMutableArray
 
-		if permissions["remove"] != nil {
+		if permissions["remove"] != nil && permissions["remove"] as Int == 1 {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
@@ -139,7 +140,7 @@ class FilesList: DefaultTable {
 			buttons.addObject(btn)
 		}
 
-		if permissions["update"] != nil {
+		//if permissions["update"] != nil && permissions["update"] as Int == 1 {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
@@ -147,9 +148,9 @@ class FilesList: DefaultTable {
 			}
 			btn.backgroundColor = UIColor(patternImage: UIImage(named: "btn-edit")!)
 			buttons.addObject(btn)
-		}
+		//}
 
-		if permissions["create"] != nil && type == "dir" {
+		if permissions["create"] != nil && permissions["create"] as Int == 1 && type == "dir" {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
@@ -166,6 +167,7 @@ class FilesList: DefaultTable {
 	}
 
 	// Создание директорий и файлов во всплывающем окне
+
 	@IBAction func showAddMenuHere() {
 		let item = [
 			"type": "dir",
@@ -195,21 +197,21 @@ class FilesList: DefaultTable {
 		))
 
 		sheet.addAction(UIAlertAction.init(
-		title: Utils().lexicon("new_file"),
-				style: UIAlertActionStyle.Default,
-				handler: {
-					(alert: UIAlertAction!) in
-					var cell = FileCell.init() as FileCell
-					cell.data = [
-							"type": "file",
-							"action": "create",
-							"source": item["source"] as Int,
-							"path": item["path"] as String,
-							"pathRelative": item["pathRelative"] as String,
-							"title": Utils().lexicon("create_file")
-					]
-					self.performSegueWithIdentifier("showFile", sender: cell)
-				}
+			title: Utils().lexicon("new_file"),
+			style: UIAlertActionStyle.Default,
+			handler: {
+				(alert: UIAlertAction!) in
+				var cell = FileCell.init() as FileCell
+				cell.data = [
+					"type": "file",
+					"action": "create",
+					"source": item["source"] as Int,
+					"path": item["path"] as String,
+					"pathRelative": item["pathRelative"] as String,
+					"title": Utils().lexicon("create_file")
+				]
+				self.performSegueWithIdentifier("showFile", sender: cell)
+			}
 		))
 
 		/*
@@ -273,12 +275,7 @@ class FilesList: DefaultTable {
 				if window.textFields?[0] != nil {
 					let textField = window.textFields![0] as UITextField
 					if action == "create" {
-						if type == "dir" {
-							self.createDir(textField.text, item: item)
-						}
-						else {
-							self.createFile(textField.text, item: item)
-						}
+						self.createItem(textField.text, item: item, type: type)
 					}
 					else {
 						self.renameItem(textField.text, item: item)
@@ -299,51 +296,29 @@ class FilesList: DefaultTable {
 			)
 			if action == "update" && item["name"] != nil {
 				textField.text = item["name"] as String
+				self.tmpName = textField.text
+			}
+			else {
+				self.tmpName = ""
 			}
 		}
-		self.btnSave!.enabled = !(action == "create")
+		//self.btnSave?.enabled = action != "create"
+		self.btnSave?.enabled = false
 		self.presentViewController(window, animated: true, completion: nil)
 	}
 
 	func alertTextFieldDidChange(notification: NSNotification) {
 		if notification.object != nil {
 			let textField = notification.object as UITextField
-			self.btnSave?.enabled = textField.text != ""
+			self.btnSave?.enabled = textField.text != self.tmpName
 		}
 	}
 
 	// Действия
 
-	func createDir(name: String, item: NSDictionary) {
+	func createItem(name: String, item: NSDictionary, type: String = "dir") {
 		let request = [
-			"mx_action": "files/dir/create",
-			"name": name,
-			"source": item["source"] as NSNumber,
-			"parent": item["pathRelative"] as NSString,
-		]
-		Utils().showSpinner(self.view)
-		self.Request(request, {
-			(data: NSDictionary!) in
-			if request["parent"] != self.pathRelative {
-				Utils().hideSpinner(self.view, animated: false)
-				if self.tableView != nil {
-					let cell = self.tableView(self.tableView!, cellForRowAtIndexPath: self.selectedRow) as FileCell
-					self.performSegueWithIdentifier("getFiles", sender: cell)
-				}
-			}
-			else {
-				self.loadRows()
-			}
-		}, {
-			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as String, view: self)
-		})
-	}
-
-	func createFile(name: String, item: NSDictionary) {
-		let request = [
-			"mx_action": "files/file/create",
+			"mx_action": "files/" + type + "/create",
 			"name": name,
 			"source": item["source"] as NSNumber,
 			"path": item["pathRelative"] as NSString,
@@ -352,14 +327,11 @@ class FilesList: DefaultTable {
 		self.Request(request, {
 			(data: NSDictionary!) in
 			if request["path"] != self.pathRelative {
-				/*
 				Utils().hideSpinner(self.view, animated: false)
 				if self.tableView != nil {
 					let cell = self.tableView(self.tableView!, cellForRowAtIndexPath: self.selectedRow) as FileCell
 					self.performSegueWithIdentifier("getFiles", sender: cell)
 				}
-				*/
-				Utils().hideSpinner(self.view)
 			}
 			else {
 				self.loadRows()
@@ -372,7 +344,9 @@ class FilesList: DefaultTable {
 	}
 
 	func renameItem(name: String, item: NSDictionary) {
-		let type = item["type"] as String
+		let type = (item["type"] as String) == "dir"
+			? "dir"
+			: "file"
 		let request = [
 			"mx_action": "files/" + type + "/rename",
 			"name": name,
@@ -391,7 +365,9 @@ class FilesList: DefaultTable {
 	}
 
 	func removeItem(item: NSDictionary!) {
-		let type = item["type"] as String
+		let type = (item["type"] as String) == "dir"
+				? "dir"
+				: "file"
 		let message = type == "dir"
 			? "remove_dir_confirm"
 			: "remove_file_confirm"
