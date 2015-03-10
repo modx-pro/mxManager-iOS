@@ -23,13 +23,13 @@ class Utils: NSObject {
 	}
 
 	func alert(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)? = nil ) {
-		let alert: UIAlertController = UIAlertController(
+		let alert: UIAlertController = UIAlertController.init(
 			title: self.lexicon(title),
 			message: self.lexicon(message),
 			preferredStyle: UIAlertControllerStyle.Alert
 		)
 
-		alert.addAction(UIAlertAction(
+		alert.addAction(UIAlertAction.init(
 			title: self.lexicon("close"),
 			style: UIAlertActionStyle.Cancel,
 			handler: closure != nil
@@ -37,6 +37,7 @@ class Utils: NSObject {
 				: nil
 		))
 
+		alert.view.tintColor = Colors().defaultText()
 		view.presentViewController(alert, animated: true, completion: nil)
 	}
 
@@ -58,6 +59,7 @@ class Utils: NSObject {
 			handler: { (alert: UIAlertAction!) in closure() }
 		))
 
+		alert.view.tintColor = Colors().defaultText()
 		view.presentViewController(alert, animated: true, completion: nil)
 	}
 
@@ -81,7 +83,7 @@ class Utils: NSObject {
 			}
 			var tmp = NSAttributedString.init(string: row["message"] as String, attributes: attributes)
 			text.appendAttributedString(tmp)
-			text.appendAttributedString(NSAttributedString(string: "\n"))
+			text.appendAttributedString(NSAttributedString.init(string: "\n"))
 		}
 
 		let window = Console.init() as Console
@@ -122,7 +124,7 @@ class Utils: NSObject {
 	}
 
 	func addSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
-		let keychain = Keychain.init()
+		let keychain = Keychain.init() as Keychain
 		let sites = [] as NSMutableArray
 		sites.addObjectsFromArray(self.getSites())
 
@@ -151,7 +153,7 @@ class Utils: NSObject {
 	}
 
 	func updateSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
-		let keychain = Keychain.init()
+		let keychain = Keychain.init() as Keychain
 		let sites = [] as NSMutableArray
 		sites.addObjectsFromArray(self.getSites())
 
@@ -163,7 +165,6 @@ class Utils: NSObject {
 					var site = tmp as NSDictionary
 				}
 				sites[index] = site
-				//sites.replaceObjectAtIndex(index: index, withObject: site)
 			}
 		}
 
@@ -177,7 +178,7 @@ class Utils: NSObject {
 	}
 
 	func removeSite(key: String, notify: Bool = true) -> Bool {
-		let keychain = Keychain.init()
+		let keychain = Keychain.init() as Keychain
 		let sites = [] as NSMutableArray
 		sites.addObjectsFromArray(self.getSites())
 
@@ -197,7 +198,7 @@ class Utils: NSObject {
 	}
 
 	func getSites() -> NSArray {
-		let keychain = Keychain.init()
+		let keychain = Keychain.init() as Keychain
 
 		let sites = keychain.get(ArchiveKey(keyName: "Sites")).item?.object as? NSArray
 		if sites != nil {
