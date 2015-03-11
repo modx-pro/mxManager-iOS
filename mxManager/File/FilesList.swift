@@ -64,9 +64,6 @@ class FilesList: DefaultTable {
 		}
 	}
 
-	@IBAction func unwindFromViewController(sender: UIStoryboardSegue) {
-	}
-
 	override func loadRows(spinner: Bool = true) {
 		self.request = [
 			"mx_action": "files/getlist",

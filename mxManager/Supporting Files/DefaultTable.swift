@@ -11,14 +11,28 @@ import UIKit
 class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 
 	var rows = []
-	var isLoading = false
-	var invokeEvent = ""
 	var count = 0
 	var total = 0
+	var isLoading = false
+	var invokeEvent = ""
 	var request:[String:AnyObject] = [:]
-	@IBOutlet var tableView: UITableView?
-	@IBOutlet var refreshControl: UIRefreshControl?
+
+	var refreshControl: UIRefreshControl
+	var activityIndicator: UIActivityIndicatorView
+	@IBOutlet var tableView: UITableView!
+	@IBOutlet var tableHeaderView: UIView?
 	@IBOutlet var tableFooterView: UIView?
+
+	override init(coder aDecoder: NSCoder) {
+		refreshControl = UIRefreshControl()
+		activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+
+		super.init(coder: aDecoder)
+
+		refreshControl.addTarget(self, action: "refreshRows", forControlEvents: UIControlEvents.ValueChanged)
+		activityIndicator.frame = CGRectMake(0, 0, 0, 40)
+		activityIndicator.startAnimating()
+	}
 
 	deinit {
 		self.tableView?.delegate = nil
@@ -27,22 +41,35 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		var refreshControl = UIRefreshControl.init() as UIRefreshControl
-		refreshControl.addTarget(self, action: "refreshRows", forControlEvents: UIControlEvents.ValueChanged)
-		self.refreshControl = refreshControl
-
-		if self.tableView? != nil {
-			self.tableView!.addSubview(self.refreshControl!)
-			self.tableView!.separatorColor = Colors().cellSeparator()
-			if self.tableView!.tableFooterView == nil {
-				self.tableView!.tableFooterView = UIView.init()
-			}
-			self.loadRows()
-		}
+		self.prepareTable()
+		self.loadRows()
 
 		if self.invokeEvent != "" {
 			NSNotificationCenter.defaultCenter().addObserver(self, selector: "onLoadRows:", name: self.invokeEvent, object: nil)
 		}
+	}
+
+	func prepareTable() {
+		self.tableView.addSubview(self.refreshControl)
+
+		let backgroundColor = Colors().sectionBackground()
+		self.tableView.backgroundColor = backgroundColor
+
+		if self.tableHeaderView == nil {
+			let header = UIView.init() as UIView
+			header.frame = CGRectMake(0, 0, 0, 20)
+			header.backgroundColor = backgroundColor
+			self.tableHeaderView = header
+		}
+		self.tableView.tableHeaderView = self.tableHeaderView
+
+		if self.tableFooterView == nil {
+			let footer = UIView.init() as UIView
+			footer.frame = CGRectMake(0, 0, 0, 20)
+			footer.backgroundColor = backgroundColor
+			self.tableFooterView = footer
+		}
+		self.tableView.tableFooterView = self.tableFooterView
 	}
 
 	override func viewWillDisappear(animated: Bool) {
@@ -51,6 +78,9 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		if self.invokeEvent != "" {
 			NSNotificationCenter.defaultCenter().removeObserver(self, name: self.invokeEvent, object: nil)
 		}
+	}
+
+	@IBAction func unwindFromViewController(sender: UIStoryboardSegue) {
 	}
 
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -75,33 +105,38 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		}
 
 		self.Request(self.request, {
-			data in
-			let tmp = data["data"] as NSDictionary
-			self.rows = tmp["rows"] as NSArray
-			self.total = tmp["total"] as Int
-			self.count = tmp["count"] as Int
-
-			self.tableView?.reloadData();
-			if spinner {
-				Utils().hideSpinner(self.view)
-			}
-			if self.tableFooterView != nil {
-				if self.count < self.total {
-					self.tableView?.tableFooterView = self.tableFooterView
+			(data: NSDictionary!) in
+			if let tmp = data["data"] as? NSDictionary {
+				if tmp["rows"] != nil {
+					self.rows = tmp["rows"] as NSArray
+				}
+				if tmp["total"] != nil {
+					self.total = tmp["total"] as Int
+				}
+				if tmp["count"] != nil {
+					self.count = tmp["count"] as Int
+				}
+				self.tableView.reloadData();
+				if self.invokeEvent != "" {
+					NSNotificationCenter.defaultCenter().postNotificationName(self.invokeEvent, object: tmp)
 				}
 			}
-			self.refreshControl?.endRefreshing()
-			self.isLoading = false
-			if self.invokeEvent != "" {
-				NSNotificationCenter.defaultCenter().postNotificationName(self.invokeEvent, object: tmp)
-			}
-		}, {
-			data in
 			if spinner {
 				Utils().hideSpinner(self.view)
 			}
-			self.refreshControl?.endRefreshing()
+			self.tableView.tableFooterView = self.count < self.total
+				? self.activityIndicator
+				: self.tableFooterView?
 			self.isLoading = false
+			self.refreshControl.endRefreshing()
+		}, {
+			(data: NSDictionary!) in
+			if spinner {
+				Utils().hideSpinner(self.view)
+			}
+			self.tableView.tableFooterView = self.tableFooterView?
+			self.isLoading = false
+			self.refreshControl.endRefreshing()
 			Utils().alert("", message: data["message"] as String, view: self)
 		})
 	}
@@ -114,7 +149,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		// By default do nothing
 	}
 
-	// Lazy isLoading
+	// Lazy load
 	func scrollViewDidScroll(scrollView: UIScrollView!) {
 		if !self.isLoading && self.count < self.total {
 			let currentOffset = scrollView.contentOffset.y
@@ -132,30 +167,33 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 			return;
 		}
 		self.isLoading = true
-		self.tableFooterView?.hidden = false
 
 		self.Request(self.request, {
-			data in
-			let tmp = data["data"] as NSDictionary
-			let rows = [] as NSMutableArray
-			rows.addObjectsFromArray(self.rows)
-			rows.addObjectsFromArray(tmp["rows"] as NSArray)
-			self.rows = rows
-			self.total = tmp["total"] as Int
-			self.count += tmp["count"] as Int
-
-			self.tableView?.reloadData();
-			self.isLoading = false
-			if self.tableFooterView != nil {
-				if self.count >= self.total {
-					self.tableView?.tableFooterView = UIView.init()
+			(data: NSDictionary!) in
+			if let tmp = data["data"] as? NSDictionary {
+				let rows = [] as NSMutableArray
+				if tmp["rows"] != nil {
+					rows.addObjectsFromArray(self.rows)
+					rows.addObjectsFromArray(tmp["rows"] as NSArray)
+					self.rows = rows
 				}
+				if tmp["total"] != nil {
+					self.total = tmp["total"] as Int
+				}
+				if tmp["count"] != nil {
+					self.count += tmp["count"] as Int
+				}
+				self.tableView.reloadData();
 			}
-		}, {
-			data in
-			Utils().alert("", message: data["message"] as String, view: self)
+			self.tableView.tableFooterView = self.count < self.total
+					? self.activityIndicator
+					: self.tableFooterView?
 			self.isLoading = false
-			self.tableFooterView?.hidden = true
+		}, {
+			(data: NSDictionary!) in
+			self.tableView.tableFooterView = self.tableFooterView?
+			self.isLoading = false
+			Utils().alert("", message: data["message"] as String, view: self)
 		})
 	}
 

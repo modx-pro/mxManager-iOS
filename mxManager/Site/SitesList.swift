@@ -39,8 +39,8 @@ class SitesList: DefaultTable {
 		let rows = Utils().getSites()
 		if rows.count > 0 {
 			self.rows = rows
-			self.refreshControl?.endRefreshing()
-			self.tableView?.reloadData()
+			self.refreshControl.endRefreshing()
+			self.tableView.reloadData()
 		}
 	}
 

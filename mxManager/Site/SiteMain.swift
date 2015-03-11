@@ -12,13 +12,18 @@ class SiteMain: DefaultTable {
 
 	var popup: UIViewController?
 
+	override init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+		self.invokeEvent = "LoadSite"
+	}
+
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
 
 		let cell = sender as DefaultCell
 		var controller = segue.destinationViewController as DefaultView
 		controller.data = self.data
-		controller.navigationItem.title = cell.textLabel?.text
+		controller.title = cell.textLabel?.text
 	}
 
 	// For clear cache log
@@ -38,46 +43,18 @@ class SiteMain: DefaultTable {
 	}
 
 	override func loadRows(spinner: Bool = false) {
-		if self.isLoading {
-			return
-		}
-		self.isLoading = true
-
-		if spinner {
-			Utils().showSpinner(self.view)
-		}
-
 		self.request = [
 				"mx_action": "auth",
 				"username": self.data["user"] as String,
 				"password": self.data["password"] as String,
 		]
-		self.Request(self.request, {
-			data in
-			let tmp = data["data"] as NSDictionary
-			self.rows = tmp["sections"] as NSArray
-			self.updateSite(tmp)
+		super.loadRows(spinner: spinner)
+	}
 
-			self.tableView?.reloadData();
-			if spinner {
-				Utils().hideSpinner(self.view)
-			}
-			if self.tableFooterView != nil {
-				if self.count < self.total {
-					self.tableView?.tableFooterView = self.tableFooterView
-				}
-			}
-			self.refreshControl?.endRefreshing()
-			self.isLoading = false
-		}, {
-			data in
-			if spinner {
-				Utils().hideSpinner(self.view)
-			}
-			self.refreshControl?.endRefreshing()
-			self.isLoading = false
-			Utils().alert("", message: data["message"] as String, view: self)
-		})
+	override func onLoadRows(notification: NSNotification) {
+		if let object = notification.object as? NSDictionary {
+			self.updateSite(object as NSDictionary)
+		}
 	}
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

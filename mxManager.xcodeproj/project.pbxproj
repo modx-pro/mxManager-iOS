@@ -26,6 +26,7 @@
 		513965121A848CD5008BD09E /* ElementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513965111A848CD5008BD09E /* ElementCell.swift */; };
 		513965151A848CED008BD09E /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513965131A848CED008BD09E /* Console.swift */; };
 		513965161A848CED008BD09E /* Console.xib in Resources */ = {isa = PBXBuildFile; fileRef = 513965141A848CED008BD09E /* Console.xib */; };
+		5142A1D41AA9ED8100F243F8 /* ElementPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5142A1D31AA9ED8100F243F8 /* ElementPanel.swift */; };
 		515061151A7657DE00019287 /* desktop.png in Resources */ = {isa = PBXBuildFile; fileRef = 515061121A7657DE00019287 /* desktop.png */; };
 		515061161A7657DE00019287 /* file.png in Resources */ = {isa = PBXBuildFile; fileRef = 515061131A7657DE00019287 /* file.png */; };
 		515061171A7657DE00019287 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 515061141A7657DE00019287 /* folder.png */; };
@@ -57,6 +58,25 @@
 		51A9B2BA1A8103E8008DEAD8 /* bug.png in Resources */ = {isa = PBXBuildFile; fileRef = 51A9B2B91A8103E8008DEAD8 /* bug.png */; };
 		51B127421A4A885600603921 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51B127441A4A885600603921 /* Main.storyboard */; };
 		51B1274B1A4A9E2800603921 /* DefaultTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B1274A1A4A9E2800603921 /* DefaultTextField.swift */; };
+		51CA38C61AAEB38F00315059 /* FormBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38B21AAEB38F00315059 /* FormBaseCell.swift */; };
+		51CA38C71AAEB38F00315059 /* FormTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38B31AAEB38F00315059 /* FormTitleCell.swift */; };
+		51CA38C81AAEB38F00315059 /* FormValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38B41AAEB38F00315059 /* FormValueCell.swift */; };
+		51CA38C91AAEB38F00315059 /* FormButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38B51AAEB38F00315059 /* FormButtonCell.swift */; };
+		51CA38CA1AAEB38F00315059 /* FormCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38B61AAEB38F00315059 /* FormCheckCell.swift */; };
+		51CA38CB1AAEB38F00315059 /* FormDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38B71AAEB38F00315059 /* FormDateCell.swift */; };
+		51CA38CC1AAEB38F00315059 /* FormPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38B81AAEB38F00315059 /* FormPickerCell.swift */; };
+		51CA38CD1AAEB38F00315059 /* FormSegmentedControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38B91AAEB38F00315059 /* FormSegmentedControlCell.swift */; };
+		51CA38CE1AAEB38F00315059 /* FormSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38BA1AAEB38F00315059 /* FormSelectorCell.swift */; };
+		51CA38CF1AAEB38F00315059 /* FormSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38BB1AAEB38F00315059 /* FormSwitchCell.swift */; };
+		51CA38D01AAEB38F00315059 /* FormTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38BC1AAEB38F00315059 /* FormTextFieldCell.swift */; };
+		51CA38D11AAEB38F00315059 /* FormTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38BD1AAEB38F00315059 /* FormTextViewCell.swift */; };
+		51CA38D21AAEB38F00315059 /* FormOptionsSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38BF1AAEB38F00315059 /* FormOptionsSelectorController.swift */; };
+		51CA38D31AAEB38F00315059 /* FormSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38C01AAEB38F00315059 /* FormSelector.swift */; };
+		51CA38D41AAEB38F00315059 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38C11AAEB38F00315059 /* FormViewController.swift */; };
+		51CA38D51AAEB38F00315059 /* FormDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38C31AAEB38F00315059 /* FormDescriptor.swift */; };
+		51CA38D61AAEB38F00315059 /* FormRowDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38C41AAEB38F00315059 /* FormRowDescriptor.swift */; };
+		51CA38D71AAEB38F00315059 /* FormSectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38C51AAEB38F00315059 /* FormSectionDescriptor.swift */; };
+		51CA38D91AAEC32600315059 /* DefaultForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38D81AAEC32600315059 /* DefaultForm.swift */; };
 		51D9DA531A4ADB570076C94A /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D9DA521A4ADB570076C94A /* DefaultCell.swift */; };
 		51DF6A691AA4298800A2BB2B /* DefaultPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DF6A681AA4298800A2BB2B /* DefaultPanel.swift */; };
 		51EA6CCA1A7E2ACE00E00280 /* ErrorLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EA6CC91A7E2ACE00E00280 /* ErrorLog.swift */; };
@@ -87,6 +107,7 @@
 		513965111A848CD5008BD09E /* ElementCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElementCell.swift; path = Element/ElementCell.swift; sourceTree = "<group>"; };
 		513965131A848CED008BD09E /* Console.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Console.swift; path = "Supporting Files/Console.swift"; sourceTree = "<group>"; };
 		513965141A848CED008BD09E /* Console.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Console.xib; path = "Supporting Files/Console.xib"; sourceTree = "<group>"; };
+		5142A1D31AA9ED8100F243F8 /* ElementPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ElementPanel.swift; path = Element/ElementPanel.swift; sourceTree = "<group>"; };
 		515061121A7657DE00019287 /* desktop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = desktop.png; sourceTree = "<group>"; };
 		515061131A7657DE00019287 /* file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = file.png; sourceTree = "<group>"; };
 		515061141A7657DE00019287 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
@@ -119,6 +140,25 @@
 		51B127451A4A885C00603921 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		51B127461A4A888000603921 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		51B1274A1A4A9E2800603921 /* DefaultTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultTextField.swift; path = "Supporting Files/DefaultTextField.swift"; sourceTree = "<group>"; };
+		51CA38B21AAEB38F00315059 /* FormBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormBaseCell.swift; sourceTree = "<group>"; };
+		51CA38B31AAEB38F00315059 /* FormTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTitleCell.swift; sourceTree = "<group>"; };
+		51CA38B41AAEB38F00315059 /* FormValueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValueCell.swift; sourceTree = "<group>"; };
+		51CA38B51AAEB38F00315059 /* FormButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormButtonCell.swift; sourceTree = "<group>"; };
+		51CA38B61AAEB38F00315059 /* FormCheckCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormCheckCell.swift; sourceTree = "<group>"; };
+		51CA38B71AAEB38F00315059 /* FormDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDateCell.swift; sourceTree = "<group>"; };
+		51CA38B81AAEB38F00315059 /* FormPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormPickerCell.swift; sourceTree = "<group>"; };
+		51CA38B91AAEB38F00315059 /* FormSegmentedControlCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSegmentedControlCell.swift; sourceTree = "<group>"; };
+		51CA38BA1AAEB38F00315059 /* FormSelectorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSelectorCell.swift; sourceTree = "<group>"; };
+		51CA38BB1AAEB38F00315059 /* FormSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSwitchCell.swift; sourceTree = "<group>"; };
+		51CA38BC1AAEB38F00315059 /* FormTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextFieldCell.swift; sourceTree = "<group>"; };
+		51CA38BD1AAEB38F00315059 /* FormTextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextViewCell.swift; sourceTree = "<group>"; };
+		51CA38BF1AAEB38F00315059 /* FormOptionsSelectorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormOptionsSelectorController.swift; sourceTree = "<group>"; };
+		51CA38C01AAEB38F00315059 /* FormSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSelector.swift; sourceTree = "<group>"; };
+		51CA38C11AAEB38F00315059 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		51CA38C31AAEB38F00315059 /* FormDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDescriptor.swift; sourceTree = "<group>"; };
+		51CA38C41AAEB38F00315059 /* FormRowDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRowDescriptor.swift; sourceTree = "<group>"; };
+		51CA38C51AAEB38F00315059 /* FormSectionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSectionDescriptor.swift; sourceTree = "<group>"; };
+		51CA38D81AAEC32600315059 /* DefaultForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultForm.swift; path = "Supporting Files/DefaultForm.swift"; sourceTree = "<group>"; };
 		51D9DA521A4ADB570076C94A /* DefaultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultCell.swift; path = "Supporting Files/DefaultCell.swift"; sourceTree = "<group>"; };
 		51D9DA551A4BE0510076C94A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		51DF6A681AA4298800A2BB2B /* DefaultPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultPanel.swift; path = "Supporting Files/DefaultPanel.swift"; sourceTree = "<group>"; };
@@ -200,6 +240,7 @@
 		513183621A435233002497F2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				51CA38AF1AAEB38F00315059 /* SwiftForms */,
 				515DD7A51A494AC000B5C2F5 /* Keychain */,
 				5131836C1A4352C7002497F2 /* AppDelegate.swift */,
 				79DBBEA4339EFCBADB139782 /* LaunchScreen.xib */,
@@ -215,6 +256,7 @@
 				513965131A848CED008BD09E /* Console.swift */,
 				513965141A848CED008BD09E /* Console.xib */,
 				51DF6A681AA4298800A2BB2B /* DefaultPanel.swift */,
+				51CA38D81AAEC32600315059 /* DefaultForm.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -224,6 +266,7 @@
 			children = (
 				5139650F1A848CA9008BD09E /* ElementsList.swift */,
 				513965111A848CD5008BD09E /* ElementCell.swift */,
+				5142A1D31AA9ED8100F243F8 /* ElementPanel.swift */,
 			);
 			name = Element;
 			sourceTree = "<group>";
@@ -250,6 +293,64 @@
 				5163F4951A9EFB0C00430861 /* FilePanel.swift */,
 			);
 			name = File;
+			sourceTree = "<group>";
+		};
+		51CA38AF1AAEB38F00315059 /* SwiftForms */ = {
+			isa = PBXGroup;
+			children = (
+				51CA38B01AAEB38F00315059 /* cells */,
+				51CA38BE1AAEB38F00315059 /* controllers */,
+				51CA38C21AAEB38F00315059 /* descriptors */,
+			);
+			name = SwiftForms;
+			path = "Supporting Files/SwiftForms";
+			sourceTree = "<group>";
+		};
+		51CA38B01AAEB38F00315059 /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				51CA38B11AAEB38F00315059 /* base */,
+				51CA38B51AAEB38F00315059 /* FormButtonCell.swift */,
+				51CA38B61AAEB38F00315059 /* FormCheckCell.swift */,
+				51CA38B71AAEB38F00315059 /* FormDateCell.swift */,
+				51CA38B81AAEB38F00315059 /* FormPickerCell.swift */,
+				51CA38B91AAEB38F00315059 /* FormSegmentedControlCell.swift */,
+				51CA38BA1AAEB38F00315059 /* FormSelectorCell.swift */,
+				51CA38BB1AAEB38F00315059 /* FormSwitchCell.swift */,
+				51CA38BC1AAEB38F00315059 /* FormTextFieldCell.swift */,
+				51CA38BD1AAEB38F00315059 /* FormTextViewCell.swift */,
+			);
+			path = cells;
+			sourceTree = "<group>";
+		};
+		51CA38B11AAEB38F00315059 /* base */ = {
+			isa = PBXGroup;
+			children = (
+				51CA38B21AAEB38F00315059 /* FormBaseCell.swift */,
+				51CA38B31AAEB38F00315059 /* FormTitleCell.swift */,
+				51CA38B41AAEB38F00315059 /* FormValueCell.swift */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		51CA38BE1AAEB38F00315059 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				51CA38BF1AAEB38F00315059 /* FormOptionsSelectorController.swift */,
+				51CA38C01AAEB38F00315059 /* FormSelector.swift */,
+				51CA38C11AAEB38F00315059 /* FormViewController.swift */,
+			);
+			path = controllers;
+			sourceTree = "<group>";
+		};
+		51CA38C21AAEB38F00315059 /* descriptors */ = {
+			isa = PBXGroup;
+			children = (
+				51CA38C31AAEB38F00315059 /* FormDescriptor.swift */,
+				51CA38C41AAEB38F00315059 /* FormRowDescriptor.swift */,
+				51CA38C51AAEB38F00315059 /* FormSectionDescriptor.swift */,
+			);
+			path = descriptors;
 			sourceTree = "<group>";
 		};
 		79DBB3DD45F1C99DAD0DA534 = {
@@ -444,19 +545,33 @@
 			files = (
 				515DD7B01A494AC000B5C2F5 /* KeychainQuery.swift in Sources */,
 				5135C8E41A7D011E00817A0C /* Colors.swift in Sources */,
+				51CA38D51AAEB38F00315059 /* FormDescriptor.swift in Sources */,
 				51A45C911A822EDC003A5C44 /* SiteCell.swift in Sources */,
+				51CA38CB1AAEB38F00315059 /* FormDateCell.swift in Sources */,
+				51CA38CA1AAEB38F00315059 /* FormCheckCell.swift in Sources */,
+				51CA38D71AAEB38F00315059 /* FormSectionDescriptor.swift in Sources */,
 				513183711A4352C7002497F2 /* AppDelegate.swift in Sources */,
 				515DD7AF1A494AC000B5C2F5 /* KeychainItem.swift in Sources */,
 				51EA6CCE1A7E589900E00280 /* ManagerLogCell.swift in Sources */,
 				5163F4961A9EFB0C00430861 /* FilePanel.swift in Sources */,
+				51CA38D11AAEB38F00315059 /* FormTextViewCell.swift in Sources */,
+				5142A1D41AA9ED8100F243F8 /* ElementPanel.swift in Sources */,
+				51CA38D01AAEB38F00315059 /* FormTextFieldCell.swift in Sources */,
+				51CA38CE1AAEB38F00315059 /* FormSelectorCell.swift in Sources */,
 				515DD7AC1A494AC000B5C2F5 /* ArchiveKey.swift in Sources */,
 				51B1274B1A4A9E2800603921 /* DefaultTextField.swift in Sources */,
 				515DD7AD1A494AC000B5C2F5 /* GenericKey.swift in Sources */,
+				51CA38CC1AAEB38F00315059 /* FormPickerCell.swift in Sources */,
+				51CA38D41AAEB38F00315059 /* FormViewController.swift in Sources */,
 				5105A11F1A761EE0004DF472 /* SiteSettings.swift in Sources */,
+				51CA38D61AAEB38F00315059 /* FormRowDescriptor.swift in Sources */,
 				513965101A848CA9008BD09E /* ElementsList.swift in Sources */,
+				51CA38CF1AAEB38F00315059 /* FormSwitchCell.swift in Sources */,
 				513965151A848CED008BD09E /* Console.swift in Sources */,
 				518421081A7F6D3200323E67 /* ResourceCell.swift in Sources */,
 				515DD7AE1A494AC000B5C2F5 /* Keychain.swift in Sources */,
+				51CA38C71AAEB38F00315059 /* FormTitleCell.swift in Sources */,
+				51CA38C81AAEB38F00315059 /* FormValueCell.swift in Sources */,
 				51D9DA531A4ADB570076C94A /* DefaultCell.swift in Sources */,
 				51EA6CCA1A7E2ACE00E00280 /* ErrorLog.swift in Sources */,
 				5105A11B1A761E4C004DF472 /* ResourcesList.swift in Sources */,
@@ -466,12 +581,18 @@
 				5105A11D1A761E74004DF472 /* SitesList.swift in Sources */,
 				51589AB91A44058700146AB1 /* Regex.swift in Sources */,
 				5105A1271A762123004DF472 /* Utils.swift in Sources */,
+				51CA38C91AAEB38F00315059 /* FormButtonCell.swift in Sources */,
 				515061191A765CEF00019287 /* DefaultButton.swift in Sources */,
 				5105A1211A761F47004DF472 /* SiteMain.swift in Sources */,
 				513183721A4352C7002497F2 /* DefaultView.swift in Sources */,
+				51CA38D21AAEB38F00315059 /* FormOptionsSelectorController.swift in Sources */,
+				51CA38CD1AAEB38F00315059 /* FormSegmentedControlCell.swift in Sources */,
 				513965121A848CD5008BD09E /* ElementCell.swift in Sources */,
 				51EA6CCC1A7E32CB00E00280 /* ManagerLog.swift in Sources */,
+				51CA38D31AAEB38F00315059 /* FormSelector.swift in Sources */,
 				51A45C8F1A822CCD003A5C44 /* FileCell.swift in Sources */,
+				51CA38C61AAEB38F00315059 /* FormBaseCell.swift in Sources */,
+				51CA38D91AAEC32600315059 /* DefaultForm.swift in Sources */,
 				79DBBBB486F5D66212B3FDD5 /* DefaultTable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
