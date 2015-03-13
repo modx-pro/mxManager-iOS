@@ -108,9 +108,10 @@ class FilePanel: DefaultForm {
 			let decodedData = NSData.init(base64EncodedString: data["content"] as String, options: nil)
 			let is_image = data["image"] as Bool
 			let is_writable = data["is_writable"] as Bool
+			let height: CGFloat = 300.0
 			if is_image {
 				if let decodedImage = UIImage.init(data: decodedData!) {
-					var row = FormRowDescriptor.init(tag: "content", rowType: FormRowType.Image, title: "") as FormRowDescriptor
+					var row = FormRowDescriptor.init(tag: "content", rowType: FormRowType.Image, title: "", height: height) as FormRowDescriptor
 					row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = ["imageField.image": decodedImage]
 					row.configuration[FormRowDescriptor.Configuration.Required] = false
 
@@ -122,7 +123,10 @@ class FilePanel: DefaultForm {
 			}
 			else if is_writable {
 				if let decodedString = NSString.init(data: decodedData!, encoding: NSUTF8StringEncoding) {
-					var row = FormRowDescriptor.init(tag: "content", rowType: FormRowType.Code, title: "") as FormRowDescriptor
+					var type: FormRowType = decodedString.length > 30000
+						? FormRowType.MultilineText
+						: FormRowType.Code
+					var row = FormRowDescriptor.init(tag: "content", rowType: type, title: "", height: height) as FormRowDescriptor
 					row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = self.defaultParams
 					row.configuration[FormRowDescriptor.Configuration.Required] = false
 					row.value = decodedString
