@@ -40,7 +40,7 @@ class Colors {
 	}
 
 	func borderColor(alpha: CGFloat = 1) -> UIColor {
-		return UIColor.init(red: 228 / 255, green: 228 / 255, blue: 228 / 255, alpha: alpha)
+		return UIColor.init(red: 205 / 255, green: 205 / 255, blue: 205 / 255, alpha: alpha)
 	}
 
 	func sectionBackground(alpha: CGFloat = 1) -> UIColor {
