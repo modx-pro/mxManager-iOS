@@ -8,9 +8,11 @@
 
 import UIKit
 
-class SiteSettings: DefaultPanel {
+class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 
+	@IBOutlet var scrollView: UIScrollView!
 	@IBOutlet var navigationBar: UINavigationBar!
+	@IBOutlet var btnSave: UIBarButtonItem!
 	@IBOutlet var btnCancel: UIBarButtonItem!
 
 	// Main fields
@@ -57,10 +59,12 @@ class SiteSettings: DefaultPanel {
 			if data["base_user"] != nil {
 				self.fieldBaseUser.text = data["base_user"] as NSString
 				self.fieldBaseUser.hidden = false
+				self.fieldBaseUser.enabled = true
 			}
 			if data["base_password"] != nil {
 				self.fieldBasePassword.text = data["base_password"] as NSString
 				self.fieldBasePassword.hidden = false
+				self.fieldBasePassword.enabled = true
 			}
 		}
 	}
@@ -214,9 +218,15 @@ class SiteSettings: DefaultPanel {
 		var enabled = sender.on as Bool
 
 		self.fieldBaseUser.hidden = !enabled
+		self.fieldBaseUser.enabled = enabled
 		self.fieldBasePassword.hidden = !enabled
+		self.fieldBasePassword.enabled = enabled
 		self.labelBaseUser.hidden = !enabled
 		self.labelBasePassword.hidden = !enabled
+	}
+
+	@IBAction func finishEdit(sender: UITextField) {
+		sender.resignFirstResponder()
 	}
 
 }
