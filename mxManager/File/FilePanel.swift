@@ -8,16 +8,8 @@
 
 import UIKit
 
-class FilePanel: DefaultPanel {
+class FilePanel: DefaultForm {
 
-	@IBOutlet var fileName: UITextField!
-	@IBOutlet var filePath: UITextField!
-	@IBOutlet var fileSize: UITextField!
-	@IBOutlet var fileLastAccessed: UITextField!
-	@IBOutlet var fileLastModified: UITextField!
-	@IBOutlet var fileContent: UITextView!
-	@IBOutlet var fileImage: UIImageView!
-	@IBOutlet var fileContentToolbar: UIToolbar!
 	var file = [:]
 	var source = 0
 	var path = ""
@@ -27,7 +19,6 @@ class FilePanel: DefaultPanel {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		self.fileContent.inputAccessoryView = self.fileContentToolbar
 		if self.action == "create" {
 			self.setForm([
 				"image": false,
@@ -36,11 +27,8 @@ class FilePanel: DefaultPanel {
 				"is_readable": true,
 				"path": self.pathRelative + "/"
 			])
-			self.scrollView.hidden = false
-			self.fileName.becomeFirstResponder()
 		}
 		else {
-			self.scrollView.hidden = true
 			self.loadFile()
 		}
 	}
@@ -55,8 +43,7 @@ class FilePanel: DefaultPanel {
 		Utils().showSpinner(self.view)
 		self.Request(request, {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			self.scrollView.hidden = false
+			Utils().hideSpinner(self.view, animated: false)
 			if let file = data["data"] as? NSDictionary {
 				self.setForm(file)
 			}
@@ -70,126 +57,144 @@ class FilePanel: DefaultPanel {
 		})
 	}
 
-	@IBAction func saveFile() {
-		if !self.checkForm() {
-			return
-		}
-		self.view.endEditing(true)
-
-		var request: [String:AnyObject] = [:]
-		if self.fileContent.hidden != true {
-			var content = ""
-			if let plainData = (self.fileContent.text as NSString).dataUsingEncoding(NSUTF8StringEncoding) {
-				content = plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(0))
-			}
-			request = [
-				"mx_action": "files/file/" + self.action,
-				"source": self.source as NSNumber,
-				"path": self.pathRelative as NSString,
-				"name": self.fileName.text as NSString,
-				"content": content as NSString
-			]
-		}
-		else {
-			request = [
-				"mx_action": "files/file/" + self.action,
-				"source": self.source as NSNumber,
-				"path": self.pathRelative as NSString,
-				"name": self.fileName.text as NSString,
-			]
-		}
-
-		Utils().showSpinner(self.view)
-		self.Request(request, {
-			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-
-			self.title = self.fileName.text
-			if let response = data["data"] as? NSDictionary {
-				self.pathRelative = response["pathRelative"] as String
-				if self.action == "create" {
-					self.action = "update"
-				}
-				self.setForm(response)
-				NSNotificationCenter.defaultCenter().postNotificationName("FileUpdated", object: response)
-			}
-		}, {
-			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as String, view: self)
-		})
-	}
-
 	func setForm(data: NSDictionary) {
 		self.file = data
-		self.fileImage.hidden = true
-		self.fileContent.hidden = true
+		let form: FormDescriptor = FormDescriptor()
+
+		var section: FormSectionDescriptor = FormSectionDescriptor()
+
+		var row = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils().lexicon("file_name")) as FormRowDescriptor
+		row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = self.defaultParams
+		row.configuration[FormRowDescriptor.Configuration.Required] = true
+		if data["name"] != nil {
+			row.value = data["name"] as String
+		}
+		section.addRow(row)
+
+		for (key, value) in enumerate(["path", "size", "last_accessed", "last_modified"]) {
+			if data[value] != nil {
+				var row = FormRowDescriptor.init(tag: value, rowType: FormRowType.Name, title: Utils().lexicon("file_" + value)) as FormRowDescriptor
+				var params = [:] as NSMutableDictionary
+				params.addEntriesFromDictionary(self.defaultParams)
+				params["textField.enabled"] = false
+				params["textField.textColor"] = Colors().disabledText()
+				if value == "size" {
+					var size = data["size"] as Int
+					var k = "b"
+					if size > 1000000 {
+						size = size / 1000000
+						k = "Mb"
+					}
+					else if size > 1000 {
+						size = size / 1000
+						k = "Kb"
+					}
+					//row.value = "\(size) \(k)"
+					params["textField.text"] = "\(size) \(k)"
+				}
+				else {
+					//row.value = data[value] as String
+					params["textField.text"] = data[value] as String
+				}
+				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+				row.configuration[FormRowDescriptor.Configuration.Required] = false
+				section.addRow(row)
+			}
+		}
+
+		form.sections.append(section)
 
 		if data["content"] != nil {
 			let decodedData = NSData.init(base64EncodedString: data["content"] as String, options: nil)
-
 			let is_image = data["image"] as Bool
 			let is_writable = data["is_writable"] as Bool
 			if is_image {
 				if let decodedImage = UIImage.init(data: decodedData!) {
-					self.fileImage.image = decodedImage
-					self.fileImage.hidden = false
+					var row = FormRowDescriptor.init(tag: "content", rowType: FormRowType.Image, title: "") as FormRowDescriptor
+					row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = ["imageField.image": decodedImage]
+					row.configuration[FormRowDescriptor.Configuration.Required] = false
+
+					var section: FormSectionDescriptor = FormSectionDescriptor()
+					section.headerTitle = Utils().lexicon("file_content")
+					section.addRow(row)
+					form.sections.append(section)
 				}
 			}
 			else if is_writable {
 				if let decodedString = NSString.init(data: decodedData!, encoding: NSUTF8StringEncoding) {
-					self.fileContent.text = decodedString
-					self.fileContent.hidden = false
+					var row = FormRowDescriptor.init(tag: "content", rowType: FormRowType.Code, title: "") as FormRowDescriptor
+					row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = self.defaultParams
+					row.configuration[FormRowDescriptor.Configuration.Required] = false
+					row.value = decodedString
+
+					var section: FormSectionDescriptor = FormSectionDescriptor()
+					section.headerTitle = Utils().lexicon("file_content")
+					section.addRow(row)
+					form.sections.append(section)
 				}
 			}
 		}
 
-		if data["name"] != nil {
-			self.fileName.text = data["name"] as String
-		}
-		if data["path"] != nil {
-			self.filePath.text = data["path"] as String
-		}
-		if data["size"] != nil {
-			var size = data["size"] as Int
-			var k = "b"
-
-			if size > 1000000 {
-				size = size / 1000000
-				k = "Mb"
-			}
-			else if size > 1000 {
-				size = size / 1000
-				k = "Kb"
-			}
-			self.fileSize.text = "\(size) \(k)"
-		}
-		if data["last_accessed"] != nil {
-			self.fileLastAccessed.text = data["last_accessed"] as String
-		}
-		if data["last_modified"] != nil {
-			self.fileLastModified.text = data["last_modified"] as String
-		}
+		//form.sections = [section]
+		self.form = form
+		self.tableView.reloadData()
 	}
 
-	func checkForm() -> Bool {
-		var hasError = false
-
-		if self.fileName.text == "" {
-			hasError = true
-			self.fileName.markError(true)
+	override func submitForm(sender: UIBarButtonItem!) {
+		if let required = self.form.validateForm() {
+			var message = Utils().lexicon("field_required", placeholders: ["field": required.title])
+			Utils().alert("", message: message, view: self, closure: nil)
 		}
 		else {
-			self.fileName.markError(false)
+			self.view.endEditing(true)
+			//Utils().alert("Form data", message: self.form.formValues().description, view: self, closure: nil)
+			var values = self.form.formValues()
+			var request: [String:AnyObject] = [:]
+			if values["content"] != nil {
+				var content = ""
+				if let plainData = (values["content"] as NSString).dataUsingEncoding(NSUTF8StringEncoding) {
+					content = plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(0))
+				}
+				request = [
+						"mx_action": "files/file/" + self.action,
+						"source": self.source as NSNumber,
+						"path": self.pathRelative as NSString,
+						"name": values["name"] as NSString,
+						"content": content as NSString
+				]
+			}
+			else {
+				request = [
+						"mx_action": "files/file/" + self.action,
+						"source": self.source as NSNumber,
+						"path": self.pathRelative as NSString,
+						"name": values["name"] as NSString,
+				]
+			}
+
+			Utils().showSpinner(self.view)
+			self.Request(request, {
+				(data: NSDictionary!) in
+				Utils().hideSpinner(self.view)
+
+				self.title = values["name"] as? String
+				if let response = data["data"] as? NSDictionary {
+					self.pathRelative = response["pathRelative"] as String
+					if self.action == "create" {
+						self.action = "update"
+					}
+					self.setForm(response)
+					NSNotificationCenter.defaultCenter().postNotificationName("FileUpdated", object: response)
+				}
+			}, {
+				(data: NSDictionary!) in
+				Utils().hideSpinner(self.view)
+				Utils().alert("", message: data["message"] as String, view: self)
+			})
 		}
-
-		return hasError == false
 	}
 
-	@IBAction func fileContentDone() {
-		self.fileContent.resignFirstResponder()
-	}
-
+	/*
 	func textViewShouldBeginEditing(textView: UITextView) -> Bool {
 		if textView == self.fileContent {
 			self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -203,5 +208,6 @@ class FilePanel: DefaultPanel {
 		}
 		return true
 	}
+	*/
 
 }
