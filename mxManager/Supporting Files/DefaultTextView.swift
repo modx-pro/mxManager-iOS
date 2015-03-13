@@ -1,17 +1,14 @@
 //
-//  DefaultTextField.swift
+//  DefaultTextView.swift
 //  mxManager
 //
-//  Created by Василий Наумкин on 19.12.14.
-//  Copyright (c) 2014 bezumkin. All rights reserved.
+//  Created by Василий Наумкин on 11.03.15.
+//  Copyright (c) 2015 bezumkin. All rights reserved.
 //
 
 import UIKit
 
-@IBDesignable
-class DefaultTextField: UITextField {
-
-	@IBInspectable var inset: CGFloat = 5
+class DefaultTextView: UITextView {
 
 	override init() {
 		super.init()
@@ -23,17 +20,14 @@ class DefaultTextField: UITextField {
 		self.addBorder()
 	}
 
-	required init(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
+	override init(frame: CGRect, textContainer: NSTextContainer?) {
+		super.init(frame: frame, textContainer: textContainer)
 		self.addBorder()
 	}
 
-	override func textRectForBounds(bounds: CGRect) -> CGRect {
-		return CGRectInset(bounds, inset, inset)
-	}
-
-	override func editingRectForBounds(bounds: CGRect) -> CGRect {
-		return textRectForBounds(bounds)
+	required init(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+		self.addBorder()
 	}
 
 	func addBorder() {
@@ -45,7 +39,7 @@ class DefaultTextField: UITextField {
 
 }
 
-extension UITextField {
+extension UITextView {
 
 	func markError(marked: Bool) {
 		if marked {
