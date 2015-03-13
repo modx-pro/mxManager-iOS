@@ -13,13 +13,19 @@ import MBProgressHUD
 
 class Utils: NSObject {
 
-	func lexicon(string: NSString) -> NSString {
-		if string != "" {
-			return NSLocalizedString(string, tableName: "Main", comment: "")
-		}
-		else {
+	func lexicon(string: NSString, placeholders: [String:String] = [:]) -> NSString {
+		if string == "" {
 			return ""
 		}
+
+		var string = NSLocalizedString(string, tableName: "Main", comment: "") as NSString
+		if placeholders.count > 0 {
+			for (key, value) in placeholders {
+				string = string.stringByReplacingOccurrencesOfString("[[+\(key)]]", withString: value)
+			}
+		}
+
+		return string
 	}
 
 	func alert(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)? = nil ) {
@@ -103,7 +109,7 @@ class Utils: NSObject {
 		let huds = MBProgressHUD.allHUDsForView(view) as NSArray
 		if huds.count == 0 {
 			let spinner = MBProgressHUD.showHUDAddedTo(view, animated: animated)
-			spinner.mode = MBProgressHUDModeIndeterminate
+			spinner.mode = MBProgressHUDMode.Indeterminate
 			spinner.backgroundColor = UIColor.init(red: 1, green: 1, blue: 1, alpha: 0.3)
 			spinner.color = UIColor.clearColor()
 			spinner.activityIndicatorColor = UIColor.blackColor()
