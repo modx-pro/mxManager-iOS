@@ -82,12 +82,13 @@ extension JLTextView: JLNestedScopeDelegate {
     func nestedScopeDidPerform(scope: JLNestedScope, additions: NSIndexSet) {
         dispatch_async(dispatch_get_main_queue(), {
             additions.enumerateRangesUsingBlock { (range, stop) in
-                
+                /*
                 let range = self.textRange(range.start ..< range.end)
                 let array = self.selectionRectsForRange(range) as [UITextSelectionRect]
                 for value in array {
                     self.flash(value.rect, color: UIColor(white: 0.0, alpha: 0.1))
                 }
+                */
             }
             })
     }
