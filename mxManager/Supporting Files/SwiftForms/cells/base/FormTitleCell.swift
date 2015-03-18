@@ -21,11 +21,22 @@ class FormTitleCell: FormBaseCell {
         
         titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        
-        // apply constant constraints
-        contentView.addSubview(titleLabel)
-        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: contentView, attribute: .Height, multiplier: 1.0, constant: 0.0))
-        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
+
+		titleLabel.setContentHuggingPriority(500, forAxis: .Horizontal)
+		titleLabel.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
+
+		contentView.addSubview(titleLabel)
+
+		// apply constant constraints
+		contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: contentView, attribute: .Height, multiplier: 1.0, constant: 0.0))
+		if titleLabel.text != "" {
+			let labelWidth = NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 100.0)
+			labelWidth.priority = 750
+			contentView.addConstraint(labelWidth)
+		}
+		else {
+			contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0))
+		}
     }
     
     override func constraintsViews() -> [String : UIView] {
