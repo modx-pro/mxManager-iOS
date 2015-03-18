@@ -28,8 +28,11 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 	@IBOutlet var labelBaseUser: UILabel!
 	@IBOutlet var labelBasePassword: UILabel!
 
+	var keyboardHeight: CGFloat = 0
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.addSaveButton()
 		self.fixTopOffset(UIApplication.sharedApplication().statusBarOrientation.isLandscape)
 
 		if self.data.count != 0 {
@@ -39,6 +42,22 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 
 	override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
 		self.fixTopOffset(toInterfaceOrientation.isLandscape)
+	}
+
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadWillShow:", name: UIKeyboardWillChangeFrameNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+	}
+
+	override func viewWillDisappear(animated: Bool) {
+		super.viewWillDisappear(animated)
+
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillChangeFrameNotification, object: nil)
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
 	}
 
 	func setForm(data: NSDictionary) {
@@ -127,7 +146,7 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 		return hasError == false
 	}
 
-	@IBAction func saveForm() {
+	@IBAction func submitForm(sender: UIBarButtonItem?) {
 		if !self.checkForm() {
 			return
 		}
@@ -225,8 +244,51 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 		self.labelBasePassword.hidden = !enabled
 	}
 
-	@IBAction func finishEdit(sender: UITextField) {
-		sender.resignFirstResponder()
+	func onKeyboadWillShow(notification: NSNotification) {
+		let info: NSDictionary = notification.userInfo!
+		if let rectValue = info[UIKeyboardFrameBeginUserInfoKey] as? NSValue {
+			let kbSize: CGRect = rectValue.CGRectValue()
+			if self.keyboardHeight != kbSize.size.height {
+				self.keyboardHeight = kbSize.size.height
+
+				var contentInset: UIEdgeInsets = self.scrollView.contentInset;
+				contentInset.bottom = kbSize.size.height;
+				self.scrollView.contentInset = contentInset;
+				dispatch_async(dispatch_get_main_queue()) {
+					self.addHideKeyboardButton()
+				}
+			}
+		}
+	}
+
+	func onKeyboardWillHide(notification: NSNotification) {
+		if self.keyboardHeight != 0 {
+			self.keyboardHeight = 0
+			let contentInsets: UIEdgeInsets = UIEdgeInsetsZero;
+			self.scrollView.contentInset = contentInsets;
+			self.scrollView.scrollIndicatorInsets = contentInsets;
+			dispatch_async(dispatch_get_main_queue()) {
+				self.addSaveButton()
+			}
+		}
+	}
+
+	func addSaveButton() {
+		let icon = UIImage.init(named: "icon-check")
+		let btn = UIBarButtonItem.init(image: icon?, style: UIBarButtonItemStyle.Plain, target: self, action: "submitForm:")
+		btn.tintColor = Colors().defaultText()
+		self.navigationItem.setRightBarButtonItem(btn, animated: false)
+	}
+
+	func addHideKeyboardButton() {
+		let icon = UIImage.init(named: "icon-keyboard-hide")
+		let btn = UIBarButtonItem.init(image: icon?, style: UIBarButtonItemStyle.Plain, target: self, action: "finishEdit:")
+		btn.tintColor = Colors().defaultText()
+		self.navigationItem.setRightBarButtonItem(btn, animated: false)
+	}
+
+	@IBAction func finishEdit(sender: UITextField?) {
+		self.view.endEditing(true)
 	}
 
 }
