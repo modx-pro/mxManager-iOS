@@ -64,7 +64,9 @@ class FilePanel: DefaultForm {
 		var section: FormSectionDescriptor = FormSectionDescriptor()
 
 		var row = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils().lexicon("file_name")) as FormRowDescriptor
-		row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = self.defaultParams
+		var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+		params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
+		row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 		row.configuration[FormRowDescriptor.Configuration.Required] = true
 		if data["name"] != nil {
 			row.value = data["name"] as String
@@ -74,8 +76,8 @@ class FilePanel: DefaultForm {
 		for (key, value) in enumerate(["path", "size", "last_accessed", "last_modified"]) {
 			if data[value] != nil {
 				var row = FormRowDescriptor.init(tag: value, rowType: FormRowType.Name, title: Utils().lexicon("file_" + value)) as FormRowDescriptor
-				var params = [:] as NSMutableDictionary
-				params.addEntriesFromDictionary(self.defaultParams)
+				var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+				params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 				params["textField.enabled"] = false
 				params["textField.textColor"] = Colors().disabledText()
 				if value == "size" {
@@ -104,14 +106,14 @@ class FilePanel: DefaultForm {
 
 		form.sections.append(section)
 
+		let lastHeight: CGFloat = 100
 		if data["content"] != nil {
 			let decodedData = NSData.init(base64EncodedString: data["content"] as String, options: nil)
 			let is_image = data["image"] as Bool
 			let is_writable = data["is_writable"] as Bool
-			let height: CGFloat = 300.0
 			if is_image {
 				if let decodedImage = UIImage.init(data: decodedData!) {
-					var row = FormRowDescriptor.init(tag: "content", rowType: FormRowType.Image, title: "", height: height) as FormRowDescriptor
+					var row = FormRowDescriptor.init(tag: "content", rowType: FormRowType.Image, title: "", height: lastHeight) as FormRowDescriptor
 					row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = ["imageField.image": decodedImage]
 					row.configuration[FormRowDescriptor.Configuration.Required] = false
 
@@ -126,8 +128,10 @@ class FilePanel: DefaultForm {
 					var type: FormRowType = decodedString.length > 30000
 						? FormRowType.MultilineText
 						: FormRowType.Code
-					var row = FormRowDescriptor.init(tag: "content", rowType: type, title: "", height: height) as FormRowDescriptor
-					row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = self.defaultParams
+					var row = FormRowDescriptor.init(tag: "content", rowType: type, title: "", height: lastHeight) as FormRowDescriptor
+					var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+					params["textField.font"] = UIFont.init(name: "Courier New", size: self.defaultTextFontSize) as UIFont!
+					row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 					row.configuration[FormRowDescriptor.Configuration.Required] = false
 					row.value = decodedString
 
@@ -139,9 +143,9 @@ class FilePanel: DefaultForm {
 			}
 		}
 
-		//form.sections = [section]
 		self.form = form
 		self.tableView.reloadData()
+		self.adjustLastRowHeight()
 	}
 
 	override func submitForm(sender: UIBarButtonItem!) {
@@ -153,27 +157,18 @@ class FilePanel: DefaultForm {
 			self.view.endEditing(true)
 			//Utils().alert("Form data", message: self.form.formValues().description, view: self, closure: nil)
 			var values = self.form.formValues()
-			var request: [String:AnyObject] = [:]
+			var request: [String:AnyObject] = [
+					"mx_action": "files/file/" + self.action,
+					"source": self.source as NSNumber,
+					"path": self.pathRelative as NSString,
+					"name": values["name"] as NSString
+			]
 			if values["content"] != nil {
 				var content = ""
 				if let plainData = (values["content"] as NSString).dataUsingEncoding(NSUTF8StringEncoding) {
 					content = plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(0))
 				}
-				request = [
-						"mx_action": "files/file/" + self.action,
-						"source": self.source as NSNumber,
-						"path": self.pathRelative as NSString,
-						"name": values["name"] as NSString,
-						"content": content as NSString
-				]
-			}
-			else {
-				request = [
-						"mx_action": "files/file/" + self.action,
-						"source": self.source as NSNumber,
-						"path": self.pathRelative as NSString,
-						"name": values["name"] as NSString,
-				]
+				request["content"] = content
 			}
 
 			Utils().showSpinner(self.view)

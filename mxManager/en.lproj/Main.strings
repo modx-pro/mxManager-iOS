@@ -31,6 +31,12 @@
 "jC6-7s-Q5F.text" = "File size";
 "4G3-ZV-zh4.text" = "Last accessed";
 "oGz-DJ-qKY.text" = "Last modified";
+"file_name" = "File name";
+"file_path" = "Path";
+"file_size" = "File size";
+"file_last_accessed" = "Last accessed";
+"file_last_modified" = "Last modified";
+"file_content" = "Content";
 
 // Messages
 "error" = "Error";
@@ -48,6 +54,8 @@
 "create" = "Create";
 "actions" = "Actions";
 
+// Files
+
 "new_file" = "Create file";
 "create_file" = "Create empty file";
 "create_dir" = "Create directory";
@@ -59,6 +67,58 @@
 "remove_file_confirm" = "Are you sure you want to delete this file?";
 "remove_dir_confirm" = "Are you sure you want to delete this directory with all sub-files?";
 
+// Elements
+
+"template" = "Template";
+"templates" = "Templates";
+"tv" = "TV";
+"tvs" = "TVs";
+"chunk" = "Chunk";
+"chunks" = "Chunks";
+"snippet" = "Snippet";
+"snippets" = "Snippets";
+"plugin" = "Plugin";
+"plugins" = "Plugins";
+"category" = "Category";
+"categories" = "Categories";
+
+"create_template" = "Create template";
+"create_category" = "Create category";
+"create_tv" = "Create TV";
+"create_chunk" = "Create chunk";
+"create_snippet" = "Create snippet";
+"create_plugin" = "Create plugin";
+
+"create_template_intro" = "Specify a template name";
+"update_template_intro" = "Specify a new template name";
+"remove_template_confirm" = "Are you sure you want to remove this template?";
+"create_category_intro" = "Specify a category name";
+"update_category_intro" = "Specify a new category name";
+"remove_category_confirm" = "Are you sure you want to remove this category? All Elements within it will revert to having no category.";
+"create_tv_intro" = "Specify a TV name";
+"update_tv_intro" = "Specify a new TV name";
+"remove_tv_confirm" = "Are you sure you want to remove this TV?";
+"create_chunk_intro" = "Specify a chunk name";
+"update_chunk_intro" = "Specify a new chunk name";
+"remove_chunk_confirm" = "Are you sure you want to remove this chunk?";
+"create_snippet_intro" = "Specify a snippet name";
+"update_snippet_intro" = "Specify a new snippet name";
+"remove_snippet_confirm" = "Are you sure you want to remove this snippet?";
+"create_plugin_intro" = "Specify a plugin name";
+"update_plugin_intro" = "Specify a new plugin name";
+"remove_plugin_confirm" = "Are you sure you want to remove this plugin?";
+
+"element_name" = "Name";
+"element_description" = "Description";
+"element_content" = "Content";
+"element_category" = "Category";
+"element_events" = "Events";
+"element_default_value" = "Default value";
+"element_type" = "Input type";
+"element_display" = "Output type";
+"element_templates" = "Templates";
+"element_caption" = "Caption";
+
 "site_err_site_ae" = "You already have an account with this site name";
 "site_err_manager_ae" = "You already have an account with this manager address";
 "site_err_connect" = "The site is not responding";
@@ -67,3 +127,4 @@
 "site_delete_confirm" = "Are you sure you want to remove this site?";
 "error_log_too_large" = "The error log is too large to be viewed";
 "error_log_empty" = "The error log is empty";
+"field_required" = "The field \"[[+field]]\" is required";

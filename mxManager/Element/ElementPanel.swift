@@ -1,0 +1,292 @@
+//
+//  ElementPanel.swift
+//  mxManager
+//
+//  Created by Василий Наумкин on 06.03.15.
+//  Copyright (c) 2015 bezumkin. All rights reserved.
+//
+
+import UIKit
+
+class ElementPanel: DefaultForm {
+
+	var id = 0
+	var category = 0
+	var type = ""
+	var action = "update"
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		let request = [
+			"mx_action": "elements/" + self.type + "/get",
+			"id": self.id as NSNumber,
+		]
+
+		Utils().showSpinner(self.view)
+		self.Request(request, {
+			(data: NSDictionary!) in
+			Utils().hideSpinner(self.view)
+			self.setForm(data["data"] as NSDictionary)
+		}, {
+			(data: NSDictionary!) in
+			Utils().hideSpinner(self.view)
+			Utils().alert("", message: data["message"] as String, view: self, {
+				_ in
+				self.performSegueWithIdentifier("ExitView", sender: nil)
+			})
+		})
+	}
+
+	func setForm(data: NSDictionary) {
+		let form: FormDescriptor = FormDescriptor()
+
+		var section: FormSectionDescriptor = FormSectionDescriptor()
+		if data["name"] != nil {
+			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils().lexicon("element_name"))
+			row.value = data["name"] as String
+			if row.value == "" {
+				row.value = nil
+			}
+			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
+			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+			row.configuration[FormRowDescriptor.Configuration.Required] = true
+			section.addRow(row)
+		}
+		if self.type == "tv" && data["caption"] != nil {
+			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "caption", rowType: FormRowType.Name, title: Utils().lexicon("element_caption"))
+			row.value = data["caption"] as String
+			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
+			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+			section.addRow(row)
+		}
+		if data["description"] != nil {
+			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "description", rowType: FormRowType.MultilineText, title: Utils().lexicon("element_description"), height: 54)
+			row.value = data["description"] as String
+			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
+			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+			section.addRow(row)
+		}
+
+		if data["categories"] != nil {
+			if let categories = data["categories"] as? NSArray {
+				var row: FormRowDescriptor = FormRowDescriptor.init(tag: "category", rowType: FormRowType.MultipleSelector, title: Utils().lexicon("element_category"))
+				var ids = [] as NSMutableArray
+				var names = [:] as NSMutableDictionary
+				for (idx, item) in enumerate(categories) {
+					if var id = item["id"] as? Int {
+						if var name = item["name"] as? String {
+							names[id] = name
+							ids.addObject(id)
+						}
+					}
+				}
+				row.value = data["category"] as? Int
+				if row.value == 0 && self.category != 0 && self.action == "create" {
+					row.value = self.category
+				}
+				var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+				params["valueLabel.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
+				params["valueLabel.color"] = UIColor.blackColor()
+				params["valueLabel.textAlignment"] = NSTextAlignment.Left.rawValue
+				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+				row.configuration[FormRowDescriptor.Configuration.Options] = ids
+				row.configuration[FormRowDescriptor.Configuration.AllowsMultipleSelection] = false
+				row.configuration[FormRowDescriptor.Configuration.Required] = false
+				row.configuration[FormRowDescriptor.Configuration.TitleFormatterClosure] = {
+					(value: AnyObject!) in
+					if var id = value as? Int {
+						if let title = names[id] as? String {
+							return title
+						}
+					}
+					return nil
+				} as TitleFormatterClosure
+				section.addRow(row)
+			}
+		}
+
+		for (idx, type) in enumerate(["events", "templates"]) {
+			if let items = data[type] as? NSArray {
+				let row: FormRowDescriptor = FormRowDescriptor.init(tag: type, rowType: FormRowType.MultipleSelector, title: Utils().lexicon("element_" + type), height: 54)
+				let ids = [] as NSMutableArray
+				let names = [:] as NSMutableDictionary
+				let enabled_items = [] as NSMutableArray
+				for (idx2, item) in enumerate(items) {
+					if let name = item["name"] as? String {
+						if (type == "events") {
+							if var group = item["group"] as? String {
+								names[name] = "\(name)||\(group)"
+							}
+							else {
+								names[name] = name
+							}
+							if item["enabled"] as? Int == 1 {
+								enabled_items.addObject(name)
+							}
+							ids.addObject(name)
+						}
+						else {
+							var id = item["id"] as Int
+							if var description = item["description"] as? String {
+								names[id] = "\(name)||\(description)"
+							}
+							else {
+								names[id] = name
+							}
+							if item["enabled"] as? Int == 1 {
+								enabled_items.addObject(id)
+							}
+							ids.addObject(id)
+						}
+					}
+				}
+				row.value = enabled_items
+				let params = NSMutableDictionary.init(dictionary: self.defaultParams)
+				params["valueLabel.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
+				params["valueLabel.color"] = UIColor.blackColor()
+				params["valueLabel.textAlignment"] = NSTextAlignment.Left.rawValue
+				params["valueLabel.numberOfLines"] = 2
+				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+				row.configuration[FormRowDescriptor.Configuration.Options] = ids
+				row.configuration[FormRowDescriptor.Configuration.AllowsMultipleSelection] = true
+				row.configuration[FormRowDescriptor.Configuration.Required] = false
+				row.configuration[FormRowDescriptor.Configuration.TitleFormatterClosure] = {
+					(value: AnyObject!) in
+					if var name = value as? String {
+						return names[name] as? String
+					}
+					else if var id = value as? Int {
+						return names[id] as? String
+					}
+					return nil
+				} as TitleFormatterClosure
+				section.addRow(row)
+			}
+		}
+
+		if self.type == "tv" {
+			for (idx, type) in enumerate(["type", "display"]) {
+				if let items = data[type + "s"] as? NSArray {
+					var row: FormRowDescriptor = FormRowDescriptor.init(tag: type, rowType: FormRowType.MultipleSelector, title: Utils().lexicon("element_" + type))
+					var ids = [] as NSMutableArray
+					var names = [:] as NSMutableDictionary
+					var enabled_items = [] as NSMutableArray
+					for (idx, item) in enumerate(items) {
+						if item["value"] != nil && item["name"] != nil {
+							var id = item["value"] as String
+							var name = item["name"] as String
+							names[id] = name
+							ids.addObject(id)
+						}
+					}
+					row.value = data[type] as? String
+					if row.value != nil && row.value == "" {
+						row.value = nil
+					}
+					var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+					params["valueLabel.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
+					params["valueLabel.color"] = UIColor.blackColor()
+					params["valueLabel.textAlignment"] = NSTextAlignment.Left.rawValue
+					row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+					row.configuration[FormRowDescriptor.Configuration.Options] = ids
+					row.configuration[FormRowDescriptor.Configuration.AllowsMultipleSelection] = false
+					row.configuration[FormRowDescriptor.Configuration.Required] = true
+					row.configuration[FormRowDescriptor.Configuration.TitleFormatterClosure] = {
+						(value: AnyObject!) in
+						if var id = value as? String {
+							if let title = names[id] as? String {
+								return title
+							}
+						}
+						return nil
+					} as TitleFormatterClosure
+					section.addRow(row)
+				}
+			}
+		}
+
+		// Add main section
+		form.sections.append(section)
+
+		let lastHeight: CGFloat = 100
+		section = FormSectionDescriptor()
+		section.headerTitle = self.type == "tv"
+			? Utils().lexicon("element_default_value")
+			: Utils().lexicon("element_content")
+		if data["content"] != nil {
+			let decodedData = NSData.init(base64EncodedString: data["content"] as String, options: nil)
+			if let decodedString = NSString.init(data: decodedData!, encoding: NSUTF8StringEncoding) {
+				let type: FormRowType = decodedString.length > 30000 || self.type == "tv"
+						? FormRowType.MultilineText
+						: FormRowType.Code
+				var row: FormRowDescriptor = FormRowDescriptor.init(tag: "content", rowType: type, title: "", height: lastHeight)
+				row.value = decodedString
+				var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+				params["textField.font"] = UIFont.init(name: "Courier New", size: self.defaultTextFontSize) as UIFont!
+				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+				row.configuration[FormRowDescriptor.Configuration.Required] = false
+				section.addRow(row)
+				// Add content section
+				form.sections.append(section)
+			}
+		}
+
+		self.form = form
+		self.tableView.reloadData()
+		self.adjustLastRowHeight()
+	}
+
+	override func submitForm(sender: UIBarButtonItem!) {
+		if let required = self.form.validateForm() {
+			var message = Utils().lexicon("field_required", placeholders: ["field": required.title])
+			Utils().alert("", message: message, view: self, closure: nil)
+		}
+		else {
+			self.view.endEditing(true)
+			var values = self.form.formValues()
+			var request: [String:AnyObject] = [
+					"mx_action": "elements/\(self.type)/\(self.action)",
+					"id": self.id as NSNumber
+			]
+
+			for (key, value) in values {
+				if (key as String) == "content" {
+					var content = ""
+					if let plainData = (value as NSString).dataUsingEncoding(NSUTF8StringEncoding) {
+						content = plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(0))
+					}
+					request["content"] = content
+				}
+				else {
+					request[key as String] = value
+				}
+			}
+			//Utils().alert("Form data", message: request.description, view: self, closure: nil)
+
+			Utils().showSpinner(self.view)
+			self.Request(request, {
+				(data: NSDictionary!) in
+				Utils().hideSpinner(self.view)
+
+				self.title = values["name"] as? String
+				if let response = data["data"] as? NSDictionary {
+					self.id = response["id"] as Int
+					if self.action == "create" {
+						self.action = "update"
+					}
+					self.setForm(response)
+					NSNotificationCenter.defaultCenter().postNotificationName("ElementUpdated", object: response)
+				}
+			}, {
+				(data: NSDictionary!) in
+				Utils().hideSpinner(self.view)
+				Utils().alert("", message: data["message"] as String, view: self)
+			})
+		}
+	}
+
+}

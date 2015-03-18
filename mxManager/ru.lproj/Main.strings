@@ -31,6 +31,12 @@
 "jC6-7s-Q5F.text" = "Размер";
 "4G3-ZV-zh4.text" = "Был открыт";
 "oGz-DJ-qKY.text" = "Был изменён";
+"file_name" = "Имя файла";
+"file_path" = "Путь";
+"file_size" = "Размер";
+"file_last_accessed" = "Был открыт";
+"file_last_modified" = "Был изменён";
+"file_content" = "Содержимое";
 
 // Messages
 "error" = "Ошибка";
@@ -48,6 +54,8 @@
 "create" = "Создать";
 "actions" = "Действия";
 
+// Files
+
 "new_file" = "Создать файл";
 "create_file" = "Создать пустой файл";
 "create_dir" = "Создать директорию";
@@ -59,6 +67,59 @@
 "remove_file_confirm" = "Вы уверены, что хотите удалить этот файл?";
 "remove_dir_confirm" = "Вы уверены, что хотите удалить эту директорию со всеми вложенными файлами?";
 
+// Elements
+
+"template" = "Шаблон";
+"templates" = "Шаблоны";
+"tv" = "ТВ";
+"tvs" = "ТВ";
+"chunk" = "Чанк";
+"chunks" = "Чанки";
+"snippet" = "Сниппет";
+"snippets" = "Сниппеты";
+"plugin" = "Плагин";
+"plugins" = "Плагины";
+"category" = "Категория";
+"categories" = "Категории";
+
+"create" = "Создать";
+"create_template" = "Создать шаблон";
+"create_category" = "Создать категорию";
+"create_tv" = "Создать ТВ";
+"create_chunk" = "Создать чанк";
+"create_snippet" = "Создать сниппет";
+"create_plugin" = "Создать плагин";
+
+"create_template_intro" = "Укажите имя нового шаблона";
+"update_template_intro" = "Укажите новое имя шаблона";
+"remove_template_confirm" = "Вы уверены, что хотите удалить этот шаблон?";
+"create_category_intro" = "Укажите имя новой категории элементов";
+"update_category_intro" = "Укажите новое имя категории элементов";
+"remove_category_confirm" = "Вы уверены, что хотите удалить эту категорию? Все её элементы будут установлены как не имеющие категории.";
+"create_tv_intro" = "Укажите имя нового ТВ параметра";
+"update_tv_intro" = "Укажите новое имя ТВ параметра";
+"remove_tv_confirm" = "Вы уверены, что хотите удалить этот ТВ параметр?";
+"create_chunk_intro" = "Укажите имя нового чанка";
+"update_chunk_intro" = "Укажите новое имя чанка";
+"remove_chunk_confirm" = "Вы уверены, что хотите удалить этот чанк?";
+"create_snippet_intro" = "Укажите имя нового сниппета";
+"update_snippet_intro" = "Укажите новое имя сниппета";
+"remove_snippet_confirm" = "Вы уверены, что хотите удалить этот сниппет?";
+"create_plugin_intro" = "Укажите имя нового плагина";
+"update_plugin_intro" = "Укажите новое имя плагина";
+"remove_plugin_confirm" = "Вы уверены, что хотите удалить этот плагин?";
+
+"element_name" = "Имя";
+"element_description" = "Описание";
+"element_content" = "Содержимое";
+"element_category" = "Категория";
+"element_events" = "События";
+"element_default_value" = "Значение по умолчанию";
+"element_type" = "Тип ввода";
+"element_display" = "Тип вывода";
+"element_templates" = "Шаблоны";
+"element_caption" = "Заголовок";
+
 "site_err_site_ae" = "У вас с уже есть запись с таким именем сайта";
 "site_err_manager_ae" = "У вас с уже есть запись с таким адресом менеджера";
 "site_err_connect" = "Сайт не отвечает";
@@ -67,3 +128,4 @@
 "site_delete_confirm" = "Вы уверены, что хотите удалить этот сайт?";
 "error_log_too_large" = "Журнал ошибок слишком большой для просмотра";
 "error_log_empty" = "Журнал ошибок пуст";
+"field_required" = "Вы должны заполнить поле\n\"[[+field]]\"";

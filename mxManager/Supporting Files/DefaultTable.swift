@@ -26,12 +26,15 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 	override init(coder aDecoder: NSCoder) {
 		refreshControl = UIRefreshControl()
 		activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+		tableView = UITableView(frame: CGRectMake(0, 0, 0, 0), style: UITableViewStyle.Plain)
 
 		super.init(coder: aDecoder)
 
 		refreshControl.addTarget(self, action: "refreshRows", forControlEvents: UIControlEvents.ValueChanged)
 		activityIndicator.frame = CGRectMake(0, 0, 0, 40)
 		activityIndicator.startAnimating()
+		tableView.delegate = self
+		tableView.dataSource = self
 	}
 
 	deinit {
@@ -116,7 +119,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 				if tmp["count"] != nil {
 					self.count = tmp["count"] as Int
 				}
-				self.tableView.reloadData();
+				self.tableView.reloadData()
 				if self.invokeEvent != "" {
 					NSNotificationCenter.defaultCenter().postNotificationName(self.invokeEvent, object: tmp)
 				}
