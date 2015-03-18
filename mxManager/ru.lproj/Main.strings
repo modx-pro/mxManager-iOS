@@ -119,6 +119,7 @@
 "element_display" = "Тип вывода";
 "element_templates" = "Шаблоны";
 "element_caption" = "Заголовок";
+"element_disabled" = "Отключен";
 
 "site_err_site_ae" = "У вас с уже есть запись с таким именем сайта";
 "site_err_manager_ae" = "У вас с уже есть запись с таким адресом менеджера";

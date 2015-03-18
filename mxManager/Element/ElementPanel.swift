@@ -209,6 +209,15 @@ class ElementPanel: DefaultForm {
 			}
 		}
 
+		if self.type == "plugin" && data["disabled"] != nil {
+			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "disabled", rowType: FormRowType.BooleanSwitch, title: Utils().lexicon("element_disabled"))
+			row.value = data["disabled"] as Bool
+			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			params["switchView.onTintColor"] = Colors().red()
+			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+			section.addRow(row)
+		}
+
 		// Add main section
 		form.sections.append(section)
 

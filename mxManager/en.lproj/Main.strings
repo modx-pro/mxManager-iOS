@@ -118,6 +118,7 @@
 "element_display" = "Output type";
 "element_templates" = "Templates";
 "element_caption" = "Caption";
+"element_disabled" = "Disabled";
 
 "site_err_site_ae" = "You already have an account with this site name";
 "site_err_manager_ae" = "You already have an account with this manager address";
