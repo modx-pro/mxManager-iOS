@@ -93,6 +93,14 @@ class ResourcesList: DefaultTable {
 				preferredStyle: UIAlertControllerStyle.ActionSheet
 			)
 			sheet.view.tintColor = Colors().defaultText()
+
+			if let popoverController = sheet.popoverPresentationController {
+				if let cell = self.tableView.cellForRowAtIndexPath(indexPath) as UITableViewCell! {
+					popoverController.sourceView = cell.contentView
+					popoverController.sourceRect = cell.contentView.bounds
+				}
+			}
+
 			/*
 			if permissions["view"] as Bool {
 				sheet.addAction(self.addAction(id, action:"view"))

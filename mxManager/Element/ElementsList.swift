@@ -33,6 +33,10 @@ class ElementsList: DefaultTable {
 			self.setTypes()
 		}
 
+		let icon = UIImage.init(named: "icon-plus")
+		self.btnAdd = UIBarButtonItem.init(image: icon?, style: UIBarButtonItemStyle.Plain, target: self, action: "showAddMenuHere:")
+		self.navigationItem.setRightBarButtonItem(self.btnAdd, animated: false)
+
 		NSNotificationCenter.defaultCenter().removeObserver(self, name: "ElementUpdated", object: nil)
 	}
 
@@ -171,7 +175,9 @@ class ElementsList: DefaultTable {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
-				self.showAddMenu("create", item: item)
+				if let cell = self.tableView.cellForRowAtIndexPath(indexPath) {
+					self.showAddMenu("create", item: item, sender: cell)
+				}
 			}
 			btn.backgroundColor = UIColor(patternImage: UIImage(named: "btn-add")!)
 			buttons.addObject(btn)
@@ -215,22 +221,32 @@ class ElementsList: DefaultTable {
 
 	// Создание элементов и категорий во всплывающем окне
 
-	@IBAction func showAddMenuHere() {
+	func showAddMenuHere(sender: UIBarButtonItem!) {
 		let item = [
 			"id": self.category,
 			"type": self.type,
 			"permissions": self.permissions
 		]
-		self.showAddMenu("create", item: item)
+		self.showAddMenu("create", item: item, sender: sender)
 	}
 
-	func showAddMenu(action: String, item: NSDictionary) {
+	func showAddMenu(action: String, item: NSDictionary, sender: AnyObject? = nil) {
 		let sheet: UIAlertController = UIAlertController.init(
 			title: nil,
 			message: nil,
 			preferredStyle: UIAlertControllerStyle.ActionSheet
 		)
 		sheet.view.tintColor = Colors().defaultText()
+
+		if let popoverController = sheet.popoverPresentationController {
+			if let btn = sender as? UIBarButtonItem {
+				popoverController.barButtonItem = btn
+			}
+			else if let cell = sender as? UITableViewCell {
+				popoverController.sourceView = cell.contentView
+				popoverController.sourceRect = cell.contentView.bounds
+			}
+		}
 
 		if let permissions = item["permissions"] as? NSDictionary {
 			let types = [
