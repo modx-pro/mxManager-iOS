@@ -424,7 +424,7 @@ class ElementsList: DefaultTable {
 
 		Utils().confirm(
 			item["name"] as String,
-			message: Utils().lexicon(message),
+			message: message,
 			view: self,
 			closure: {
 				_ in
