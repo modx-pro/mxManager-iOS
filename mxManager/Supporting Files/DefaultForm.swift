@@ -84,7 +84,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 		if self.tableFooterView == nil {
 			let footer = UIView.init() as UIView
-			footer.frame = CGRectMake(0, 0, 0, 20)
+			footer.frame = CGRectMake(0, 0, 0, 5)
 			footer.backgroundColor = backgroundColor
 			self.tableFooterView = footer
 		}
@@ -161,9 +161,11 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 		return view
 	}
 
+	/*
 	override func prefersStatusBarHidden() -> Bool {
 		return false
 	}
+	*/
 
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
 		let parent: DefaultView = DefaultView();
@@ -173,6 +175,17 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 	func finishEdit(sender: UIBarButtonItem!) {
 		self.view.endEditing(true)
+	}
+
+	func setForm(data: NSDictionary) {
+		let form: FormDescriptor = FormDescriptor()
+
+		self.form = form
+		// override
+		//self.tableView.reloadData()
+		//self.adjustLastRowHeight()
+
+		println(data)
 	}
 
 	func submitForm(sender: UIBarButtonItem!) {
@@ -238,11 +251,17 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 		}
 	}
 
-	func adjustLastRowHeight(hideKeyboard: Bool = false) {
+	func adjustLastRowHeight(minHeight: CGFloat = 100, hideKeyboard: Bool = false) {
 		if self.isRotating {
 			return
 		}
-		let screenHeight = self.view.frame.height
+
+		var screenHeight = self.view.frame.height
+		if let controller = self.parentViewController? as? UITabBarController {
+			if !controller.tabBar.translucent {
+				screenHeight += controller.tabBar.frame.height - 5
+			}
+		}
 		let tableHeight = self.tableView.contentSize.height
 		let isLandscape = UIApplication.sharedApplication().statusBarOrientation.isLandscape
 
@@ -257,14 +276,14 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 			var newHeight = currentHeight
 			var onlyTableHeight = tableHeight - currentHeight
-			if  onlyTableHeight < screenHeight && !isLandscape && self.keyboardHeight == 0 {
+			if onlyTableHeight + minHeight < screenHeight && !isLandscape && self.keyboardHeight == 0 {
 				newHeight = screenHeight - onlyTableHeight
 			}
 			else {
 				newHeight = screenHeight - self.keyboardHeight - (isLandscape ? 65 : 50)
 			}
-			if newHeight < 100 {
-				newHeight = 100
+			if newHeight < minHeight {
+				newHeight = minHeight
 			}
 
 			lastRow.configuration[FormRowDescriptor.Configuration.CellHeight] = newHeight

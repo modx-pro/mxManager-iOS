@@ -19,10 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?) -> Bool {
 		// StatusBar color
+		/*
 		let addStatusBar = UIView()
 		addStatusBar.frame = CGRectMake(0, 0, 2048, 20)
 		addStatusBar.backgroundColor = UIColor(red: 228 / 255, green: 233 / 255, blue: 238 / 255, alpha: 0.5)
 		self.window!.rootViewController!.view.addSubview(addStatusBar)
+		*/
 
 		return true
 	}

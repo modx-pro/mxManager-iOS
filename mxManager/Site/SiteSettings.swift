@@ -229,7 +229,7 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 		let constraint = constraints[0] as NSLayoutConstraint
 
 		constraint.constant = landscape
-				? 52.0
+				? 32.0
 				: 64.0
 	}
 

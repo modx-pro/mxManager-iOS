@@ -14,9 +14,11 @@ class DefaultView: UIViewController {
 	let version = "1.0-beta"
 	var data = [:]
 
+	/*
 	override func prefersStatusBarHidden() -> Bool {
 		return false
 	}
+	*/
 
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
 		var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
