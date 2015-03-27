@@ -1,34 +1,29 @@
 //
-//  ArchiveKey.swift
+//  GenericKey.swift
 //  SwiftKeychain
 //
-//  Created by Yanko Dimitrov on 11/13/14.
+//  Created by Yanko Dimitrov on 11/12/14.
 //  Copyright (c) 2014 Yanko Dimitrov. All rights reserved.
 //
 
 import Foundation
 
-public class ArchiveKey: BaseKey {
+public class GenericKey: BaseKey {
     
-    public var object: NSCoding?
+    public var value: NSString?
     
     private var secretData: NSData? {
         
-        if let objectToArchive = object {
-            
-            return NSKeyedArchiver.archivedDataWithRootObject(objectToArchive)
-        }
-        
-        return nil
+        return value?.dataUsingEncoding(NSUTF8StringEncoding)
     }
     
     ///////////////////////////////////////////////////////
     // MARK: - Initializers
     ///////////////////////////////////////////////////////
     
-    init(keyName: String, object: NSCoding? = nil) {
+    public init(keyName: String, value: String? = nil) {
         
-        self.object = object
+        self.value = value
         super.init(name: keyName)
     }
     
@@ -61,6 +56,6 @@ public class ArchiveKey: BaseKey {
     
     public override func unlockData(data: NSData) {
         
-        object = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSCoding
+        value = NSString(data: data, encoding: NSUTF8StringEncoding)
     }
 }

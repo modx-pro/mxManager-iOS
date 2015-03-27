@@ -18,3 +18,9 @@
 #define COCOAPODS_VERSION_MINOR_MBProgressHUD 9
 #define COCOAPODS_VERSION_PATCH_MBProgressHUD 1
 
+// SwiftKeychain
+#define COCOAPODS_POD_AVAILABLE_SwiftKeychain
+#define COCOAPODS_VERSION_MAJOR_SwiftKeychain 0
+#define COCOAPODS_VERSION_MINOR_SwiftKeychain 1
+#define COCOAPODS_VERSION_PATCH_SwiftKeychain 1
+

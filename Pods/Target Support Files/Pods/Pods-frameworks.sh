@@ -50,8 +50,10 @@ code_sign() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Alamofire.framework'
   install_framework 'MBProgressHUD.framework'
+  install_framework 'SwiftKeychain.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Alamofire.framework'
   install_framework 'MBProgressHUD.framework'
+  install_framework 'SwiftKeychain.framework'
 fi
