@@ -57,7 +57,7 @@ class FilePanel: DefaultForm {
 		})
 	}
 
-	func setForm(data: NSDictionary) {
+	override func setForm(data: NSDictionary) {
 		self.file = data
 		let form: FormDescriptor = FormDescriptor()
 
@@ -73,14 +73,14 @@ class FilePanel: DefaultForm {
 		}
 		section.addRow(row)
 
-		for (key, value) in enumerate(["path", "size", "last_accessed", "last_modified"]) {
-			if data[value] != nil {
-				var row = FormRowDescriptor.init(tag: value, rowType: FormRowType.Name, title: Utils().lexicon("file_" + value)) as FormRowDescriptor
+		for field in ["path", "size", "last_accessed", "last_modified"] {
+			if data[field] != nil {
 				var params = NSMutableDictionary.init(dictionary: self.defaultParams)
 				params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 				params["textField.enabled"] = false
 				params["textField.textColor"] = Colors().disabledText()
-				if value == "size" {
+				var row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: Utils().lexicon("file_" + field)) as FormRowDescriptor
+				if field == "size" {
 					var size = data["size"] as Int
 					var k = "b"
 					if size > 1000000 {
@@ -91,12 +91,15 @@ class FilePanel: DefaultForm {
 						size = size / 1000
 						k = "Kb"
 					}
-					//row.value = "\(size) \(k)"
 					params["textField.text"] = "\(size) \(k)"
 				}
+				else if field == "last_accessed" || field == "last_modified" {
+					if let value = data[field] as? String {
+						params["textField.text"] = Utils.dateFormat(value, dateStyle: .MediumStyle, timeStyle: .MediumStyle)
+					}
+				}
 				else {
-					//row.value = data[value] as String
-					params["textField.text"] = data[value] as String
+					params["textField.text"] = data[field] as? String
 				}
 				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 				row.configuration[FormRowDescriptor.Configuration.Required] = false
@@ -104,7 +107,7 @@ class FilePanel: DefaultForm {
 			}
 		}
 
-		form.sections.append(section)
+		form.addSection(section)
 
 		let lastHeight: CGFloat = 100
 		if data["content"] != nil {

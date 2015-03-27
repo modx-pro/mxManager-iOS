@@ -14,6 +14,18 @@ import SwiftKeychain
 
 class Utils: NSObject {
 
+	class func dateFormat(date: String, dateStyle: NSDateFormatterStyle = .ShortStyle, timeStyle: NSDateFormatterStyle = .ShortStyle, dateFormat: String = "yyyy-MM-dd HH:mm:ss") -> String? {
+		var formatter: NSDateFormatter = NSDateFormatter()
+		formatter.dateFormat = dateFormat
+		if let date = formatter.dateFromString(date) {
+			formatter = NSDateFormatter()
+			formatter.dateStyle = dateStyle
+			formatter.timeStyle = timeStyle
+			return formatter.stringFromDate(date)
+		}
+		return nil
+	}
+
 	func lexicon(string: NSString, placeholders: [String:String] = [:]) -> NSString {
 		if string == "" {
 			return ""
