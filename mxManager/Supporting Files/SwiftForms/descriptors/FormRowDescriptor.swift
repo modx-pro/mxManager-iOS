@@ -37,6 +37,7 @@ enum FormRowType {
 }
 
 typealias UpdateClosure = (FormRowDescriptor) -> Void
+typealias SelectClosure = (controller: DefaultTable, tableView: UITableView, indexPath: NSIndexPath) -> Void
 typealias TitleFormatterClosure = (NSObject) -> String!
 typealias VisualConstraintsClosure = (FormBaseCell) -> NSArray
 
@@ -71,6 +72,11 @@ class FormRowDescriptor: NSObject {
         static let DateFormatter = "FormRowDescriptorConfigurationDateFormatter"
 
 		static let CellHeight = "FormRowDescriptorConfigurationCellHeight"
+
+		static let LabelWidth = "FormRowDescriptorConfigurationLabelWidth"
+
+		static let BeforeSelectClosure = "FormRowDescriptorConfigurationSelectorBeforeSelectClosure"
+		static let AfterSelectClosure = "FormRowDescriptorConfigurationSelectorAfterSelectClosure"
     }
     
     /// MARK: Properties
@@ -103,13 +109,14 @@ class FormRowDescriptor: NSObject {
         configuration[Configuration.ShowsInputToolbar] = false
     }
     
-    convenience init(tag: String, rowType: FormRowType, title: String, height: CGFloat = 44.0, placeholder: String! = nil) {
+    convenience init(tag: String, rowType: FormRowType, title: String, height: CGFloat = 44.0, labelWidth: CGFloat = 100.0, placeholder: String! = nil) {
         self.init()
         self.tag = tag
         self.rowType = rowType
         self.title = title
 
         configuration[FormRowDescriptor.Configuration.CellHeight] = height
+        configuration[FormRowDescriptor.Configuration.LabelWidth] = labelWidth
 
         if placeholder != nil {
             configuration[FormRowDescriptor.Configuration.Placeholder] = placeholder
@@ -120,7 +127,7 @@ class FormRowDescriptor: NSObject {
     
     func titleForOptionAtIndex(index: Int) -> String! {
         if let options = configuration[FormRowDescriptor.Configuration.Options] as? NSArray {
-            return titleForOptionValue(options[index] as NSObject)
+            return titleForOptionValue(options[index] as! NSObject)
         }
         return nil
     }
@@ -130,7 +137,7 @@ class FormRowDescriptor: NSObject {
             return titleFormatter(optionValue)
         }
         else if optionValue is String {
-            return optionValue as String
+            return optionValue as! String
         }
         return "\(optionValue)"
     }

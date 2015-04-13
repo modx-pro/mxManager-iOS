@@ -8,14 +8,19 @@
 
 import UIKit
 
-class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
+class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
 	var rows = []
-	var count = 0
+	var loaded = 0
 	var total = 0
 	var isLoading = false
 	var invokeEvent = ""
+	var invokeMoreEvent = ""
 	var request:[String:AnyObject] = [:]
+
+	var searchEnabled = false
+	var searchQuery = ""
+	var searchBar: UISearchBar?
 
 	var refreshControl: UIRefreshControl
 	var activityIndicator: UIActivityIndicatorView
@@ -23,7 +28,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 	@IBOutlet var tableHeaderView: UIView?
 	@IBOutlet var tableFooterView: UIView?
 
-	override init(coder aDecoder: NSCoder) {
+	required init(coder aDecoder: NSCoder) {
 		refreshControl = UIRefreshControl()
 		activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
 		tableView = UITableView(frame: CGRectMake(0, 0, 0, 0), style: UITableViewStyle.Plain)
@@ -50,17 +55,24 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 		if self.invokeEvent != "" {
 			NSNotificationCenter.defaultCenter().addObserver(self, selector: "onLoadRows:", name: self.invokeEvent, object: nil)
 		}
+		if self.invokeMoreEvent != "" {
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: "onLoadRows:", name: self.invokeMoreEvent, object: nil)
+		}
 	}
 
 	func prepareTable() {
 		self.tableView.addSubview(self.refreshControl)
+
+		if self.searchEnabled {
+			self.addSearchBar()
+		}
 
 		let backgroundColor = Colors().sectionBackground()
 		self.tableView.backgroundColor = backgroundColor
 
 		if self.tableHeaderView == nil {
 			let header = UIView.init() as UIView
-			header.frame = CGRectMake(0, 0, 0, 20)
+			header.frame = CGRectMake(0, 0, 0, 5)
 			header.backgroundColor = backgroundColor
 			self.tableHeaderView = header
 		}
@@ -68,7 +80,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 
 		if self.tableFooterView == nil {
 			let footer = UIView.init() as UIView
-			footer.frame = CGRectMake(0, 0, 0, 20)
+			footer.frame = CGRectMake(0, 0, 0, 5)
 			footer.backgroundColor = backgroundColor
 			self.tableFooterView = footer
 		}
@@ -80,6 +92,9 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 
 		if self.invokeEvent != "" {
 			NSNotificationCenter.defaultCenter().removeObserver(self, name: self.invokeEvent, object: nil)
+		}
+		if self.invokeMoreEvent != "" {
+			NSNotificationCenter.defaultCenter().removeObserver(self, name: self.invokeMoreEvent, object: nil)
 		}
 	}
 
@@ -107,40 +122,40 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 			Utils().showSpinner(self.view)
 		}
 
-		self.Request(self.request, {
+		self.Request(self.request, success: {
 			(data: NSDictionary!) in
 			if let tmp = data["data"] as? NSDictionary {
 				if tmp["rows"] != nil {
-					self.rows = tmp["rows"] as NSArray
+					self.rows = tmp["rows"] as! NSArray
 				}
 				if tmp["total"] != nil {
-					self.total = tmp["total"] as Int
+					self.total = tmp["total"] as! Int
 				}
 				if tmp["count"] != nil {
-					self.count = tmp["count"] as Int
+					self.loaded = tmp["count"] as! Int
 				}
-				self.tableView.reloadData()
 				if self.invokeEvent != "" {
 					NSNotificationCenter.defaultCenter().postNotificationName(self.invokeEvent, object: tmp)
 				}
+				self.tableView.reloadData()
 			}
 			if spinner {
 				Utils().hideSpinner(self.view)
 			}
-			self.tableView.tableFooterView = self.count < self.total
+			self.tableView.tableFooterView = self.loaded < self.total
 				? self.activityIndicator
-				: self.tableFooterView?
+				: self.tableFooterView
 			self.isLoading = false
 			self.refreshControl.endRefreshing()
-		}, {
+		}, failure: {
 			(data: NSDictionary!) in
 			if spinner {
 				Utils().hideSpinner(self.view)
 			}
-			self.tableView.tableFooterView = self.tableFooterView?
+			self.tableView.tableFooterView = self.tableFooterView
 			self.isLoading = false
 			self.refreshControl.endRefreshing()
-			Utils().alert("", message: data["message"] as String, view: self)
+			Utils().alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -153,8 +168,8 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 	}
 
 	// Lazy load
-	func scrollViewDidScroll(scrollView: UIScrollView!) {
-		if !self.isLoading && self.count < self.total {
+	func scrollViewDidScroll(scrollView: UIScrollView) {
+		if !self.isLoading && self.loaded < self.total {
 			let currentOffset = scrollView.contentOffset.y
 			let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
 			let deltaOffset = maximumOffset - currentOffset
@@ -166,38 +181,86 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate {
 	}
 
 	func loadMore() {
-		if self.isLoading || self.count >= self.total {
+		if self.isLoading || self.loaded >= self.total {
 			return;
 		}
 		self.isLoading = true
 
-		self.Request(self.request, {
+		self.Request(self.request, success: {
 			(data: NSDictionary!) in
 			if let tmp = data["data"] as? NSDictionary {
 				let rows = [] as NSMutableArray
 				if tmp["rows"] != nil {
-					rows.addObjectsFromArray(self.rows)
-					rows.addObjectsFromArray(tmp["rows"] as NSArray)
+					rows.addObjectsFromArray(self.rows as [AnyObject])
+					rows.addObjectsFromArray(tmp["rows"] as! NSArray as [AnyObject])
 					self.rows = rows
 				}
 				if tmp["total"] != nil {
-					self.total = tmp["total"] as Int
+					self.total = tmp["total"] as! Int
 				}
 				if tmp["count"] != nil {
-					self.count += tmp["count"] as Int
+					self.loaded += tmp["count"] as! Int
+				}
+				if self.invokeMoreEvent != "" {
+					NSNotificationCenter.defaultCenter().postNotificationName(self.invokeMoreEvent, object: tmp)
 				}
 				self.tableView.reloadData();
 			}
-			self.tableView.tableFooterView = self.count < self.total
+			self.tableView.tableFooterView = self.loaded < self.total
 					? self.activityIndicator
-					: self.tableFooterView?
+					: self.tableFooterView
 			self.isLoading = false
-		}, {
+		}, failure: {
 			(data: NSDictionary!) in
-			self.tableView.tableFooterView = self.tableFooterView?
+			self.tableView.tableFooterView = self.tableFooterView
 			self.isLoading = false
-			Utils().alert("", message: data["message"] as String, view: self)
+			Utils().alert("", message: data["message"] as! String, view: self)
 		})
+	}
+
+	func addSearchBar() {
+		let searchBar: UISearchBar = UISearchBar(frame:CGRectMake(0, 0, 320, 44))
+
+		searchBar.delegate = self
+		searchBar.returnKeyType = UIReturnKeyType.Search
+		searchBar.tintColor = Colors().defaultText()
+		searchBar.placeholder = Utils().lexicon("search") as String
+
+		searchBar.translucent = true
+		searchBar.barTintColor = Colors().sectionBackground()
+		searchBar.layer.borderColor = Colors().borderColor().CGColor
+		searchBar.layer.borderWidth = 0.5
+
+		self.searchBar = searchBar
+		self.tableHeaderView = searchBar
+	}
+
+	func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+		self.searchBar!.setShowsCancelButton(true, animated: true)
+		return true
+	}
+
+	func searchBarShouldEndEditing(searchBar: UISearchBar) -> Bool {
+		self.searchBar!.setShowsCancelButton(false, animated: true)
+		return true
+	}
+
+	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+
+		if /*count(searchText) >= 3 || */count(searchText) == 0 {
+			self.searchQuery = searchText
+			self.loadRows(spinner: false)
+		}
+	}
+
+	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+		self.view.endEditing(true)
+		self.searchQuery = searchBar.text
+		self.loadRows()
+	}
+
+	func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+		self.view.endEditing(true)
 	}
 
 }

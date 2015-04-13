@@ -13,28 +13,47 @@ class ResourceCell: DefaultCell {
 	override func template(idx: Int = 0) {
 		super.template(idx: idx)
 
-		let type: String = self.data["type"] as String
+		let type: String = self.data["type"] as! String
 		if type == "context" {
 			if self.data["name"] != nil {
-				self.textLabel?.text = self.data["name"] as String?
+				self.textLabel?.text = self.data["name"] as! String?
 			}
 			else {
-				self.textLabel?.text = self.data["key"] as String?
+				self.textLabel?.text = self.data["key"] as! String?
 			}
-			self.detailTextLabel?.text = self.data["description"] as String?
+			self.detailTextLabel?.text = self.data["description"] as! String?
 			self.imageView?.image = Utils().getIcon("globe")
 			self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
 		}
 		else {
-			self.textLabel?.text = NSString.init(format: "%@ (%i)", self.data["pagetitle"] as String, self.data["id"] as Int)
-			self.detailTextLabel?.text = self.data["longtitle"] as String?
+			if (self.data["id"] as! Int) > 0 {
+				self.textLabel?.text = NSString.init(format: "%@ (%i)", self.data["pagetitle"] as! String, self.data["id"] as! Int) as String
+			}
+			else {
+				self.textLabel?.text = self.data["pagetitle"] as! String?
+			}
+			self.detailTextLabel?.text = self.data["longtitle"] as! String?
 
 			if type == "folder" {
 				self.imageView?.image = Utils().getIcon("folder")
 				self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
 			}
-			else if type == "resource" {
-				self.imageView?.image = Utils().getIcon("file")
+			else {
+				var image: String
+				switch self.data["class_key"] as! String {
+				case "modSymLink":
+					image = "files"
+				break
+				case "modWebLink":
+					image = "link"
+				break
+				case "modStaticResource":
+					image = "file-text"
+				break
+				default:
+					image = "file"
+				}
+				self.imageView?.image = Utils().getIcon(image)
 				self.accessoryType = UITableViewCellAccessoryType.None
 			}
 
@@ -42,13 +61,13 @@ class ResourceCell: DefaultCell {
 			var disabledColor = Colors().disabledText()
 			var deletedColor = Colors().red(alpha: 0.3)
 
-			if self.data["hidemenu"] as Int == 1 || self.data["published"] as Int == 0 {
+			if self.data["hidemenu"] as! Int == 1 || self.data["published"] as! Int == 0 {
 				self.imageView?.alpha = 0.5
 				self.textLabel?.alpha = 0.5
 				self.detailTextLabel?.alpha = 0.5
 			}
 
-			if self.data["published"] as Int == 0 {
+			if self.data["published"] as! Int == 0 {
 				if self.textLabel?.font != nil {
 					self.textLabel?.font = UIFont.italicSystemFontOfSize(self.textLabel!.font!.pointSize)
 				}
@@ -57,7 +76,7 @@ class ResourceCell: DefaultCell {
 				}
 			}
 
-			if self.data["deleted"] as Int == 1 {
+			if self.data["deleted"] as! Int == 1 {
 				self.textLabel?.textColor = deletedColor
 				self.detailTextLabel?.textColor = deletedColor
 				self.imageView?.tintColor = deletedColor

@@ -12,8 +12,8 @@ class FormPickerCell: FormValueCell, UIPickerViewDelegate, UIPickerViewDataSourc
     
     /// MARK: Properties
     
-    private let picker = UIPickerView()
-    private let hiddenTextField = UITextField(frame: CGRectZero)
+    private let picker: UIPickerView = UIPickerView()
+    private let hiddenTextField: UITextField = UITextField(frame: CGRectZero)
     
     /// MARK: FormBaseCell
     

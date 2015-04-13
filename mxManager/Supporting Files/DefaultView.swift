@@ -33,16 +33,16 @@ class DefaultView: UIViewController {
 			request[key as String] = value
 		}
 		request["mx_version"] = self.version
-		AlamofireManager.request(.POST, self.data["manager"] as String, parameters: request)
-		.authenticate(user: self.data["base_user"] as String, password: self.data["base_password"] as String)
+		AlamofireManager.request(.POST, self.data["manager"] as! String, parameters: request)
+		.authenticate(user: self.data["base_user"] as! String, password: self.data["base_password"] as! String)
 		.responseJSON {
 			(request, response, object, error) in
 			UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 			var data = [:]
 
 			if success != nil && object != nil {
-				data = object as NSDictionary
-				let res = data["success"] as Bool
+				data = object as! NSDictionary
+				let res = data["success"] as! Bool
 				if res {
 					success!(data: data)
 				}

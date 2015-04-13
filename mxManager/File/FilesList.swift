@@ -10,16 +10,16 @@ import UIKit
 
 class FilesList: DefaultTable {
 
-	@IBOutlet var btnAdd: UIBarButtonItem!
+	var btnAdd: UIBarButtonItem!
 	var btnSave: UIAlertAction?
 	var source = 0
 	var path = ""
 	var pathRelative = ""
 	var permissions = [:]
 	var selectedRow = NSIndexPath.init(index: 0)
-	var tmpName = ""
+	//var tmpName = ""
 
-	override init(coder aDecoder: NSCoder) {
+	required init(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 		self.invokeEvent = "LoadFiles"
 	}
@@ -28,7 +28,8 @@ class FilesList: DefaultTable {
 		super.viewDidLoad()
 
 		let icon = UIImage.init(named: "icon-plus")
-		self.btnAdd = UIBarButtonItem.init(image: icon?, style: UIBarButtonItemStyle.Plain, target: self, action: "showAddMenuHere:")
+		self.btnAdd = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "showAddMenuHere:")
+		self.btnAdd.enabled = false
 		self.navigationItem.setRightBarButtonItem(self.btnAdd, animated: false)
 
 		NSNotificationCenter.defaultCenter().removeObserver(self, name:"FileUpdated", object: nil)
@@ -37,34 +38,51 @@ class FilesList: DefaultTable {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
 
-		let cell = sender as FileCell
-
-		if segue.identifier? == "getFiles" {
-			var controller = segue.destinationViewController as FilesList
-			controller.data = self.data
-			let type = cell.data["type"] as String
-			if type == "source" {
-				controller.source = cell.data["id"] as Int
+		if segue.identifier == "showPopup" {
+			if let controller = segue.destinationViewController as? PopupWindow {
+				controller.data = sender as! NSDictionary
+				controller.closure = {
+					(textField: UITextField!) in
+					if (controller.data["action"] as! String) == "create" {
+						self.createItem(textField.text, item: controller.data["item"] as! NSDictionary, type: controller.data["type"] as! String)
+					}
+					else {
+						self.renameItem(textField.text, item: controller.data["item"] as! NSDictionary)
+					}
+				}
 			}
-			else if cell.data["type"] as String == "dir" {
-				controller.source = cell.data["source"] as Int
-				controller.path = cell.data["path"] as String
-				controller.pathRelative = cell.data["pathRelative"] as String
-				controller.permissions = cell.data["permissions"] as NSDictionary
-			}
-			controller.title = cell.data["name"] as? String
 		}
-		else if segue.identifier? == "showFile" {
-			var controller = segue.destinationViewController as FilePanel
-			controller.data = self.data
-			controller.source = cell.data["source"] as Int
-			controller.path = cell.data["path"] as String
-			controller.pathRelative = cell.data["pathRelative"] as String
-			controller.title = cell.data["name"] as? String
-			if cell.data["action"] != nil {
-				controller.action = cell.data["action"] as String
+		else {
+			let cell = sender as! FileCell
+
+			if segue.identifier == "getFiles" {
+				let controller = segue.destinationViewController as! FilesList
+				controller.data = self.data
+				let type = cell.data["type"] as! String
+				if type == "source" {
+					controller.source = cell.data["id"] as! Int
+					controller.permissions = cell.data["permissions"] as! NSDictionary
+				}
+				else if cell.data["type"] as! String == "dir" {
+					controller.source = cell.data["source"] as! Int
+					controller.path = cell.data["path"] as! String
+					controller.pathRelative = cell.data["pathRelative"] as! String
+					controller.permissions = cell.data["permissions"] as! NSDictionary
+				}
+				controller.title = cell.data["name"] as? String
 			}
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"FileUpdated", object: nil)
+			else if segue.identifier == "showFile" {
+				let controller = segue.destinationViewController as! FilePanel
+				controller.data = self.data
+				controller.source = cell.data["source"] as! Int
+				controller.path = cell.data["path"] as! String
+				controller.pathRelative = cell.data["pathRelative"] as! String
+				controller.title = cell.data["name"] as? String
+				if cell.data["action"] != nil {
+					controller.action = cell.data["action"] as! String
+				}
+				NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"FileUpdated", object: nil)
+			}
 		}
 	}
 
@@ -79,7 +97,7 @@ class FilesList: DefaultTable {
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = FileCell.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell") as FileCell
-		let data = self.rows[indexPath.row] as NSDictionary
+		let data = self.rows[indexPath.row] as! NSDictionary
 		cell.data = data
 		cell.template(idx: indexPath.row)
 
@@ -88,9 +106,9 @@ class FilesList: DefaultTable {
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		self.selectedRow = indexPath
-		let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as FileCell
+		let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as! FileCell
 		let data = cell.data as NSDictionary
-		let permissions = data["permissions"] as NSDictionary
+		let permissions = data["permissions"] as! NSDictionary
 
 		if cell.accessoryType == UITableViewCellAccessoryType.DisclosureIndicator {
 			self.performSegueWithIdentifier("getFiles", sender: cell)
@@ -101,37 +119,45 @@ class FilesList: DefaultTable {
 	}
 
 	override func onLoadRows(notification: NSNotification) {
-		if self.source > 0 {
-			if self.permissions["create"] != nil || self.path == "" {
-				self.btnAdd.enabled = true
-			}
+		let data = notification.object as! NSDictionary
+
+		if self.source == 0 && data["source"] != nil {
+			self.source = data["source"] as! Int
 		}
 		// Сайты с одним источником файлов, когда вместо списка sources возвращается сразу корневая директория
-		else if self.total > 0 {
-			if let row = self.rows[0] as? NSDictionary {
-				if row["type"] != nil {
-					self.btnAdd.enabled = (row["type"] as String) != "source"
-				}
-				if row["source"] != nil {
-					self.source = row["source"] as Int
-				}
-				if row["permissions"] != nil {
-					self.permissions = row["permissions"] as NSDictionary
-				}
-			}
+		if data["permissions"] != nil {
+			self.permissions =  data["permissions"] as! NSDictionary
 		}
+
+		self.btnAdd.enabled = self.canAdd(self.permissions)
+	}
+
+	func canAdd(permissions: NSDictionary) -> Bool {
+		if permissions["create"] != nil {
+			return permissions["create"] as! Bool
+		}
+
+		return false
 	}
 
 	// Операции с файлами и директориями из строки таблицы
 
+	func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+		let item = self.rows[indexPath.row] as! NSDictionary
+		let type = item["type"] as! String
+		return type == "source"
+				? UITableViewCellEditingStyle.None
+				: UITableViewCellEditingStyle.Delete
+	}
+
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
 		self.selectedRow = indexPath
-		let item = self.rows[indexPath.row] as NSDictionary
-		let permissions = item["permissions"] as NSDictionary
-		let type = item["type"] as String
+		let item = self.rows[indexPath.row] as! NSDictionary
+		let permissions = item["permissions"] as! NSDictionary
+		let type = item["type"] as! String
 		var buttons = [] as NSMutableArray
 
-		if permissions["remove"] != nil && permissions["remove"] as Int == 1 {
+		if permissions["remove"] != nil && permissions["remove"] as! Int == 1 {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
@@ -145,13 +171,13 @@ class FilesList: DefaultTable {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
-				self.PopupWindow(action: "update", item: item, type: type)
+				self.showPopupWindow(action: "update", item: item, type: type)
 			}
 			btn.backgroundColor = UIColor(patternImage: UIImage(named: "btn-edit")!)
 			buttons.addObject(btn)
 		//}
 
-		if permissions["create"] != nil && permissions["create"] as Int == 1 && type == "dir" {
+		if permissions["create"] != nil && permissions["create"] as! Int == 1 && type == "dir" {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
@@ -163,7 +189,7 @@ class FilesList: DefaultTable {
 			buttons.addObject(btn)
 		}
 
-		return buttons
+		return buttons as [AnyObject]
 	}
 
 	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -201,16 +227,16 @@ class FilesList: DefaultTable {
 		}
 
 		sheet.addAction(UIAlertAction.init(
-		title: Utils().lexicon("create_dir"),
+		title: Utils().lexicon("create_dir") as String,
 				style: UIAlertActionStyle.Default,
 				handler: {
 					(alert: UIAlertAction!) in
-					self.PopupWindow(action: action, item: item, type: "dir")
+					self.showPopupWindow(action: action, item: item, type: "dir")
 				}
 		))
 
 		sheet.addAction(UIAlertAction.init(
-			title: Utils().lexicon("new_file"),
+			title: Utils().lexicon("new_file") as String,
 			style: UIAlertActionStyle.Default,
 			handler: {
 				(alert: UIAlertAction!) in
@@ -218,9 +244,9 @@ class FilesList: DefaultTable {
 				cell.data = [
 					"type": "file",
 					"action": "create",
-					"source": item["source"] as Int,
-					"path": item["path"] as String,
-					"pathRelative": item["pathRelative"] as String,
+					"source": item["source"] as! Int,
+					"path": item["path"] as! String,
+					"pathRelative": item["pathRelative"] as! String,
 					"title": Utils().lexicon("create_file")
 				]
 				self.performSegueWithIdentifier("showFile", sender: cell)
@@ -233,13 +259,13 @@ class FilesList: DefaultTable {
 			style: UIAlertActionStyle.Default,
 			handler: {
 				(alert: UIAlertAction!) in
-				self.PopupWindow(action: action, item: item, type: "file")
+				self.showPopupWindow(action: action, item: item, type: "file")
 			}
 		))
 		*/
 
 		sheet.addAction(UIAlertAction.init(
-			title: Utils().lexicon("cancel"),
+			title: Utils().lexicon("cancel") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: nil
 		))
@@ -247,26 +273,56 @@ class FilesList: DefaultTable {
 		self.presentViewController(sheet, animated: true, completion: nil)
 	}
 
-	func PopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "dir") {
+	func showPopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "dir") {
+		var title: String
+		var save: String
+		if action == "create" {
+			save = "create"
+			title = type == "dir"
+				? "create_dir_intro"
+				: "create_file_intro"
+		}
+		else {
+			save = "save"
+			title = type == "dir"
+				? "update_dir_intro"
+				: "update_file_intro"
+		}
+
+		let data = [
+			"title": Utils().lexicon(title),
+			"save": Utils().lexicon(save),
+			"text": (item["name"] as? String) == nil
+				? ""
+				: item["name"] as! String,
+			"action": action,
+			"item": item,
+			"type": type
+		]
+		self.performSegueWithIdentifier("showPopup", sender: data)
+	}
+
+	/*
+	func showPopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "dir") {
 		var message: String
 		var saveTitle: String
 		if action == "create" {
 			saveTitle = Utils().lexicon("create")
 			message = type == "dir"
-				? "create_dir_intro"
-				: "create_file_intro"
+					? "create_dir_intro"
+					: "create_file_intro"
 		}
 		else {
 			saveTitle = Utils().lexicon("save")
 			message = type == "dir"
-				? "update_dir_intro"
-				: "update_file_intro"
+					? "update_dir_intro"
+					: "update_file_intro"
 		}
 
 		let window: UIAlertController = UIAlertController.init(
-			title: "",
-			message: Utils().lexicon(message),
-			preferredStyle: UIAlertControllerStyle.Alert
+		title: "",
+				message: Utils().lexicon(message),
+				preferredStyle: UIAlertControllerStyle.Alert
 		)
 		window.view.tintColor = Colors().defaultText()
 
@@ -302,10 +358,10 @@ class FilesList: DefaultTable {
 		window.addTextFieldWithConfigurationHandler{
 			(textField: UITextField!) in
 			NSNotificationCenter.defaultCenter().addObserver(
-				self,
-				selector: "alertTextFieldDidChange:",
-				name: UITextFieldTextDidChangeNotification,
-				object: textField
+			self,
+					selector: "alertTextFieldDidChange:",
+					name: UITextFieldTextDidChangeNotification,
+					object: textField
 			)
 			if action == "update" && item["name"] != nil {
 				textField.text = item["name"] as String
@@ -322,10 +378,11 @@ class FilesList: DefaultTable {
 
 	func alertTextFieldDidChange(notification: NSNotification) {
 		if notification.object != nil {
-			let textField = notification.object as UITextField
+			let textField = notification.object as! UITextField
 			self.btnSave?.enabled = textField.text != self.tmpName
 		}
 	}
+	*/
 
 	// Действия
 
@@ -333,52 +390,52 @@ class FilesList: DefaultTable {
 		let request = [
 			"mx_action": "files/" + type + "/create",
 			"name": name,
-			"source": item["source"] as NSNumber,
-			"path": item["pathRelative"] as NSString,
+			"source": item["source"] as! NSNumber,
+			"path": item["pathRelative"] as! NSString,
 		]
 		Utils().showSpinner(self.view)
-		self.Request(request, {
+		self.Request(request, success: {
 			(data: NSDictionary!) in
 			if request["path"] != self.pathRelative {
 				Utils().hideSpinner(self.view, animated: false)
 				if self.tableView != nil {
-					let cell = self.tableView(self.tableView!, cellForRowAtIndexPath: self.selectedRow) as FileCell
+					let cell = self.tableView(self.tableView!, cellForRowAtIndexPath: self.selectedRow) as! FileCell
 					self.performSegueWithIdentifier("getFiles", sender: cell)
 				}
 			}
 			else {
 				self.loadRows()
 			}
-		}, {
+		}, failure: {
 			(data: NSDictionary!) in
 			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as String, view: self)
+			Utils().alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
 	func renameItem(name: String, item: NSDictionary) {
-		let type = (item["type"] as String) == "dir"
+		let type = (item["type"] as! String) == "dir"
 			? "dir"
 			: "file"
 		let request = [
 			"mx_action": "files/" + type + "/rename",
 			"name": name,
-			"source": item["source"] as NSNumber,
-			"path": item["pathRelative"] as NSString,
+			"source": item["source"] as! NSNumber,
+			"path": item["pathRelative"] as! NSString,
 		]
 		Utils().showSpinner(self.view)
-		self.Request(request, {
+		self.Request(request, success: {
 			(data: NSDictionary!) in
 			self.loadRows()
-		}, {
+			}, failure: {
 			(data: NSDictionary!) in
 			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as String, view: self)
+			Utils().alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
 	func removeItem(item: NSDictionary!) {
-		let type = (item["type"] as String) == "dir"
+		let type = (item["type"] as! String) == "dir"
 				? "dir"
 				: "file"
 		let message = type == "dir"
@@ -386,26 +443,26 @@ class FilesList: DefaultTable {
 			: "remove_file_confirm"
 		let request = [
 			"mx_action": "files/" + type + "/remove",
-			"source": item["source"] as NSNumber,
+			"source": item["source"] as! NSNumber,
 			"path": type == "dir"
-				? item["path"] as NSString
-				: item["pathRelative"] as NSString
+				? item["path"] as! NSString
+				: item["pathRelative"] as! NSString
 		]
 
 		Utils().confirm(
-			item["name"] as String,
+			item["name"] as! String,
 			message: message,
 			view: self,
 			closure: {
 				_ in
 				Utils().showSpinner(self.view)
-				self.Request(request, {
+				self.Request(request, success: {
 					(data: NSDictionary!) in
 					self.loadRows()
-				}, {
+				}, failure: {
 					(data: NSDictionary!) in
 					Utils().hideSpinner(self.view)
-					Utils().alert("", message: data["message"] as String, view: self)
+					Utils().alert("", message: data["message"] as! String, view: self)
 				})
 			}
 		)

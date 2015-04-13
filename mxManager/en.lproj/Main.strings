@@ -52,7 +52,11 @@
 "unpublish" = "Unpublish";
 "save" = "Save";
 "create" = "Create";
+"search" = "Search";
 "actions" = "Actions";
+"btn_clear" = "Clear";
+"btn_cancel" = "Cancel";
+"no" = "No";
 
 // Files
 
@@ -120,6 +124,63 @@
 "element_caption" = "Caption";
 "element_disabled" = "Disabled";
 
+// Resources
+
+"resource_create" = "Add new";
+"resource_delete_confirm" = "Are you sure you want to delete this resource? Any child resources will also be deleted!";
+"resource_unpublish_confirm" = "Are you sure you want to unpublish this resource?";
+
+"resource_pagetitle" = "Title";
+"resource_longtitle" = "Long Title";
+"resource_alias" = "Resource Alias";
+"resource_menutitle" = "Menu Title";
+"resource_link_attributes" = "Link Attributes";
+"resource_description" = "Description";
+"resource_introtext" = "Summary (introtext)";
+"resource_content" = "Content";
+"resource_published" = "Published";
+"resource_hidemenu" = "Hide From Menus";
+"resource_menuindex" = "Menu Index";
+"resource_template" = "Uses Template";
+"resource_template_confirm" = "When you change the template, all TVs will be reload without saving. Are you sure you want to continue?";
+
+"resource_publishedon" = "Published On";
+"resource_pub_date" = "Publish Date";
+"resource_unpub_date" = "Unpublish date";
+"resource_isfolder" = "Container";
+"resource_searchable" = "Searchable";
+"resource_richtext" = "Rich Text";
+"resource_cacheable" = "Cacheable";
+"resource_deleted" = "Deleted";
+"resource_syncsite" = "Empty cache";
+"resource_parent" = "Parent";
+"resource_content_type" = "Content Type";
+"resource_content_dispo" = "Disposition";
+"resource_content_dispo_0" = "Inline";
+"resource_content_dispo_1" = "Attachment";
+"resource_show_in_tree" = "Show in Tree";
+"resource_responseCode" = "Response Code";
+"resource_uri_override" = "Freeze URI";
+"resource_uri" = "URI";
+
+"resource_class_key" = "Resource Type";
+"modDocument" = "Document";
+"modWebLink" = "Weblink";
+"modSymLink" = "Symlink";
+"modStaticResource" = "Static Resource";
+"TicketsSection" = "Tickets Section";
+"Ticket" = "Ticket";
+"msCategory" = "MS2 Category";
+"msProduct" = "MS2 Product";
+"ArticlesContainer" = "Articles Container";
+"Article" = "Acrticle";
+
+"0Vp-UB-LQs.title" = "Main";
+"SaW-VD-WWc.title" = "Settings";
+"hqi-K2-PSO.title" = "Template Variables";
+
+//Messages
+
 "site_err_site_ae" = "You already have an account with this site name";
 "site_err_manager_ae" = "You already have an account with this manager address";
 "site_err_connect" = "The site is not responding";
@@ -128,4 +189,5 @@
 "site_delete_confirm" = "Are you sure you want to remove this site?";
 "error_log_too_large" = "The error log is too large to be viewed";
 "error_log_empty" = "The error log is empty";
+"error_log_clear_confirm" = "Are you sure you want to clear the error log?";
 "field_required" = "The field \"[[+field]]\" is required";

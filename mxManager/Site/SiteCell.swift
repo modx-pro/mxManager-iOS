@@ -13,9 +13,9 @@ class SiteCell: DefaultCell {
 	override func template(idx: Int = 0) {
 		super.template(idx: idx)
 
-		self.textLabel?.text = self.data["site"] as String?
+		self.textLabel?.text = self.data["site"] as! String?
 		if self.data["version"] != nil {
-			self.detailTextLabel?.text = self.data["version"] as String?
+			self.detailTextLabel?.text = self.data["version"] as! String?
 		}
 		else {
 			self.detailTextLabel?.text = ""

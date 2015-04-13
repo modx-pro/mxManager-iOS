@@ -10,7 +10,7 @@ import UIKit
 
 class ElementsList: DefaultTable {
 
-	@IBOutlet var btnAdd: UIBarButtonItem!
+	var btnAdd: UIBarButtonItem!
 	@IBOutlet var typesControl: UISegmentedControl!
 	@IBOutlet var typesWrapper: UIView!
 	var btnSave: UIAlertAction?
@@ -21,7 +21,7 @@ class ElementsList: DefaultTable {
 	var tmpName = ""
 	var selectedRow = NSIndexPath.init(index: 0)
 
-	override init(coder aDecoder: NSCoder) {
+	required init(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 		self.invokeEvent = "LoadElements"
 	}
@@ -34,7 +34,8 @@ class ElementsList: DefaultTable {
 		}
 
 		let icon = UIImage.init(named: "icon-plus")
-		self.btnAdd = UIBarButtonItem.init(image: icon?, style: UIBarButtonItemStyle.Plain, target: self, action: "showAddMenuHere:")
+		self.btnAdd = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "showAddMenuHere:")
+		self.btnAdd.enabled = false
 		self.navigationItem.setRightBarButtonItem(self.btnAdd, animated: false)
 
 		NSNotificationCenter.defaultCenter().removeObserver(self, name: "ElementUpdated", object: nil)
@@ -43,43 +44,59 @@ class ElementsList: DefaultTable {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
 
-		let cell = sender as ElementCell
-		if segue.identifier? == "getElements" {
-			let controller = segue.destinationViewController as ElementsList
-			controller.data = self.data
-
-			if cell.data["permissions"] != nil {
-				controller.permissions = cell.data["permissions"] as NSDictionary
-			}
-			// Section
-			if cell.data["id"] == nil {
-				controller.types = self.types
-				controller.type = cell.data["type"] as String
-				controller.category = 0
-				controller.title = Utils().lexicon("categories")
-			}
-			// Category
-			else {
-				controller.types = self.types
-				controller.type = self.type
-				controller.category = cell.data["id"] as Int
-				controller.title = cell.data["name"] as? String
+		if segue.identifier == "showPopup" {
+			if let controller = segue.destinationViewController as? PopupWindow {
+				controller.data = sender as! NSDictionary
+				controller.closure = {
+					(textField: UITextField!) in
+					if (controller.data["action"] as! String) == "create" {
+						self.createItem(textField.text, item: controller.data["item"] as! NSDictionary, type: controller.data["type"] as! String)
+					}
+					else {
+						self.renameItem(textField.text, item: controller.data["item"] as! NSDictionary)
+					}
+				}
 			}
 		}
-		else if segue.identifier? == "showElement" {
-			let controller = segue.destinationViewController as ElementPanel
-			controller.data = self.data
+		else {
+			let cell = sender as! ElementCell
+			if segue.identifier == "getElements" {
+				let controller = segue.destinationViewController as! ElementsList
+				controller.data = self.data
 
-			controller.title = cell.data["name"] as? String
-			controller.type = cell.data["type"] as String
-			controller.id = cell.data["id"] as Int
-			if cell.data["category"] != nil {
-				controller.category = cell.data["category"] as Int
+				if cell.data["permissions"] != nil {
+					controller.permissions = cell.data["permissions"] as! NSDictionary
+				}
+				// Section
+				if cell.data["id"] == nil {
+					controller.types = self.types
+					controller.type = cell.data["type"] as! String
+					controller.category = 0
+					controller.title = Utils().lexicon("categories") as String
+				}
+				// Category
+				else {
+					controller.types = self.types
+					controller.type = self.type
+					controller.category = cell.data["id"] as! Int
+					controller.title = cell.data["name"] as? String
+				}
 			}
-			if cell.data["action"] != nil {
-				controller.action = cell.data["action"] as String
+			else if segue.identifier == "showElement" {
+				let controller = segue.destinationViewController as! ElementPanel
+				controller.data = self.data
+
+				controller.title = cell.data["name"] as? String
+				controller.type = cell.data["type"] as! String
+				controller.id = cell.data["id"] as! Int
+				if cell.data["category"] != nil {
+					controller.category = cell.data["category"] as! Int
+				}
+				if cell.data["action"] != nil {
+					controller.action = cell.data["action"] as! String
+				}
+				NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name: "ElementUpdated", object: nil)
 			}
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name: "ElementUpdated", object: nil)
 		}
 	}
 
@@ -98,7 +115,7 @@ class ElementsList: DefaultTable {
 			"mx_action": "elements/getlist",
 			"type": self.type,
 			"category": self.category,
-			"start": self.count
+			"start": self.loaded
 		]
 		super.loadMore()
 	}
@@ -108,9 +125,9 @@ class ElementsList: DefaultTable {
 			self.btnAdd.enabled = false
 			var types = [] as NSMutableArray
 			if let object = notification.object as? NSDictionary {
-				for (key, value) in enumerate(object["rows"] as NSArray) {
+				for value in object["rows"] as! NSArray {
 					if value["type"] != nil {
-						types.addObject(value["type"] as String)
+						types.addObject(value["type"] as! String)
 					}
 				}
 				self.types = types
@@ -125,14 +142,14 @@ class ElementsList: DefaultTable {
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = ElementCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell") as ElementCell
 
-		cell.data = self.rows[indexPath.row] as NSDictionary
+		cell.data = self.rows[indexPath.row] as! NSDictionary
 		cell.template(idx: indexPath.row)
 
 		return cell
 	}
 
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as ElementCell
+		let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as! ElementCell
 
 		if cell.accessoryType == UITableViewCellAccessoryType.DisclosureIndicator {
 			self.performSegueWithIdentifier("getElements", sender: cell)
@@ -144,14 +161,21 @@ class ElementsList: DefaultTable {
 
 	// Операции с элементами и категориями из строки таблицы
 
+	func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+		let item = self.rows[indexPath.row] as! NSDictionary
+		return item["id"]  == nil
+				? UITableViewCellEditingStyle.None
+				: UITableViewCellEditingStyle.Delete
+	}
+
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
 		self.selectedRow = indexPath
-		let item = self.rows[indexPath.row] as NSDictionary
-		let permissions = item["permissions"] as NSDictionary
-		let type = item["type"] as String
+		let item = self.rows[indexPath.row] as! NSDictionary
+		let permissions = item["permissions"] as! NSDictionary
+		let type = item["type"] as! String
 		var buttons = [] as NSMutableArray
 
-		if permissions["remove"] != nil && permissions["remove"] as Int == 1 {
+		if permissions["remove"] != nil && permissions["remove"] as! Int == 1 {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
@@ -161,17 +185,17 @@ class ElementsList: DefaultTable {
 			buttons.addObject(btn)
 		}
 
-		if permissions["update"] != nil && permissions["update"] as Int == 1 {
+		if permissions["update"] != nil && permissions["update"] as! Int == 1 {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
-				self.PopupWindow(action: "update", item: item, type: type)
+				self.showPopupWindow(action: "update", item: item, type: type)
 			}
 			btn.backgroundColor = UIColor(patternImage: UIImage(named: "btn-edit")!)
 			buttons.addObject(btn)
 		}
 
-		if permissions["create"] != nil && permissions["create"] as Int == 1 {
+		if permissions["create"] != nil && permissions["create"] as! Int == 1 {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
@@ -183,7 +207,7 @@ class ElementsList: DefaultTable {
 			buttons.addObject(btn)
 		}
 
-		return buttons
+		return buttons as [AnyObject]
 	}
 
 	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -194,7 +218,7 @@ class ElementsList: DefaultTable {
 
 		for (key, value) in enumerate(self.types) {
 			self.typesControl.insertSegmentWithTitle(
-				Utils().lexicon((value as String) + "s"),
+				Utils().lexicon((value as! String) + "s") as String,
 				atIndex: key,
 				animated: false
 			)
@@ -207,7 +231,7 @@ class ElementsList: DefaultTable {
 		}
 		else {
 			self.typesWrapper.hidden = true
-			self.tableView.tableHeaderView = self.tableHeaderView?
+			self.tableView.tableHeaderView = self.tableHeaderView
 		}
 	}
 
@@ -254,20 +278,20 @@ class ElementsList: DefaultTable {
 			]
 			for (key, value) in enumerate(types) {
 				let type = value as String
-				if permissions["new_" + type] != nil && permissions["new_" + type] as Bool {
+				if permissions["new_" + type] != nil && permissions["new_" + type] as! Bool {
 					if action == "update" || type == "category" {
-						sheet.addAction(UIAlertAction.init(
-							title: Utils().lexicon(action + "_" + type),
+						sheet.addAction(UIAlertAction.self(
+							title: Utils().lexicon(action + "_" + type) as String,
 							style: UIAlertActionStyle.Default,
 							handler: {
 								(alert: UIAlertAction!) in
-								self.PopupWindow(action: action, item: item, type: type)
+								self.showPopupWindow(action: action, item: item, type: type)
 							}
 						))
 					}
 					else {
-						sheet.addAction(UIAlertAction.init(
-							title: Utils().lexicon("create_" + type),
+						sheet.addAction(UIAlertAction(
+							title: Utils().lexicon("create_" + type) as String,
 							style: UIAlertActionStyle.Default,
 							handler: {
 								(alert: UIAlertAction!) in
@@ -277,11 +301,11 @@ class ElementsList: DefaultTable {
 									"type": type,
 									"id": 0,
 									"action": action,
-									"category": item["id"] as Int,
+									"category": item["id"] as! Int,
 									"title": Utils().lexicon("create_" + type)
 								]
 								self.performSegueWithIdentifier("showElement", sender: cell)
-								//self.PopupWindow(action: action, item: item, type: type)
+								//self.showPopupWindow(action: action, item: item, type: type)
 							}
 						))
 					}
@@ -290,7 +314,7 @@ class ElementsList: DefaultTable {
 		}
 
 		sheet.addAction(UIAlertAction.init(
-			title: Utils().lexicon("cancel"),
+			title: Utils().lexicon("cancel") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: nil
 		))
@@ -298,27 +322,53 @@ class ElementsList: DefaultTable {
 		self.presentViewController(sheet, animated: true, completion: nil)
 	}
 
+	func showPopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "dir") {
+		var title: String
+		var save: String
+		if action == "create" {
+			save = Utils().lexicon("create") as String
+			title = "create_" + type + "_intro"
+		}
+		else {
+			save = Utils().lexicon("save") as String
+			title = "update_" + type + "_intro"
+		}
+
+		let data = [
+				"title": Utils().lexicon(title),
+				"save": Utils().lexicon(save),
+				"text": (item["name"] as? String) == nil
+						? ""
+						: item["name"] as! String,
+				"action": action,
+				"item": item,
+				"type": type
+		]
+		self.performSegueWithIdentifier("showPopup", sender: data)
+	}
+
+	/*
 	func PopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "category") {
 		var message: String
 		var saveTitle: String
 		if action == "create" {
-			saveTitle = Utils().lexicon("create")
+			saveTitle = Utils().lexicon("create") as String
 			message = "create_" + type + "_intro"
 		}
 		else {
-			saveTitle = Utils().lexicon("save")
+			saveTitle = Utils().lexicon("save") as String
 			message = "update_" + type + "_intro"
 		}
 
 		let window: UIAlertController = UIAlertController.init(
 			title: "",
-			message: Utils().lexicon(message),
+			message: Utils().lexicon(message) as String,
 			preferredStyle: UIAlertControllerStyle.Alert
 		)
 		window.view.tintColor = Colors().defaultText()
 
 		let btnCancel = UIAlertAction.init(
-			title: Utils().lexicon("cancel"),
+			title: Utils().lexicon("cancel") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: {
 				(alert: UIAlertAction!) in
@@ -333,7 +383,7 @@ class ElementsList: DefaultTable {
 			handler: {
 				(alert: UIAlertAction!) in
 				if window.textFields?[0] != nil {
-					let textField = window.textFields![0] as UITextField
+					let textField = window.textFields![0] as! UITextField
 					if action == "create" {
 						self.createItem(textField.text, item: item, type: type)
 					}
@@ -350,7 +400,7 @@ class ElementsList: DefaultTable {
 			(textField: UITextField!) in
 			NSNotificationCenter.defaultCenter().addObserver(self, selector: "alertTextFieldDidChange:", name: UITextFieldTextDidChangeNotification, object: textField)
 			if action == "update" && item["name"] != nil {
-				textField.text = item["name"] as String
+				textField.text = item["name"] as! String
 				self.tmpName = textField.text
 			}
 			else {
@@ -363,10 +413,11 @@ class ElementsList: DefaultTable {
 
 	func alertTextFieldDidChange(notification: NSNotification) {
 		if notification.object != nil {
-			let textField = notification.object as UITextField
+			let textField = notification.object as! UITextField
 			self.btnSave?.enabled = textField.text != self.tmpName
 		}
 	}
+	*/
 
 	// Действия
 
@@ -374,68 +425,68 @@ class ElementsList: DefaultTable {
 		let request = [
 			"mx_action": "elements/" + type + "/create",
 			"name": name,
-			"category": item["id"] as NSNumber,
+			"category": item["id"] as! NSNumber,
 		]
 		Utils().showSpinner(self.view)
-		self.Request(request, {
+		self.Request(request, success: {
 			(data: NSDictionary!) in
 			if request["category"] != self.category {
 				Utils().hideSpinner(self.view, animated: false)
 				if self.tableView != nil {
-					let cell = self.tableView(self.tableView!, cellForRowAtIndexPath: self.selectedRow) as ElementCell
+					let cell = self.tableView(self.tableView!, cellForRowAtIndexPath: self.selectedRow) as! ElementCell
 					self.performSegueWithIdentifier("getElements", sender: cell)
 				}
 			}
 			else {
 				self.loadRows()
 			}
-		}, {
+		}, failure: {
 			(data: NSDictionary!) in
 			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as String, view: self)
+			Utils().alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
 	func renameItem(name: String, item: NSDictionary) {
-		let type = item["type"] as String
+		let type = item["type"] as! String
 		let request = [
 			"mx_action": "elements/" + type + "/update",
-			"id": item["id"] as NSNumber,
+			"id": item["id"] as! NSNumber,
 			"name": name,
 		]
 		Utils().showSpinner(self.view)
-		self.Request(request, {
+		self.Request(request, success: {
 			(data: NSDictionary!) in
 			self.loadRows()
-		}, {
+		}, failure: {
 			(data: NSDictionary!) in
 			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as String, view: self)
+			Utils().alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
 	func removeItem(item: NSDictionary!) {
-		let type = item["type"] as String
+		let type = item["type"] as! String
 		let message = "remove_" + type + "_confirm"
 		let request = [
 			"mx_action": "elements/" + type + "/remove",
-			"id": item["id"] as NSNumber,
+			"id": item["id"] as! NSNumber,
 		]
 
 		Utils().confirm(
-			item["name"] as String,
+			item["name"] as! String,
 			message: message,
 			view: self,
 			closure: {
 				_ in
 				Utils().showSpinner(self.view)
-				self.Request(request, {
+				self.Request(request, success: {
 					(data: NSDictionary!) in
 					self.loadRows()
-				}, {
+				}, failure: {
 					(data: NSDictionary!) in
 					Utils().hideSpinner(self.view)
-					Utils().alert("", message: data["message"] as String, view: self)
+					Utils().alert("", message: data["message"] as! String, view: self)
 				})
 			}
 		)

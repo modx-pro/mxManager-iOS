@@ -23,13 +23,13 @@ class SitesList: DefaultTable {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
 
-		if segue.identifier? == "ShowSettings" {
-			var controller = segue.destinationViewController as SiteSettings
-			controller.data = sender as NSDictionary
+		if segue.identifier == "ShowSettings" {
+			var controller = segue.destinationViewController as! SiteSettings
+			controller.data = sender as! NSDictionary
 		}
-		else if segue.identifier? == "ShowSite" {
-			let cell = sender as DefaultCell
-			var controller = segue.destinationViewController as SiteMain
+		else if segue.identifier == "ShowSite" {
+			let cell = sender as! DefaultCell
+			var controller = segue.destinationViewController as! SiteMain
 			controller.data = cell.data as NSDictionary
 			controller.title = cell.data["site"] as? String
 		}
@@ -45,8 +45,8 @@ class SitesList: DefaultTable {
 	}
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as SiteCell
-		let data = self.rows[indexPath.row] as NSDictionary
+		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! SiteCell
+		let data = self.rows[indexPath.row] as! NSDictionary
 		cell.data = data
 		cell.template(idx: indexPath.row)
 
@@ -54,12 +54,12 @@ class SitesList: DefaultTable {
 	}
 
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
-		let data = self.rows[indexPath.row] as NSDictionary
+		let data = self.rows[indexPath.row] as! NSDictionary
 		if data["key"] == nil {
 			println("No key in \(data)")
 			return []
 		}
-		let key = data["key"] as String
+		let key = data["key"] as! String
 
 		let edit: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 			(action, indexPath) -> Void in
@@ -73,7 +73,7 @@ class SitesList: DefaultTable {
 			(action, indexPath) -> Void in
 			tableView.editing = false
 
-			Utils().confirm("warning", message:"site_delete_confirm", view: self, { _ in
+			Utils().confirm("warning", message:"site_delete_confirm", view: self, closure: { _ in
 				if Utils().removeSite(key) {}
 			})
 		}

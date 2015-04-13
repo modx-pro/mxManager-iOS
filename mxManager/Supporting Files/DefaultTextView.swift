@@ -10,15 +10,19 @@ import UIKit
 
 class DefaultTextView: UITextView {
 
+	/*
 	override init() {
 		super.init()
 		self.addBorder()
 	}
+	*/
 
+	/*
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.addBorder()
 	}
+	*/
 
 	override init(frame: CGRect, textContainer: NSTextContainer?) {
 		super.init(frame: frame, textContainer: textContainer)

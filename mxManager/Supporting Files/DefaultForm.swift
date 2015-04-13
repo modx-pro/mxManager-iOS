@@ -11,23 +11,25 @@ import UIKit
 class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 	var data = [:]
+	var name = ""
 	@IBOutlet var tableHeaderView: UIView?
 	@IBOutlet var tableFooterView: UIView?
-	var defaultLabelFontSize: CGFloat = 15.0
+	var defaultLabelFontSize: CGFloat = 14.0
 	var defaultTextFontSize: CGFloat = 14.0
 	var defaultParams = [
-		"titleLabel.font": UIFont.systemFontOfSize(15),
+		"titleLabel.font": UIFont.systemFontOfSize(14),
 		"titleLabel.color": Colors().defaultText(),
 		"titleLabel.textAlignment": NSTextAlignment.Right.rawValue
 	]
 	var keyboardHeight: CGFloat = 0
 	var isRotating: Bool = false
+	var wasAdjusted = false
 
 	override func viewDidLoad() {
 		// Default form
 		if self.form == nil {
 			let form: FormDescriptor = FormDescriptor()
-			form.title = self.title?
+			form.title = self.title
 			self.form = form
 		}
 
@@ -76,7 +78,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 		if self.tableHeaderView == nil {
 			let header = UIView.init() as UIView
-			header.frame = CGRectMake(0, 0, 0, 20)
+			header.frame = CGRectMake(0, 0, 0, 5)
 			header.backgroundColor = backgroundColor
 			self.tableHeaderView = header
 		}
@@ -95,13 +97,13 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 	func addSaveButton() {
 		let icon = UIImage.init(named: "icon-check")
-		let btn = UIBarButtonItem.init(image: icon?, style: UIBarButtonItemStyle.Plain, target: self, action: "submitForm:")
+		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "submitForm:")
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}
 
 	func addHideKeyboardButton() {
 		let icon = UIImage.init(named: "icon-keyboard-hide")
-		let btn = UIBarButtonItem.init(image: icon?, style: UIBarButtonItemStyle.Plain, target: self, action: "finishEdit:")
+		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "finishEdit:")
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}
 
@@ -170,14 +172,23 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
 		let parent: DefaultView = DefaultView();
 		parent.data = self.data
-		parent.Request(parameters, success, failure)
+		parent.Request(parameters, success: success, failure: failure)
 	}
 
 	func finishEdit(sender: UIBarButtonItem!) {
 		self.view.endEditing(true)
 	}
 
-	func setForm(data: NSDictionary) {
+	func getFormValues() -> NSDictionary {
+		if self.form != nil {
+			return self.form.formValues()
+		}
+		else {
+			return [:]
+		}
+	}
+
+	func setFormValues(data: AnyObject) {
 		let form: FormDescriptor = FormDescriptor()
 
 		self.form = form
@@ -205,7 +216,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 				cell.textField.markError(true)
 			}
 			*/
-			message = Utils().lexicon("field_required", placeholders: ["field": required.title])
+			message = Utils().lexicon("field_required", placeholders: ["field": required.title]) as String
 			Utils().alert("", message: message, view: self, closure: nil)
 		}
 		else {
@@ -214,12 +225,6 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 			println(values)
 		}
 	}
-
-	/*
-	func onKeyboadDidShow(notification: NSNotification) {
-		//self.navigationController?.setNavigationBarHidden(true, animated: true)
-	}
-	*/
 
 	func onKeyboadWillShow(notification: NSNotification) {
 		let info: NSDictionary = notification.userInfo!
@@ -233,21 +238,22 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 				dispatch_async(dispatch_get_main_queue()) {
 					self.addHideKeyboardButton()
 				}
-				self.adjustLastRowHeight()
+				if self.wasAdjusted {
+					self.adjustLastRowHeight()
+				}
 			}
 		}
 	}
 
 	func onKeyboardWillHide(notification: NSNotification) {
-		//let contentInsets: UIEdgeInsets = UIEdgeInsetsZero;
-		//self.tableView.contentInset = contentInsets;
-		//self.tableView.scrollIndicatorInsets = contentInsets;
 		if self.keyboardHeight != 0 {
 			self.keyboardHeight = 0
 			dispatch_async(dispatch_get_main_queue()) {
 				self.addSaveButton()
 			}
-			self.adjustLastRowHeight()
+			if self.wasAdjusted {
+				self.adjustLastRowHeight()
+			}
 		}
 	}
 
@@ -255,11 +261,12 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 		if self.isRotating {
 			return
 		}
+		self.wasAdjusted = true
 
 		var screenHeight = self.view.frame.height
-		if let controller = self.parentViewController? as? UITabBarController {
-			if !controller.tabBar.translucent {
-				screenHeight += controller.tabBar.frame.height - 5
+		if let controller = self.parentViewController as? UITabBarController {
+			if !controller.tabBar.translucent && self.keyboardHeight > 0 {
+				screenHeight += controller.tabBar.frame.height
 			}
 		}
 		let tableHeight = self.tableView.contentSize.height
@@ -280,19 +287,21 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 				newHeight = screenHeight - onlyTableHeight
 			}
 			else {
-				newHeight = screenHeight - self.keyboardHeight - (isLandscape ? 65 : 50)
+				newHeight = screenHeight - self.keyboardHeight - 40 //- (isLandscape ? 65 : 50)
 			}
 			if newHeight < minHeight {
 				newHeight = minHeight
 			}
 
 			lastRow.configuration[FormRowDescriptor.Configuration.CellHeight] = newHeight
-			if (hideKeyboard) {
-				self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-			}
-			else {
-				self.tableView.beginUpdates()
-				self.tableView.endUpdates()
+			dispatch_async(dispatch_get_main_queue()) {
+				if (hideKeyboard) {
+					self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+				}
+				else {
+					self.tableView.beginUpdates()
+					self.tableView.endUpdates()
+				}
 			}
 		}
 	}
@@ -303,7 +312,9 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 	override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
 		self.isRotating = false
-		self.adjustLastRowHeight()
+		if self.wasAdjusted {
+			self.adjustLastRowHeight()
+		}
 	}
 
 }

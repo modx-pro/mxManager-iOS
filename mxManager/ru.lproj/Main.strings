@@ -52,7 +52,11 @@
 "unpublish" = "Снять с публикации";
 "save" = "Сохранить";
 "create" = "Создать";
+"search" = "Поиск";
 "actions" = "Действия";
+"btn_clear" = "Очистить";
+"btn_cancel" = "Отменить";
+"no" = "Нет";
 
 // Files
 
@@ -121,6 +125,63 @@
 "element_caption" = "Заголовок";
 "element_disabled" = "Отключен";
 
+// Resources
+
+"resource_create" = "Создать";
+"resource_delete_confirm" = "Вы уверены, что хотите удалить этот ресурс? Все дочерние ресурсы также будут удалены!";
+"resource_unpublish_confirm" = "Вы уверены, что хотите снять с публикации этот ресурс?";
+
+"resource_pagetitle" = "Заголовок";
+"resource_longtitle" = "Расширенный заголовок";
+"resource_alias" = "Псевдоним";
+"resource_menutitle" = "Пункт меню";
+"resource_link_attributes" = "Атрибуты ссылки";
+"resource_description" = "Описание";
+"resource_introtext" = "Аннотация (введение)";
+"resource_content" = "Содержимое ресурса";
+"resource_published" = "Опубликован";
+"resource_hidemenu" = "Скрыт в меню";
+"resource_menuindex" = "Позиция в меню";
+"resource_template" = "Шаблон";
+"resource_template_confirm" = "При смене шаблона все ТВ параметры будут перезагружены без сохранения. Вы уверены, что хотите продолжить?";
+
+"resource_publishedon" = "Был опубликован";
+"resource_pub_date" = "Дата публикации";
+"resource_unpub_date" = "Отмена публикации";
+"resource_isfolder" = "Контейнер";
+"resource_searchable" = "Доступен для поиска";
+"resource_richtext" = "HTML редактор";
+"resource_cacheable" = "Кэшируемый";
+"resource_deleted" = "Удалён";
+"resource_syncsite" = "Очистить кэш";
+"resource_parent" = "Родитель";
+"resource_content_type" = "Тип содержимого";
+"resource_content_dispo" = "Местонахождение";
+"resource_content_dispo_0" = "Встроенный";
+"resource_content_dispo_1" = "Прикреплённый файл";
+"resource_show_in_tree" = "Показывать в дереве";
+"resource_responseCode" = "Код ответа";
+"resource_uri_override" = "Заморозить URI";
+"resource_uri" = "URI";
+
+"resource_class_key" = "Тип ресурса";
+"modDocument" = "Документ";
+"modWebLink" = "Ссылка";
+"modSymLink" = "Символическая ссылка";
+"modStaticResource" = "Статичный ресурс";
+"TicketsSection" = "Раздел с тикетами";
+"Ticket" = "Тикет";
+"msCategory" = "Категория MS2";
+"msProduct" = "Товар MS2";
+"ArticlesContainer" = "Контейнер со статьями";
+"Article" = "Статья";
+
+"0Vp-UB-LQs.title" = "Основные";
+"SaW-VD-WWc.title" = "Настройки";
+"hqi-K2-PSO.title" = "Дополнительные поля";
+
+// Messages
+
 "site_err_site_ae" = "У вас с уже есть запись с таким именем сайта";
 "site_err_manager_ae" = "У вас с уже есть запись с таким адресом менеджера";
 "site_err_connect" = "Сайт не отвечает";
@@ -129,4 +190,5 @@
 "site_delete_confirm" = "Вы уверены, что хотите удалить этот сайт?";
 "error_log_too_large" = "Журнал ошибок слишком большой для просмотра";
 "error_log_empty" = "Журнал ошибок пуст";
+"error_log_clear_confirm" = "Вы действительно хотите очистить лог ошибок?";
 "field_required" = "Вы должны заполнить поле\n\"[[+field]]\"";

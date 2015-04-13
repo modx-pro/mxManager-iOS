@@ -34,14 +34,15 @@ class FormImageCell: FormBaseCell {
 		contentView.addSubview(titleLabel)
 		contentView.addSubview(imageField)
 
-		titleLabel.setContentHuggingPriority(500, forAxis: .Horizontal)
-		titleLabel.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
-		imageField.setContentHuggingPriority(750, forAxis: .Horizontal)
+		titleLabel.setContentHuggingPriority(251, forAxis: .Horizontal)
+		titleLabel.setContentCompressionResistancePriority(250, forAxis: .Horizontal)
+		imageField.setContentHuggingPriority(251, forAxis: .Horizontal)
 		imageField.setContentCompressionResistancePriority(250, forAxis: .Horizontal)
 
 		contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: contentView, attribute: .Height, multiplier: 1.0, constant: 0.0))
 		if titleLabel.text != "" {
-			let labelWidth = NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 100.0)
+			let width = rowDescriptor.configuration[FormRowDescriptor.Configuration.LabelWidth] as! CGFloat
+			let labelWidth = NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: width)
 			labelWidth.priority = 750
 			contentView.addConstraint(labelWidth)
 		}
@@ -67,7 +68,7 @@ class FormImageCell: FormBaseCell {
 	}
 
 	override func defaultVisualConstraints() -> [String] {
-		if titleLabel.text != nil && countElements(titleLabel.text!) > 0 {
+		if titleLabel.text != nil && count(titleLabel.text!) > 0 {
 			return ["H:|-8-[titleLabel]-[imageField]-8-|"]
 		}
 		else {

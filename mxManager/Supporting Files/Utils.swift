@@ -26,30 +26,30 @@ class Utils: NSObject {
 		return nil
 	}
 
-	func lexicon(string: NSString, placeholders: [String:String] = [:]) -> NSString {
+	func lexicon(string: NSString, placeholders: [String:String] = [:]) -> String {
 		if string == "" {
 			return ""
 		}
 
-		var string = NSLocalizedString(string, tableName: "Main", comment: "") as NSString
+		var string = NSLocalizedString(string as String, tableName: "Main", comment: "") as NSString
 		if placeholders.count > 0 {
 			for (key, value) in placeholders {
 				string = string.stringByReplacingOccurrencesOfString("[[+\(key)]]", withString: value)
 			}
 		}
 
-		return string
+		return string as String
 	}
 
 	func alert(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)? = nil ) {
 		let alert: UIAlertController = UIAlertController.init(
-			title: self.lexicon(title),
-			message: self.lexicon(message),
+			title: self.lexicon(title) as String,
+			message: self.lexicon(message) as String,
 			preferredStyle: UIAlertControllerStyle.Alert
 		)
 
 		alert.addAction(UIAlertAction.init(
-			title: self.lexicon("close"),
+			title: self.lexicon("close") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: closure != nil
 				? { (alert: UIAlertAction!) in closure!() }
@@ -62,18 +62,18 @@ class Utils: NSObject {
 
 	func confirm(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)!) {
 		let alert: UIAlertController = UIAlertController.init(
-			title: self.lexicon(title),
-			message: self.lexicon(message),
+			title: self.lexicon(title) as String,
+			message: self.lexicon(message) as String,
 			preferredStyle: UIAlertControllerStyle.Alert
 		)
 
 		alert.addAction(UIAlertAction.init(
-			title: self.lexicon("cancel"),
+			title: self.lexicon("cancel") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: nil
 		))
 		alert.addAction(UIAlertAction.init(
-			title: self.lexicon("ok"),
+			title: self.lexicon("ok") as String,
 			style: UIAlertActionStyle.Default,
 			handler: { (alert: UIAlertAction!) in closure() }
 		))
@@ -85,8 +85,8 @@ class Utils: NSObject {
 	func console(view: UIViewController, rows: NSArray) -> UIViewController {
 		var text = NSMutableAttributedString.init() as NSMutableAttributedString
 
-		for row in rows as [NSDictionary] {
-			var level = row["level"] as String
+		for row in rows as! [NSDictionary] {
+			var level = row["level"] as! String
 
 			var attributes = [:] as NSMutableDictionary
 			//attributes[NSFontAttributeName] = UIFont(name: "Courier New", size: 12)
@@ -100,7 +100,7 @@ class Utils: NSObject {
 			else {
 				attributes[NSForegroundColorAttributeName] = UIColor.blackColor()
 			}
-			var tmp = NSAttributedString.init(string: row["message"] as String, attributes: attributes)
+			var tmp = NSAttributedString.init(string: row["message"] as! String, attributes: attributes as [NSObject : AnyObject])
 			text.appendAttributedString(tmp)
 			text.appendAttributedString(NSAttributedString.init(string: "\n"))
 		}
@@ -136,7 +136,7 @@ class Utils: NSObject {
 
 	func getIcon(name: NSString) -> UIImage {
 		let bundle = NSBundle.mainBundle() as NSBundle
-		let path = bundle.pathForResource(name, ofType: "png")
+		let path = bundle.pathForResource(name as String, ofType: "png")
 		var icon = UIImage.init(contentsOfFile: path!) as UIImage!
 
 		return icon.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
@@ -145,16 +145,16 @@ class Utils: NSObject {
 	func addSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
 		let keychain = Keychain.init() as Keychain
 		let sites = [] as NSMutableArray
-		sites.addObjectsFromArray(self.getSites())
+		sites.addObjectsFromArray(self.getSites() as [AnyObject])
 
 		for (index, existing_site) in enumerate(sites) {
-			if key == existing_site["key"] as String {
+			if key == existing_site["key"] as! String {
 				return self.updateSite(key, site: site)
 			}
 		}
 		if site["key"] == nil {
 			let tmp = [:] as NSMutableDictionary
-			tmp.addEntriesFromDictionary(site)
+			tmp.addEntriesFromDictionary(site as [NSObject : AnyObject])
 			tmp["key"] = key
 			sites.addObject(tmp)
 		}
@@ -174,10 +174,10 @@ class Utils: NSObject {
 	func updateSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
 		let keychain = Keychain.init() as Keychain
 		let sites = [] as NSMutableArray
-		sites.addObjectsFromArray(self.getSites())
+		sites.addObjectsFromArray(self.getSites() as [AnyObject])
 
 		for (index, existing_site) in enumerate(sites) {
-			if key == existing_site["key"] as String {
+			if key == existing_site["key"] as! String {
 				if site["key"] == nil {
 					let tmp = [:] as NSMutableDictionary
 					tmp["key"] = key
@@ -199,10 +199,10 @@ class Utils: NSObject {
 	func removeSite(key: String, notify: Bool = true) -> Bool {
 		let keychain = Keychain.init() as Keychain
 		let sites = [] as NSMutableArray
-		sites.addObjectsFromArray(self.getSites())
+		sites.addObjectsFromArray(self.getSites() as [AnyObject])
 
 		for (index, site) in enumerate(sites) {
-			if key == site["key"] as String {
+			if key == site["key"] as! String {
 				sites.removeObjectAtIndex(index)
 			}
 		}

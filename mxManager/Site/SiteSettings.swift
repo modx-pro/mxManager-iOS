@@ -33,15 +33,15 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.addSaveButton()
-		self.fixTopOffset(UIApplication.sharedApplication().statusBarOrientation.isLandscape)
+		//self.fixTopOffset(UIApplication.sharedApplication().statusBarOrientation.isLandscape)
 
 		if self.data.count != 0 {
-			self.setForm(self.data)
+			self.setFormValues(self.data)
 		}
 	}
 
 	override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-		self.fixTopOffset(toInterfaceOrientation.isLandscape)
+		//self.fixTopOffset(toInterfaceOrientation.isLandscape)
 	}
 
 	override func viewWillAppear(animated: Bool) {
@@ -60,28 +60,28 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
 	}
 
-	func setForm(data: NSDictionary) {
+	func setFormValues(data: NSDictionary) {
 		if data["site"] != nil {
-			self.fieldSite.text = data["site"] as NSString
+			self.fieldSite.text = data["site"] as! NSString as String
 		}
 		if data["manager"] != nil {
-			self.fieldManager.text = data["manager"] as NSString
+			self.fieldManager.text = data["manager"] as! NSString as String
 		}
 		if data["user"] != nil {
-			self.fieldUser.text = data["user"] as NSString
+			self.fieldUser.text = data["user"] as! NSString as String
 		}
 		if data["password"] != nil {
-			self.fieldPassword.text = data["password"] as NSString
+			self.fieldPassword.text = data["password"] as! NSString as String
 		}
-		if data["base_auth"] != nil && data["base_auth"] as Bool {
+		if data["base_auth"] != nil && data["base_auth"] as! Bool {
 			self.fieldBaseAuth.setOn(true, animated: false)
 			if data["base_user"] != nil {
-				self.fieldBaseUser.text = data["base_user"] as NSString
+				self.fieldBaseUser.text = data["base_user"] as! NSString as String
 				self.fieldBaseUser.hidden = false
 				self.fieldBaseUser.enabled = true
 			}
 			if data["base_password"] != nil {
-				self.fieldBasePassword.text = data["base_password"] as NSString
+				self.fieldBasePassword.text = data["base_password"] as! NSString as String
 				self.fieldBasePassword.hidden = false
 				self.fieldBasePassword.enabled = true
 			}
@@ -163,7 +163,7 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 		] as NSMutableDictionary
 		var key = NSUUID().UUIDString
 		if self.data["key"] != nil {
-			key = self.data["key"] as String
+			key = self.data["key"] as! String
 			site["key"] = key
 		}
 
@@ -171,15 +171,15 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 		if sites.count > 0 {
 			for (index, existing_site) in enumerate(sites) {
 				// Check for existing site with the same name or url
-				let s = existing_site["site"] as NSString
-				let m = existing_site["manager"] as NSString
+				let s = existing_site["site"] as! NSString
+				let m = existing_site["manager"] as! NSString
 				let s2 = self.fieldSite.text
 				let m2 = self.fieldManager.text
 				var message = ""
-				if s.lowercaseString == s2.lowercaseString && key != existing_site["key"] as String {
+				if s.lowercaseString == s2.lowercaseString && key != existing_site["key"] as! String {
 					message = "site_err_site_ae"
 				}
-				else if m.lowercaseString == m2.lowercaseString && key != existing_site["key"] as String {
+				else if m.lowercaseString == m2.lowercaseString && key != existing_site["key"] as! String {
 					message = "site_err_manager_ae"
 				}
 				if message != "" {
@@ -195,25 +195,25 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 		self.data = site
 		self.Request([
 				"mx_action": "auth",
-				"username": site["user"] as String,
-				"password": site["password"] as String,
-			], {
+				"username": site["user"] as! String,
+				"password": site["password"] as! String,
+			], success: {
 			data in
 				if let tmp = data["data"] as? NSDictionary {
 					if tmp["site_url"] != nil {
-						site["site_url"] = tmp["site_url"] as String
+						site["site_url"] = tmp["site_url"] as! String
 					}
 					if tmp["version"] != nil {
-						site["version"] = tmp["version"] as String
+						site["version"] = tmp["version"] as! String
 					}
 				}
 				if Utils().addSite(key, site:site) {
 					self.closePopup()
 				}
 				Utils().hideSpinner(self.view)
-			}, {
+			}, failure: {
 			data in
-				Utils().alert("", message: data["message"] as String, view: self)
+				Utils().alert("", message: data["message"] as! String, view: self)
 				self.btnSave.enabled = true;
 				self.btnCancel.enabled = true;
 				Utils().hideSpinner(self.view)
@@ -221,12 +221,12 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 	}
 
 	@IBAction func closePopup() {
-		self.dismissViewControllerAnimated(true, nil)
+		self.dismissViewControllerAnimated(true, completion: nil)
 	}
 
 	func fixTopOffset(landscape: Bool) {
 		let constraints = self.navigationBar.constraints()
-		let constraint = constraints[0] as NSLayoutConstraint
+		let constraint = constraints[0] as! NSLayoutConstraint
 
 		constraint.constant = landscape
 				? 32.0
@@ -275,14 +275,14 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 
 	func addSaveButton() {
 		let icon = UIImage.init(named: "icon-check")
-		let btn = UIBarButtonItem.init(image: icon?, style: UIBarButtonItemStyle.Plain, target: self, action: "submitForm:")
+		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "submitForm:")
 		btn.tintColor = Colors().defaultText()
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}
 
 	func addHideKeyboardButton() {
 		let icon = UIImage.init(named: "icon-keyboard-hide")
-		let btn = UIBarButtonItem.init(image: icon?, style: UIBarButtonItemStyle.Plain, target: self, action: "finishEdit:")
+		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "finishEdit:")
 		btn.tintColor = Colors().defaultText()
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}

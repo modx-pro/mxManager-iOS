@@ -20,7 +20,7 @@ class FilePanel: DefaultForm {
 		super.viewDidLoad()
 
 		if self.action == "create" {
-			self.setForm([
+			self.setFormValues([
 				"image": false,
 				"content": "",
 				"is_writable": true,
@@ -41,35 +41,36 @@ class FilePanel: DefaultForm {
 		]
 
 		Utils().showSpinner(self.view)
-		self.Request(request, {
+		self.Request(request, success: {
 			(data: NSDictionary!) in
 			Utils().hideSpinner(self.view, animated: false)
 			if let file = data["data"] as? NSDictionary {
-				self.setForm(file)
+				self.setFormValues(file)
 			}
-		}, {
+		}, failure: {
 			(data: NSDictionary!) in
 			Utils().hideSpinner(self.view, animated: false)
-			Utils().alert("", message: data["message"] as String, view: self, {
+			Utils().alert("", message: data["message"] as! String, view: self, closure: {
 				_ in
 				self.performSegueWithIdentifier("ExitView", sender: nil)
 			})
 		})
 	}
 
-	override func setForm(data: NSDictionary) {
+	override func setFormValues(data: AnyObject) {
+		let data = data as! NSDictionary
 		self.file = data
 		let form: FormDescriptor = FormDescriptor()
 
 		var section: FormSectionDescriptor = FormSectionDescriptor()
 
-		var row = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils().lexicon("file_name")) as FormRowDescriptor
+		var row = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils().lexicon("file_name") as String) as FormRowDescriptor
 		var params = NSMutableDictionary.init(dictionary: self.defaultParams)
 		params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 		row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 		row.configuration[FormRowDescriptor.Configuration.Required] = true
 		if data["name"] != nil {
-			row.value = data["name"] as String
+			row.value = data["name"] as! String
 		}
 		section.addRow(row)
 
@@ -79,9 +80,9 @@ class FilePanel: DefaultForm {
 				params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 				params["textField.enabled"] = false
 				params["textField.textColor"] = Colors().disabledText()
-				var row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: Utils().lexicon("file_" + field)) as FormRowDescriptor
+				var row = FormRowDescriptor.self(tag: field, rowType: FormRowType.Name, title: Utils().lexicon("file_" + field) as String) as FormRowDescriptor
 				if field == "size" {
-					var size = data["size"] as Int
+					var size = data["size"] as! Int
 					var k = "b"
 					if size > 1000000 {
 						size = size / 1000000
@@ -109,11 +110,12 @@ class FilePanel: DefaultForm {
 
 		form.addSection(section)
 
+		var adjust = false
 		let lastHeight: CGFloat = 100
 		if data["content"] != nil {
-			let decodedData = NSData.init(base64EncodedString: data["content"] as String, options: nil)
-			let is_image = data["image"] as Bool
-			let is_writable = data["is_writable"] as Bool
+			let decodedData = NSData.self(base64EncodedString: data["content"] as! String, options: nil)
+			let is_image = data["image"] as! Bool
+			let is_writable = data["is_writable"] as! Bool
 			if is_image {
 				if let decodedImage = UIImage.init(data: decodedData!) {
 					var row = FormRowDescriptor.init(tag: "content", rowType: FormRowType.Image, title: "", height: lastHeight) as FormRowDescriptor
@@ -121,9 +123,10 @@ class FilePanel: DefaultForm {
 					row.configuration[FormRowDescriptor.Configuration.Required] = false
 
 					var section: FormSectionDescriptor = FormSectionDescriptor()
-					section.headerTitle = Utils().lexicon("file_content")
+					section.headerTitle = Utils().lexicon("file_content") as String
 					section.addRow(row)
 					form.sections.append(section)
+					adjust = true
 				}
 			}
 			else if is_writable {
@@ -139,16 +142,19 @@ class FilePanel: DefaultForm {
 					row.value = decodedString
 
 					var section: FormSectionDescriptor = FormSectionDescriptor()
-					section.headerTitle = Utils().lexicon("file_content")
+					section.headerTitle = Utils().lexicon("file_content") as String
 					section.addRow(row)
 					form.sections.append(section)
+					adjust = true
 				}
 			}
 		}
 
 		self.form = form
 		self.tableView.reloadData()
-		self.adjustLastRowHeight()
+		if adjust {
+			self.adjustLastRowHeight()
+		}
 	}
 
 	override func submitForm(sender: UIBarButtonItem!) {
@@ -164,34 +170,34 @@ class FilePanel: DefaultForm {
 					"mx_action": "files/file/" + self.action,
 					"source": self.source as NSNumber,
 					"path": self.pathRelative as NSString,
-					"name": values["name"] as NSString
+					"name": values["name"] as! NSString
 			]
 			if values["content"] != nil {
 				var content = ""
-				if let plainData = (values["content"] as NSString).dataUsingEncoding(NSUTF8StringEncoding) {
+				if let plainData = (values["content"] as! NSString).dataUsingEncoding(NSUTF8StringEncoding) {
 					content = plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(0))
 				}
 				request["content"] = content
 			}
 
 			Utils().showSpinner(self.view)
-			self.Request(request, {
+			self.Request(request, success: {
 				(data: NSDictionary!) in
 				Utils().hideSpinner(self.view)
 
 				self.title = values["name"] as? String
 				if let response = data["data"] as? NSDictionary {
-					self.pathRelative = response["pathRelative"] as String
+					self.pathRelative = response["pathRelative"] as! String
 					if self.action == "create" {
 						self.action = "update"
 					}
-					self.setForm(response)
+					self.setFormValues(response)
 					NSNotificationCenter.defaultCenter().postNotificationName("FileUpdated", object: response)
 				}
-			}, {
+			}, failure: {
 				(data: NSDictionary!) in
 				Utils().hideSpinner(self.view)
-				Utils().alert("", message: data["message"] as String, view: self)
+				Utils().alert("", message: data["message"] as! String, view: self)
 			})
 		}
 	}

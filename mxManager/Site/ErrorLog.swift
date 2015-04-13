@@ -22,8 +22,8 @@ class ErrorLog: DefaultView {
 	}
 
 	func addRightButtons() {
-		self.refreshBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-refresh")?, style: UIBarButtonItemStyle.Plain, target: self, action: "refreshLog")
-		self.clearBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-trash")?, style: UIBarButtonItemStyle.Plain, target: self, action: "clearLog")
+		self.refreshBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-refresh"), style: UIBarButtonItemStyle.Plain, target: self, action: "refreshLog")
+		self.clearBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-trash"), style: UIBarButtonItemStyle.Plain, target: self, action: "clearLog")
 
 		self.navigationItem.setRightBarButtonItems([self.refreshBtn!, self.clearBtn!], animated: false)
 	}
@@ -34,14 +34,14 @@ class ErrorLog: DefaultView {
 		]
 
 		Utils().showSpinner(self.view)
-		self.Request(parameters, {
+		self.Request(parameters, success: {
 			(data: NSDictionary!) in
 			Utils().hideSpinner(self.view)
-			self.setLog(data["data"] as NSDictionary)
-		}, {
+			self.setLog(data["data"] as! NSDictionary)
+		}, failure: {
 			(data: NSDictionary!) in
 			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as String, view: self)
+			Utils().alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -53,14 +53,14 @@ class ErrorLog: DefaultView {
 		Utils().confirm("", message: "error_log_clear_confirm" as String, view: self, closure: {
 			_ in
 			Utils().showSpinner(self.view)
-			self.Request(parameters, {
+			self.Request(parameters, success: {
 				(data: NSDictionary!) in
 				Utils().hideSpinner(self.view)
-				self.setLog(data["data"] as NSDictionary)
-			}, {
+				self.setLog(data["data"] as! NSDictionary)
+			}, failure: {
 				(data: NSDictionary!) in
 				Utils().hideSpinner(self.view)
-				Utils().alert("", message: data["message"] as String, view: self)
+				Utils().alert("", message: data["message"] as! String, view: self)
 			})
 		})
 	}
@@ -69,17 +69,17 @@ class ErrorLog: DefaultView {
 		if data["log"] != nil {
 			var log = ""
 
-			if data["tooLarge"] as Bool {
-				log = Utils().lexicon("error_log_too_large")
+			if data["tooLarge"] as! Bool {
+				log = Utils().lexicon("error_log_too_large") as String
 			}
 			else {
-				let decodedData = NSData.init(base64EncodedString: data["log"] as String, options: nil)
+				let decodedData = NSData.init(base64EncodedString: data["log"] as! String, options: nil)
 				if let decodedString: NSString = NSString.init(data: decodedData!, encoding: NSUTF8StringEncoding) {
 					log = decodedString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 					self.clearBtn?.enabled = true
 				}
 				if log == "" {
-					log = Utils().lexicon("error_log_empty")
+					log = Utils().lexicon("error_log_empty") as String
 					self.clearBtn?.enabled = false
 				}
 			}

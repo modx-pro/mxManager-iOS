@@ -13,8 +13,8 @@ class ElementCell: DefaultCell {
 	override func template(idx: Int = 0) {
 		super.template(idx: idx)
 
-		let type = self.data["type"] as String
-		self.textLabel?.text = self.data["name"] as String?
+		let type = self.data["type"] as! String
+		self.textLabel?.text = self.data["name"] as! String?
 		if self.data["id"] == nil {
 			self.detailTextLabel?.text = ""
 			self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
@@ -23,10 +23,10 @@ class ElementCell: DefaultCell {
 		else if type == "category" {
 			var count = 0
 			if self.data["elements"] != nil {
-				count += self.data["elements"] as Int
+				count += self.data["elements"] as! Int
 			}
 			if self.data["categories"] != nil {
-				count += self.data["categories"] as Int
+				count += self.data["categories"] as! Int
 			}
 			if count == 0 {
 				self.imageView?.alpha = 0.5
@@ -37,10 +37,10 @@ class ElementCell: DefaultCell {
 			self.imageView?.image = self._getIcon(type)
 		}
 		else {
-			self.detailTextLabel?.text = self.data["description"] as String?
+			self.detailTextLabel?.text = self.data["description"] as! String?
 			self.accessoryType = UITableViewCellAccessoryType.None
 			self.imageView?.image = self._getIcon(type)
-			if self.data["disabled"] != nil && self.data["disabled"] as Bool {
+			if self.data["disabled"] != nil && self.data["disabled"] as! Bool {
 				self.textLabel?.font = UIFont.italicSystemFontOfSize(self.textLabel!.font!.pointSize)
 				self.imageView?.alpha = 0.5
 				self.textLabel?.alpha = 0.5

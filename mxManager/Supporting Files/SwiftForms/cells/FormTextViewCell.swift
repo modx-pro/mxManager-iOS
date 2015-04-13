@@ -12,8 +12,8 @@ class FormTextViewCell : FormBaseCell, UITextViewDelegate {
 
     /// MARK: Cell views
     
-    let titleLabel = UILabel()
-    var textField = DefaultTextView()
+    let titleLabel: UILabel = UILabel()
+    var textField: DefaultTextView = DefaultTextView()
     
     /// MARK: Properties
     
@@ -35,15 +35,16 @@ class FormTextViewCell : FormBaseCell, UITextViewDelegate {
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
 
-		titleLabel.setContentHuggingPriority(500, forAxis: .Horizontal)
-		titleLabel.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
-		textField.setContentHuggingPriority(750, forAxis: .Horizontal)
+		titleLabel.setContentHuggingPriority(251, forAxis: .Horizontal)
+		titleLabel.setContentCompressionResistancePriority(250, forAxis: .Horizontal)
+		textField.setContentHuggingPriority(251, forAxis: .Horizontal)
 		textField.setContentCompressionResistancePriority(250, forAxis: .Horizontal)
 
 		// apply constant constraints
 		contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: contentView, attribute: .Height, multiplier: 1.0, constant: 0.0))
 		if titleLabel.text != "" {
-			let labelWidth = NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 100.0)
+			let width = rowDescriptor.configuration[FormRowDescriptor.Configuration.LabelWidth] as! CGFloat
+			let labelWidth = NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: width)
 			labelWidth.priority = 750
 			contentView.addConstraint(labelWidth)
 		}
@@ -79,7 +80,7 @@ class FormTextViewCell : FormBaseCell, UITextViewDelegate {
         
         if self.imageView!.image != nil {
             
-            if titleLabel.text != nil && countElements(titleLabel.text!) > 0 {
+            if titleLabel.text != nil && count(titleLabel.text!) > 0 {
                 return ["H:[imageView]-[titleLabel]-[textField]-8-|"]
             }
             else {
@@ -87,7 +88,7 @@ class FormTextViewCell : FormBaseCell, UITextViewDelegate {
             }
         }
         else {
-            if titleLabel.text != nil && countElements(titleLabel.text!) > 0 {
+            if titleLabel.text != nil && count(titleLabel.text!) > 0 {
                 return ["H:|-8-[titleLabel]-[textField]-8-|"]
             }
             else {
@@ -100,6 +101,6 @@ class FormTextViewCell : FormBaseCell, UITextViewDelegate {
     
     func textViewDidChange(textView: UITextView) {
         let trimmedText = textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        rowDescriptor.value = countElements(trimmedText) > 0 ? trimmedText : nil
+        rowDescriptor.value = count(trimmedText) > 0 ? trimmedText : nil
     }
 }

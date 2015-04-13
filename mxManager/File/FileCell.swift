@@ -13,11 +13,11 @@ class FileCell: DefaultCell {
 	override func template(idx: Int = 0) {
 		super.template(idx: idx)
 
-		self.textLabel?.text = self.data["name"] as String?
-		let type: String = self.data["type"] as String
+		self.textLabel?.text = self.data["name"] as! String?
+		let type: String = self.data["type"] as! String
 		switch type {
 			case "source":
-				self.detailTextLabel?.text = self.data["description"] as String?
+				self.detailTextLabel?.text = self.data["description"] as! String?
 				self.imageView?.image = Utils().getIcon("hdd")
 				self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
 				break;
@@ -34,7 +34,7 @@ class FileCell: DefaultCell {
 			case "file":
 				self.detailTextLabel?.text = ""
 				self.accessoryType = UITableViewCellAccessoryType.None
-				let ext: String = self.data["ext"] as String
+				let ext: String = self.data["ext"] as! String
 				switch ext {
 					case "htaccess", "access":
 						self.imageView?.image = Utils().getIcon("lock")

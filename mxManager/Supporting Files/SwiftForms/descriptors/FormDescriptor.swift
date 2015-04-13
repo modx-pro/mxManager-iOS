@@ -46,19 +46,27 @@ class FormDescriptor: NSObject {
                 }
             }
         }
-        return formValues.copy() as NSDictionary
+        return formValues.copy() as! NSDictionary
     }
-    
-    func validateForm() -> FormRowDescriptor! {
-        for section in sections {
-            for row in section.rows {
-                if let required = row.configuration[FormRowDescriptor.Configuration.Required] as? Bool {
-                    if required && row.value == nil {
-                        return row
-                    }
-                }
-            }
-        }
-        return nil
-    }
+
+	func validateForm() -> FormRowDescriptor! {
+		for section in sections {
+			for row in section.rows {
+				if let required = row.configuration[FormRowDescriptor.Configuration.Required] as? Bool {
+					if required {
+						if row.value == nil {
+							return row
+						}
+						else if (row.value as? String) != nil && (row.value as! String) == "" {
+							return row
+						}
+						else if (row.value as? Int) != nil && (row.value as! Int) == 0 {
+							return row
+						}
+					}
+				}
+			}
+		}
+		return nil
+	}
 }

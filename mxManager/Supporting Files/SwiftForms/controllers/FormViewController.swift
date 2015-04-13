@@ -29,7 +29,7 @@ class FormViewController : UITableViewController {
     
     /// MARK: Init
     
-    override convenience init() {
+	convenience init() {
         self.init(style: .Grouped)
     }
     
@@ -109,27 +109,22 @@ class FormViewController : UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let rowDescriptor = formRowDescriptorAtIndexPath(indexPath)
-        
         var formBaseCellClass = formBaseCellClassFromRowDescriptor(rowDescriptor)
-        
         let reuseIdentifier = NSStringFromClass(formBaseCellClass)
-        
-        var cell: FormBaseCell? = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier) as? FormBaseCell
-        if cell == nil {
-            cell = formBaseCellClass(style: .Default, reuseIdentifier: reuseIdentifier)
-            cell?.formViewController = self
-            cell?.configure()
-        }
-        
-        cell?.rowDescriptor = rowDescriptor
-        
+
+		let cell = formBaseCellClass(style: .Default, reuseIdentifier: reuseIdentifier) as FormBaseCell
+		cell.formViewController = self
+		cell.rowDescriptor = rowDescriptor
+		cell.configure()
+
         // apply cell custom design
         if let cellConfiguration = rowDescriptor.configuration[FormRowDescriptor.Configuration.CellConfiguration] as? NSDictionary {
             for (keyPath, value) in cellConfiguration {
-                cell?.setValue(value, forKeyPath: keyPath as String)
+                cell.setValue(value, forKeyPath: keyPath as! String)
             }
         }
-        return cell!
+
+        return cell
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -143,7 +138,6 @@ class FormViewController : UITableViewController {
     /// MARK: UITableViewDelegate
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-
         let rowDescriptor = formRowDescriptorAtIndexPath(indexPath)
         
 		if let height = rowDescriptor.configuration[FormRowDescriptor.Configuration.CellHeight] as? CGFloat {

@@ -21,15 +21,15 @@ class ManagerLog: DefaultTable {
 	override func loadMore() {
 		self.request = [
 			"mx_action": "main/log/getlist",
-			"start": self.count as NSNumber
+			"start": self.loaded as NSNumber
 		]
 		super.loadMore()
 	}
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as ManagerLogCell
+		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! ManagerLogCell
 
-		cell.data = self.rows[indexPath.row] as NSDictionary
+		cell.data = self.rows[indexPath.row] as! NSDictionary
 		cell.template(idx: indexPath.row)
 
 		return cell

@@ -8,13 +8,12 @@
 
 import UIKit
 
-//class FormOptionsSelectorController: UITableViewController, FormSelector {
 class FormOptionsSelectorController: DefaultTable, FormSelector {
 
     /// MARK: FormSelector
     
     var formCell: FormBaseCell!
-    
+
     /// MARK: Init
 
 	init() {
@@ -22,6 +21,10 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
 		let archiver = NSKeyedArchiver(forWritingWithMutableData: data)
 		archiver.finishEncoding()
 		super.init(coder: NSKeyedUnarchiver(forReadingWithData: data))
+	}
+
+	required init(coder aDecoder: NSCoder) {
+	    fatalError("init(coder:) has not been implemented")
 	}
 
 	override func prepareTable() {
@@ -43,7 +46,7 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
 		if let options = formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.Options] as? NSArray {
 			self.rows = options
 			self.total = options.count
-			self.count = options.count
+			self.loaded = options.count
 		}
 
 		self.refreshControl.endRefreshing()
@@ -60,8 +63,8 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
             cell = DefaultCell.init(style: .Subtitle, reuseIdentifier: reuseIdentifier) as DefaultCell
         }
         
-        let options = formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.Options] as NSArray
-        let optionValue = options[indexPath.row] as NSObject
+        let options = formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.Options] as! NSArray
+        let optionValue = options[indexPath.row] as! NSObject
 
 		cell!.template(idx: indexPath.row)
 		var title = formCell.rowDescriptor.titleForOptionValue(optionValue)
@@ -111,15 +114,15 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
             allowsMultipleSelection = allowsMultipleSelectionValue
         }
         
-        let options = formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.Options] as NSArray
-        let optionValue = options[indexPath.row] as NSObject
-        
+        let options = formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.Options] as! NSArray
+        let optionValue = options[indexPath.row] as! NSObject
+
         if allowsMultipleSelection {
             
             if formCell.rowDescriptor.value == nil {
                 formCell.rowDescriptor.value = NSMutableArray()
             }
-                        
+
             if var selectedOptions = formCell.rowDescriptor.value as? NSMutableArray {
                 
                 if selectedOptions.containsObject(optionValue) {
@@ -158,4 +161,13 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
+
+	func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+		if let closure = formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.BeforeSelectClosure] as? SelectClosure {
+			closure(controller: self, tableView: tableView, indexPath: indexPath)
+			return nil
+		}
+		return indexPath
+	}
+
 }

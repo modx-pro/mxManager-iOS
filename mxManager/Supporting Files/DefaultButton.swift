@@ -24,7 +24,7 @@ class DefaultButton: UIButton {
 
 class BlueButton: DefaultButton {
 
-	override init(coder aDecoder: NSCoder) {
+	required init(coder aDecoder: NSCoder) {
 		super.init(coder:aDecoder)
 		self.setTitleColor(Colors().defaultText(), forState: UIControlState.Normal)
 		self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)
@@ -49,7 +49,7 @@ class BlueButton: DefaultButton {
 
 class RedButton: DefaultButton {
 
-	override init(coder aDecoder: NSCoder) {
+	required init(coder aDecoder: NSCoder) {
 		super.init(coder:aDecoder)
 		self.setTitleColor(Colors().red(), forState: UIControlState.Normal)
 		self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)
@@ -74,7 +74,7 @@ class RedButton: DefaultButton {
 
 class GreenButton: DefaultButton {
 
-	override init(coder aDecoder: NSCoder) {
+	required init(coder aDecoder: NSCoder) {
 		super.init(coder:aDecoder)
 		self.setTitleColor(Colors().green(), forState: UIControlState.Normal)
 		self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)

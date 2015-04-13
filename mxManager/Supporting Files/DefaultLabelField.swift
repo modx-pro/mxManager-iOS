@@ -13,10 +13,12 @@ class DefaultLabelField: UILabel {
 
 	@IBInspectable var inset: CGFloat = 5
 
+	/*
 	override init() {
 		super.init()
 		self.addBorder()
 	}
+	*/
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)

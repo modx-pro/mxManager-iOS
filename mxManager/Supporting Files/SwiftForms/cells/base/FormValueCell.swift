@@ -12,8 +12,8 @@ class FormValueCell: FormBaseCell {
     
     /// MARK: Cell views
     
-    let titleLabel = UILabel()
-    let valueLabel = DefaultLabelField()
+    let titleLabel: UILabel = UILabel()
+    let valueLabel: DefaultLabelField = DefaultLabelField()
     
     /// MARK: Properties
     
@@ -35,15 +35,16 @@ class FormValueCell: FormBaseCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(valueLabel)
 
-		titleLabel.setContentHuggingPriority(500, forAxis: .Horizontal)
-		titleLabel.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
-		valueLabel.setContentHuggingPriority(750, forAxis: .Horizontal)
+		titleLabel.setContentHuggingPriority(251, forAxis: .Horizontal)
+		titleLabel.setContentCompressionResistancePriority(250, forAxis: .Horizontal)
+		valueLabel.setContentHuggingPriority(251, forAxis: .Horizontal)
 		valueLabel.setContentCompressionResistancePriority(250, forAxis: .Horizontal)
 
         // apply constant constraints
 		contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: contentView, attribute: .Height, multiplier: 1.0, constant: 0.0))
 		if titleLabel.text != "" {
-			let labelWidth = NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 100.0)
+			let width = rowDescriptor.configuration[FormRowDescriptor.Configuration.LabelWidth] as! CGFloat
+			let labelWidth = NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: width)
 			labelWidth.priority = 750
 			contentView.addConstraint(labelWidth)
 		}
@@ -66,7 +67,7 @@ class FormValueCell: FormBaseCell {
             rightPadding = 8
         }
         
-        if titleLabel.text != nil && countElements(titleLabel.text!) > 0 {
+        if titleLabel.text != nil && count(titleLabel.text!) > 0 {
             return ["H:|-8-[titleLabel]-[valueLabel]-\(rightPadding)-|"]
         }
         else {

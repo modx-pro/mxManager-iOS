@@ -22,7 +22,7 @@ class Console: UIViewController {
 		self.transitioningDelegate = self.transitioner
 	}
 
-	convenience override init() {
+	convenience init() {
 		self.init(nibName: "Console", bundle: nil)
 	}
 
@@ -37,7 +37,7 @@ class Console: UIViewController {
 
 class CAVTransitioner: NSObject, UIViewControllerTransitioningDelegate {
 
-	func presentationControllerForPresentedViewController(presented: UIViewController!, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController!) -> UIPresentationController! {
+	func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
 		return ConsolePresentationController(presentedViewController: presented, presentingViewController: presenting)
 	}
 
@@ -84,7 +84,7 @@ class ConsolePresentationController: UIPresentationController {
 		let vc = self.presentingViewController
 		let v = vc.view
 		let con = self.containerView
-		let shadow = (con.subviews as [UIView])[0]
+		let shadow = (con.subviews as! [UIView])[0]
 		let tc = vc.transitionCoordinator()!
 		tc.animateAlongsideTransition({
 			_ in
@@ -118,11 +118,11 @@ class ConsolePresentationController: UIPresentationController {
 
 extension CAVTransitioner: UIViewControllerTransitioningDelegate {
 
-	func animationControllerForPresentedController(presented: UIViewController!, presentingController presenting: UIViewController!, sourceController source: UIViewController!) -> UIViewControllerAnimatedTransitioning! {
+	func animationControllerForPresentedController(presented: UIViewController?!, presentingController presenting: UIViewController!, sourceController source: UIViewController!) -> UIViewControllerAnimatedTransitioning! {
 		return self
 	}
 
-	func animationControllerForDismissedController(dismissed: UIViewController!) -> UIViewControllerAnimatedTransitioning! {
+	func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 		return self
 	}
 
