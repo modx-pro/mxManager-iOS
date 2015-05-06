@@ -76,20 +76,20 @@ class SiteMain: DefaultTable {
 			}
 		}
 		else if identifier == "clear_cache" {
-			Utils().showSpinner(self.view)
+			Utils.showSpinner(self.view)
 			self.Request(["mx_action": "main/clearcache"], success: {
 				data in
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 				if self.navigationController != nil {
-					let popup = Utils().console(self.navigationController!, rows: data["data"] as! NSArray)
+					let popup = Utils.console(self.navigationController!, rows: data["data"] as! NSArray)
 					popup.view.frame = CGRectMake(0, 0, self.view.frame.size.width - 20, popup.view.frame.size.height)
 					popup.view.bounds = CGRectMake(0, 0, self.view.bounds.size.width - 20, popup.view.frame.size.height)
 					self.popup = popup
 				}
 			}, failure: {
 				data in
-				Utils().hideSpinner(self.view)
-				Utils().alert("", message:data["message"] as! String, view:self)
+				Utils.hideSpinner(self.view)
+				Utils.alert("", message:data["message"] as! String, view:self)
 			})
 		}
 	}
@@ -105,7 +105,7 @@ class SiteMain: DefaultTable {
 			site["version"] = data["version"] as! String
 		}
 
-		if Utils().updateSite(site["key"] as! String, site: site, notify: false) {
+		if Utils.updateSite(site["key"] as! String, site: site, notify: false) {
 			self.data = site
 		}
 	}

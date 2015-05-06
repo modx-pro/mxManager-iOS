@@ -38,10 +38,10 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 
 		if self.data.count != 0 {
 			self.setFormValues(self.data)
-			self.navigationItem.title = Utils().lexicon("site_settings")
+			self.navigationItem.title = Utils.lexicon("site_settings")
 		}
 		else {
-			self.navigationItem.title = Utils().lexicon("new_site")
+			self.navigationItem.title = Utils.lexicon("new_site")
 			if self.disableCancel {
 				self.btnCancel.enabled = false
 			}
@@ -181,7 +181,7 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 			site["key"] = key
 		}
 
-		let sites = Utils().getSites()
+		let sites = Utils.getSites()
 		if sites.count > 0 {
 			for existing_site in sites {
 				// Check for existing site with the same name or url
@@ -197,13 +197,13 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 					message = "site_err_manager_ae"
 				}
 				if message != "" {
-					Utils().alert("error", message: message, view: self)
+					Utils.alert("error", message: message, view: self)
 					return
 				}
 			}
 		}
 
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.btnSave.enabled = false;
 		self.btnCancel.enabled = false;
 		self.data = site
@@ -221,16 +221,16 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 						site["version"] = tmp["version"] as! String
 					}
 				}
-				if Utils().addSite(key, site:site) {
+				if Utils.addSite(key, site:site) {
 					self.closePopup()
 				}
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 			}, failure: {
 			data in
-				Utils().alert("", message: data["message"] as! String, view: self)
+				Utils.alert("", message: data["message"] as! String, view: self)
 				self.btnSave.enabled = true;
 				self.btnCancel.enabled = true;
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 		})
 	}
 
@@ -290,14 +290,14 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 	func addSaveButton() {
 		let icon = UIImage.init(named: "icon-check")
 		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "submitForm:")
-		btn.tintColor = Colors().defaultText()
+		btn.tintColor = Colors.defaultText()
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}
 
 	func addHideKeyboardButton() {
 		let icon = UIImage.init(named: "icon-keyboard-hide")
 		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "finishEdit:")
-		btn.tintColor = Colors().defaultText()
+		btn.tintColor = Colors.defaultText()
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}
 

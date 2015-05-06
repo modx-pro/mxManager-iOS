@@ -35,8 +35,8 @@ class DefaultCell: UITableViewCell {
 			}
 
 			// Change default color of icons
-			if self.imageView?.tintColor == Colors().systemTint() {
-				self.imageView?.tintColor = Colors().defaultText()
+			if self.imageView?.tintColor == Colors.systemTint() {
+				self.imageView?.tintColor = Colors.defaultText()
 			}
 		}
 
@@ -47,10 +47,10 @@ class DefaultCell: UITableViewCell {
 
 	func template(idx: Int = 0) {
 		self.backgroundColor = idx % 2 == 1
-				? Colors().tableAlternate()
+				? Colors.tableAlternate()
 				: UIColor.whiteColor()
 
-		let textColor = Colors().defaultText()
+		let textColor = Colors.defaultText()
 		self.textLabel?.textColor = textColor
 		self.detailTextLabel?.textColor = textColor
 		self.imageView?.tintColor = textColor

@@ -67,7 +67,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 			self.addSearchBar()
 		}
 
-		let backgroundColor = Colors().sectionBackground()
+		let backgroundColor = Colors.sectionBackground()
 		self.tableView.backgroundColor = backgroundColor
 
 		if self.tableHeaderView == nil {
@@ -119,7 +119,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 		self.isLoading = true
 
 		if spinner {
-			Utils().showSpinner(self.view)
+			Utils.showSpinner(self.view)
 		}
 
 		self.Request(self.request, success: {
@@ -140,7 +140,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 				self.tableView.reloadData()
 			}
 			if spinner {
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 			}
 			self.tableView.tableFooterView = self.loaded < self.total
 				? self.activityIndicator
@@ -150,12 +150,12 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 		}, failure: {
 			(data: NSDictionary!) in
 			if spinner {
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 			}
 			self.tableView.tableFooterView = self.tableFooterView
 			self.isLoading = false
 			self.refreshControl.endRefreshing()
-			Utils().alert("", message: data["message"] as! String, view: self)
+			Utils.alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -214,7 +214,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 			(data: NSDictionary!) in
 			self.tableView.tableFooterView = self.tableFooterView
 			self.isLoading = false
-			Utils().alert("", message: data["message"] as! String, view: self)
+			Utils.alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -223,12 +223,12 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 
 		searchBar.delegate = self
 		searchBar.returnKeyType = UIReturnKeyType.Search
-		searchBar.tintColor = Colors().defaultText()
-		searchBar.placeholder = Utils().lexicon("search") as String
+		searchBar.tintColor = Colors.defaultText()
+		searchBar.placeholder = Utils.lexicon("search") as String
 
 		searchBar.translucent = true
-		searchBar.barTintColor = Colors().sectionBackground()
-		searchBar.layer.borderColor = Colors().borderColor().CGColor
+		searchBar.barTintColor = Colors.sectionBackground()
+		searchBar.layer.borderColor = Colors.borderColor().CGColor
 		searchBar.layer.borderWidth = 0.5
 
 		self.searchBar = searchBar

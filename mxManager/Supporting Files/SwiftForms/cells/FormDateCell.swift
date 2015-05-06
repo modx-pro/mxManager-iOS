@@ -103,16 +103,16 @@ class FormDateCell: FormValueCell {
 		let buttons = NSMutableArray()
 
 		if startValue != nil {
-			let clearButton: UIBarButtonItem = UIBarButtonItem(title: Utils().lexicon("btn_clear") as String, style: .Plain, target: self, action: "handleClearAction:")
-			clearButton.tintColor = Colors().defaultText()
+			let clearButton: UIBarButtonItem = UIBarButtonItem(title: Utils.lexicon("btn_clear") as String, style: .Plain, target: self, action: "handleClearAction:")
+			clearButton.tintColor = Colors.defaultText()
 			buttons.addObject(clearButton)
 		}
 
 		let flexible = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 		buttons.addObject(flexible)
 
-		let cancelButton: UIBarButtonItem = UIBarButtonItem(title: Utils().lexicon("btn_cancel") as String, style: .Plain, target: self, action: "handleCancelAction:")
-		cancelButton.tintColor = Colors().defaultText()
+		let cancelButton: UIBarButtonItem = UIBarButtonItem(title: Utils.lexicon("btn_cancel") as String, style: .Plain, target: self, action: "handleCancelAction:")
+		cancelButton.tintColor = Colors.defaultText()
 		buttons.addObject(cancelButton)
 
 		actionBar.items = buttons as [AnyObject]

@@ -175,7 +175,7 @@ class ResourcesList: DefaultTable {
 					(action, indexPath) -> Void in
 					tableView.editing = false
 					if !deleted {
-						Utils().confirm(
+						Utils.confirm(
 							item["pagetitle"] as! String,
 							message: "resource_delete_confirm",
 							view: self,
@@ -200,7 +200,7 @@ class ResourcesList: DefaultTable {
 					(action, indexPath) -> Void in
 					tableView.editing = false
 					if published {
-						Utils().confirm(
+						Utils.confirm(
 							item["pagetitle"] as! String,
 							message: "resource_unpublish_confirm",
 							view: self,
@@ -254,15 +254,15 @@ class ResourcesList: DefaultTable {
 				"mx_action": "resources/" + action,
 				"id": id as NSNumber,
 		]
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.Request(parameters, success: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
+			Utils.hideSpinner(self.view)
 			self.updateRow(data, indexPath: indexPath)
 		}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as! String, view: self)
+			Utils.hideSpinner(self.view)
+			Utils.alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -292,10 +292,10 @@ class ResourcesList: DefaultTable {
 	func showAddMenu(item: NSDictionary, sender: AnyObject? = nil) {
 		let sheet: UIAlertController = UIAlertController.init(
 			title: nil,
-			message: Utils().lexicon("resource_create") as String,
+			message: Utils.lexicon("resource_create") as String,
 			preferredStyle: UIAlertControllerStyle.ActionSheet
 		)
-		sheet.view.tintColor = Colors().defaultText()
+		sheet.view.tintColor = Colors.defaultText()
 
 		if let popoverController = sheet.popoverPresentationController {
 			if let btn = sender as? UIBarButtonItem {
@@ -309,7 +309,7 @@ class ResourcesList: DefaultTable {
 
 		if let classes = item["classes"] as? [String] {
 			for class_key in classes {
-				let title = Utils().lexicon(class_key) as String
+				let title = Utils.lexicon(class_key) as String
 				sheet.addAction(UIAlertAction.init(
 					title: title,
 					style: UIAlertActionStyle.Default,
@@ -332,7 +332,7 @@ class ResourcesList: DefaultTable {
 		}
 
 		sheet.addAction(UIAlertAction.init(
-			title: Utils().lexicon("cancel") as String,
+			title: Utils.lexicon("cancel") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: nil
 		))

@@ -72,7 +72,7 @@ class ElementsList: DefaultTable {
 					controller.types = self.types
 					controller.type = cell.data["type"] as! String
 					controller.category = 0
-					controller.title = Utils().lexicon("categories") as String
+					controller.title = Utils.lexicon("categories") as String
 				}
 				// Category
 				else {
@@ -218,7 +218,7 @@ class ElementsList: DefaultTable {
 
 		for (key, value) in enumerate(self.types) {
 			self.typesControl.insertSegmentWithTitle(
-				Utils().lexicon((value as! String) + "s") as String,
+				Utils.lexicon((value as! String) + "s") as String,
 				atIndex: key,
 				animated: false
 			)
@@ -260,7 +260,7 @@ class ElementsList: DefaultTable {
 			message: nil,
 			preferredStyle: UIAlertControllerStyle.ActionSheet
 		)
-		sheet.view.tintColor = Colors().defaultText()
+		sheet.view.tintColor = Colors.defaultText()
 
 		if let popoverController = sheet.popoverPresentationController {
 			if let btn = sender as? UIBarButtonItem {
@@ -281,7 +281,7 @@ class ElementsList: DefaultTable {
 				if permissions["new_" + type] != nil && permissions["new_" + type] as! Bool {
 					if action == "update" || type == "category" {
 						sheet.addAction(UIAlertAction.self(
-							title: Utils().lexicon(action + "_" + type) as String,
+							title: Utils.lexicon(action + "_" + type) as String,
 							style: UIAlertActionStyle.Default,
 							handler: {
 								(alert: UIAlertAction!) in
@@ -291,7 +291,7 @@ class ElementsList: DefaultTable {
 					}
 					else {
 						sheet.addAction(UIAlertAction(
-							title: Utils().lexicon("create_" + type) as String,
+							title: Utils.lexicon("create_" + type) as String,
 							style: UIAlertActionStyle.Default,
 							handler: {
 								(alert: UIAlertAction!) in
@@ -302,7 +302,7 @@ class ElementsList: DefaultTable {
 									"id": 0,
 									"action": action,
 									"category": item["id"] as! Int,
-									"title": Utils().lexicon("create_" + type)
+									"title": Utils.lexicon("create_" + type)
 								]
 								self.performSegueWithIdentifier("showElement", sender: cell)
 								//self.showPopupWindow(action: action, item: item, type: type)
@@ -314,7 +314,7 @@ class ElementsList: DefaultTable {
 		}
 
 		sheet.addAction(UIAlertAction.init(
-			title: Utils().lexicon("cancel") as String,
+			title: Utils.lexicon("cancel") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: nil
 		))
@@ -326,17 +326,17 @@ class ElementsList: DefaultTable {
 		var title: String
 		var save: String
 		if action == "create" {
-			save = Utils().lexicon("create") as String
+			save = Utils.lexicon("create") as String
 			title = "create_" + type + "_intro"
 		}
 		else {
-			save = Utils().lexicon("save") as String
+			save = Utils.lexicon("save") as String
 			title = "update_" + type + "_intro"
 		}
 
 		let data = [
-				"title": Utils().lexicon(title),
-				"save": Utils().lexicon(save),
+				"title": Utils.lexicon(title),
+				"save": Utils.lexicon(save),
 				"text": (item["name"] as? String) == nil
 						? ""
 						: item["name"] as! String,
@@ -352,23 +352,23 @@ class ElementsList: DefaultTable {
 		var message: String
 		var saveTitle: String
 		if action == "create" {
-			saveTitle = Utils().lexicon("create") as String
+			saveTitle = Utils.lexicon("create") as String
 			message = "create_" + type + "_intro"
 		}
 		else {
-			saveTitle = Utils().lexicon("save") as String
+			saveTitle = Utils.lexicon("save") as String
 			message = "update_" + type + "_intro"
 		}
 
 		let window: UIAlertController = UIAlertController.init(
 			title: "",
-			message: Utils().lexicon(message) as String,
+			message: Utils.lexicon(message) as String,
 			preferredStyle: UIAlertControllerStyle.Alert
 		)
-		window.view.tintColor = Colors().defaultText()
+		window.view.tintColor = Colors.defaultText()
 
 		let btnCancel = UIAlertAction.init(
-			title: Utils().lexicon("cancel") as String,
+			title: Utils.lexicon("cancel") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: {
 				(alert: UIAlertAction!) in
@@ -427,11 +427,11 @@ class ElementsList: DefaultTable {
 			"name": name,
 			"category": item["id"] as! NSNumber,
 		]
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.Request(request, success: {
 			(data: NSDictionary!) in
 			if request["category"] != self.category {
-				Utils().hideSpinner(self.view, animated: false)
+				Utils.hideSpinner(self.view, animated: false)
 				if self.tableView != nil {
 					let cell = self.tableView(self.tableView!, cellForRowAtIndexPath: self.selectedRow) as! ElementCell
 					self.performSegueWithIdentifier("getElements", sender: cell)
@@ -442,8 +442,8 @@ class ElementsList: DefaultTable {
 			}
 		}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as! String, view: self)
+			Utils.hideSpinner(self.view)
+			Utils.alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -454,14 +454,14 @@ class ElementsList: DefaultTable {
 			"id": item["id"] as! NSNumber,
 			"name": name,
 		]
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.Request(request, success: {
 			(data: NSDictionary!) in
 			self.loadRows()
 		}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as! String, view: self)
+			Utils.hideSpinner(self.view)
+			Utils.alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -473,20 +473,20 @@ class ElementsList: DefaultTable {
 			"id": item["id"] as! NSNumber,
 		]
 
-		Utils().confirm(
+		Utils.confirm(
 			item["name"] as! String,
 			message: message,
 			view: self,
 			closure: {
 				_ in
-				Utils().showSpinner(self.view)
+				Utils.showSpinner(self.view)
 				self.Request(request, success: {
 					(data: NSDictionary!) in
 					self.loadRows()
 				}, failure: {
 					(data: NSDictionary!) in
-					Utils().hideSpinner(self.view)
-					Utils().alert("", message: data["message"] as! String, view: self)
+					Utils.hideSpinner(self.view)
+					Utils.alert("", message: data["message"] as! String, view: self)
 				})
 			}
 		)

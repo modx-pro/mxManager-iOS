@@ -30,10 +30,10 @@ class PopupWindow: UIViewController, UITextFieldDelegate {
 			self.tmpText = self.data["text"] as! String
 		}
 
-		self.btnCancel.setTitle(Utils().lexicon("cancel"), forState: UIControlState.Normal)
+		self.btnCancel.setTitle(Utils.lexicon("cancel"), forState: UIControlState.Normal)
 		var tmp = self.data["save"] != nil
 			? self.data["save"] as! String
-			: Utils().lexicon("save")
+			: Utils.lexicon("save")
 		self.btnSave.setTitle(tmp, forState: UIControlState.Normal)
 		self.btnSave.enabled = false
 

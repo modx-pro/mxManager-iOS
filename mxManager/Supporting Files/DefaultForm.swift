@@ -18,7 +18,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 	var defaultTextFontSize: CGFloat = 14.0
 	var defaultParams = [
 		"titleLabel.font": UIFont.systemFontOfSize(14),
-		"titleLabel.color": Colors().defaultText(),
+		"titleLabel.color": Colors.defaultText(),
 		"titleLabel.textAlignment": NSTextAlignment.Right.rawValue
 	]
 	var keyboardHeight: CGFloat = 0
@@ -73,7 +73,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 	func prepareTable() {
 		self.addSaveButton()
 
-		let backgroundColor = Colors().sectionBackground()
+		let backgroundColor = Colors.sectionBackground()
 		self.tableView.backgroundColor = backgroundColor
 
 		if self.tableHeaderView == nil {
@@ -121,7 +121,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 	override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = UIView.init() as UIView
-		view.backgroundColor = Colors().sectionBackground()
+		view.backgroundColor = Colors.sectionBackground()
 
 		if self.form.sections[section].headerTitle != nil {
 			if self.form.sections[section].headerTitle != "" {
@@ -129,7 +129,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 				let width = tableView.frame.width
 
 				let label = UILabel.init(frame: CGRectMake(8, 0, width, height)) as UILabel
-				label.textColor = Colors().defaultText()
+				label.textColor = Colors.defaultText()
 				label.text = self.form.sections[section].headerTitle
 				label.font = UIFont.systemFontOfSize(self.defaultLabelFontSize)
 
@@ -143,7 +143,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 	override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
 		let view = UIView.init() as UIView
-		view.backgroundColor = Colors().sectionBackground()
+		view.backgroundColor = Colors.sectionBackground()
 
 		if self.form.sections[section].footerTitle != nil {
 			if self.form.sections[section].footerTitle != "" {
@@ -151,7 +151,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 				let width = tableView.frame.width
 
 				let label = UILabel.init(frame: CGRectMake(8, 0, width, height)) as UILabel
-				label.textColor = Colors().defaultText()
+				label.textColor = Colors.defaultText()
 				label.text = self.form.sections[section].footerTitle
 				label.font = UIFont.systemFontOfSize(self.defaultTextFontSize)
 
@@ -216,12 +216,12 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 				cell.textField.markError(true)
 			}
 			*/
-			message = Utils().lexicon("field_required", placeholders: ["field": required.title]) as String
-			Utils().alert("", message: message, view: self, closure: nil)
+			message = Utils.lexicon("field_required", placeholders: ["field": required.title]) as String
+			Utils.alert("", message: message, view: self, closure: nil)
 		}
 		else {
 			self.view.endEditing(true)
-			Utils().alert("Form data", message: message, view: self, closure: nil)
+			Utils.alert("Form data", message: message, view: self, closure: nil)
 			println(values)
 		}
 	}

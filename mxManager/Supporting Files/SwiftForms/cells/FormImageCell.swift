@@ -54,9 +54,9 @@ class FormImageCell: FormBaseCell {
 
 		imageField.layer.cornerRadius = 5.0;
 		imageField.layer.masksToBounds = true;
-		imageField.layer.borderColor = Colors().borderColor().CGColor
+		imageField.layer.borderColor = Colors.borderColor().CGColor
 		imageField.layer.borderWidth = 0.5;
-		//imageField.backgroundColor = Colors().borderColor()
+		//imageField.backgroundColor = Colors.borderColor()
 	}
 
 	override func update() {

@@ -18,18 +18,18 @@ class FileCell: DefaultCell {
 		switch type {
 			case "source":
 				self.detailTextLabel?.text = self.data["description"] as! String?
-				self.imageView?.image = Utils().getIcon("hdd")
+				self.imageView?.image = Utils.getIcon("hdd")
 				self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
 				break;
 			case "dir":
 				self.detailTextLabel?.text = ""
-				self.imageView?.image = Utils().getIcon("folder")
+				self.imageView?.image = Utils.getIcon("folder")
 				self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
 				break;
 			case "image":
 				self.detailTextLabel?.text = ""
 				self.accessoryType = UITableViewCellAccessoryType.None
-				self.imageView?.image = Utils().getIcon("file-image")
+				self.imageView?.image = Utils.getIcon("file-image")
 				break;
 			case "file":
 				self.detailTextLabel?.text = ""
@@ -37,16 +37,16 @@ class FileCell: DefaultCell {
 				let ext: String = self.data["ext"] as! String
 				switch ext {
 					case "htaccess", "access":
-						self.imageView?.image = Utils().getIcon("lock")
+						self.imageView?.image = Utils.getIcon("lock")
 						break;
 					case "txt", "rtf", "md":
-						self.imageView?.image = Utils().getIcon("file-text")
+						self.imageView?.image = Utils.getIcon("file-text")
 						break;
 					case "php", "xml", "js", "css", "less", "scss", "tpl", "html":
-						self.imageView?.image = Utils().getIcon("file-code")
+						self.imageView?.image = Utils.getIcon("file-code")
 						break;
 				 	default:
-						self.imageView?.image = Utils().getIcon("file-o")
+						self.imageView?.image = Utils.getIcon("file-o")
 				}
 			default:
 				break;

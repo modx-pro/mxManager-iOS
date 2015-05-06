@@ -23,15 +23,15 @@ class ElementPanel: DefaultForm {
 			"id": self.id as NSNumber,
 		]
 
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.Request(request, success: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
+			Utils.hideSpinner(self.view)
 			self.setFormValues(data["data"] as! NSDictionary)
 		}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as! String, view: self, closure: {
+			Utils.hideSpinner(self.view)
+			Utils.alert("", message: data["message"] as! String, view: self, closure: {
 				_ in
 				self.performSegueWithIdentifier("ExitView", sender: nil)
 			})
@@ -44,7 +44,7 @@ class ElementPanel: DefaultForm {
 
 		var section: FormSectionDescriptor = FormSectionDescriptor()
 		if data["name"] != nil {
-			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils().lexicon("element_name") as String)
+			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils.lexicon("element_name") as String)
 			row.value = data["name"] as! String
 			if row.value == "" {
 				row.value = nil
@@ -56,7 +56,7 @@ class ElementPanel: DefaultForm {
 			section.addRow(row)
 		}
 		if self.type == "tv" && data["caption"] != nil {
-			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "caption", rowType: FormRowType.Name, title: Utils().lexicon("element_caption") as String)
+			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "caption", rowType: FormRowType.Name, title: Utils.lexicon("element_caption") as String)
 			row.value = data["caption"] as! String
 			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
@@ -64,7 +64,7 @@ class ElementPanel: DefaultForm {
 			section.addRow(row)
 		}
 		if data["description"] != nil {
-			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "description", rowType: FormRowType.MultilineText, title: Utils().lexicon("element_description") as String, height: 54)
+			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "description", rowType: FormRowType.MultilineText, title: Utils.lexicon("element_description") as String, height: 54)
 			row.value = data["description"] as! String
 			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
@@ -74,7 +74,7 @@ class ElementPanel: DefaultForm {
 
 		if data["categories"] != nil {
 			if let categories = data["categories"] as? NSArray {
-				var row: FormRowDescriptor = FormRowDescriptor.init(tag: "category", rowType: FormRowType.MultipleSelector, title: Utils().lexicon("element_category") as String)
+				var row: FormRowDescriptor = FormRowDescriptor.init(tag: "category", rowType: FormRowType.MultipleSelector, title: Utils.lexicon("element_category") as String)
 				var ids = [] as NSMutableArray
 				var names = [:] as NSMutableDictionary
 				for (idx, item) in enumerate(categories) {
@@ -112,7 +112,7 @@ class ElementPanel: DefaultForm {
 
 		for type in ["events", "templates"] {
 			if let items = data[type] as? NSArray {
-				let row: FormRowDescriptor = FormRowDescriptor.init(tag: type, rowType: FormRowType.MultipleSelector, title: Utils().lexicon("element_" + type) as String, height: 54)
+				let row: FormRowDescriptor = FormRowDescriptor.init(tag: type, rowType: FormRowType.MultipleSelector, title: Utils.lexicon("element_" + type) as String, height: 54)
 				let ids = [] as NSMutableArray
 				let names = [:] as NSMutableDictionary
 				let enabled_items = [] as NSMutableArray
@@ -172,7 +172,7 @@ class ElementPanel: DefaultForm {
 		if self.type == "tv" {
 			for (idx, type) in enumerate(["type", "display"]) {
 				if let items = data[type + "s"] as? NSArray {
-					var row: FormRowDescriptor = FormRowDescriptor.init(tag: type, rowType: FormRowType.MultipleSelector, title: Utils().lexicon("element_" + type) as String)
+					var row: FormRowDescriptor = FormRowDescriptor.init(tag: type, rowType: FormRowType.MultipleSelector, title: Utils.lexicon("element_" + type) as String)
 					var ids = [] as NSMutableArray
 					var names = [:] as NSMutableDictionary
 					var enabled_items = [] as NSMutableArray
@@ -211,10 +211,10 @@ class ElementPanel: DefaultForm {
 		}
 
 		if self.type == "plugin" && data["disabled"] != nil {
-			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "disabled", rowType: FormRowType.BooleanSwitch, title: Utils().lexicon("element_disabled") as String)
+			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "disabled", rowType: FormRowType.BooleanSwitch, title: Utils.lexicon("element_disabled") as String)
 			row.value = data["disabled"] as! Bool
 			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
-			params["switchView.onTintColor"] = Colors().red()
+			params["switchView.onTintColor"] = Colors.red()
 			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 			section.addRow(row)
 		}
@@ -225,8 +225,8 @@ class ElementPanel: DefaultForm {
 		let lastHeight: CGFloat = 100
 		section = FormSectionDescriptor()
 		section.headerTitle = (self.type == "tv"
-			? Utils().lexicon("element_default_value")
-			: Utils().lexicon("element_content")) as String
+			? Utils.lexicon("element_default_value")
+			: Utils.lexicon("element_content")) as String
 		if data["content"] != nil {
 			let decodedData = NSData.init(base64EncodedString: data["content"] as! String, options: nil)
 			if let decodedString = NSString.init(data: decodedData!, encoding: NSUTF8StringEncoding) {
@@ -252,8 +252,8 @@ class ElementPanel: DefaultForm {
 
 	override func submitForm(sender: UIBarButtonItem!) {
 		if let required = self.form.validateForm() {
-			var message = Utils().lexicon("field_required", placeholders: ["field": required.title])
-			Utils().alert("", message: message, view: self, closure: nil)
+			var message = Utils.lexicon("field_required", placeholders: ["field": required.title])
+			Utils.alert("", message: message, view: self, closure: nil)
 		}
 		else {
 			self.view.endEditing(true)
@@ -275,12 +275,12 @@ class ElementPanel: DefaultForm {
 					request[key as! String] = value
 				}
 			}
-			//Utils().alert("Form data", message: request.description, view: self, closure: nil)
+			//Utils.alert("Form data", message: request.description, view: self, closure: nil)
 
-			Utils().showSpinner(self.view)
+			Utils.showSpinner(self.view)
 			self.Request(request, success: {
 				(data: NSDictionary!) in
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 
 				self.title = values["name"] as? String
 				if let response = data["data"] as? NSDictionary {
@@ -293,8 +293,8 @@ class ElementPanel: DefaultForm {
 				}
 			}, failure: {
 				(data: NSDictionary!) in
-				Utils().hideSpinner(self.view)
-				Utils().alert("", message: data["message"] as! String, view: self)
+				Utils.hideSpinner(self.view)
+				Utils.alert("", message: data["message"] as! String, view: self)
 			})
 		}
 	}

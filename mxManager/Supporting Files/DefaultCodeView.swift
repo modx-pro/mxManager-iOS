@@ -33,7 +33,7 @@ class DefaultCodeView: JLTextView {
 	func addBorder() {
 		self.layer.cornerRadius = 5.0;
 		self.layer.masksToBounds = true;
-		self.layer.borderColor = Colors().borderColor().CGColor
+		self.layer.borderColor = Colors.borderColor().CGColor
 		self.layer.borderWidth = 0.5;
 	}
 

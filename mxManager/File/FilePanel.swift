@@ -40,17 +40,17 @@ class FilePanel: DefaultForm {
 			"file": self.pathRelative as NSString,
 		]
 
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.Request(request, success: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view, animated: false)
+			Utils.hideSpinner(self.view, animated: false)
 			if let file = data["data"] as? NSDictionary {
 				self.setFormValues(file)
 			}
 		}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view, animated: false)
-			Utils().alert("", message: data["message"] as! String, view: self, closure: {
+			Utils.hideSpinner(self.view, animated: false)
+			Utils.alert("", message: data["message"] as! String, view: self, closure: {
 				_ in
 				self.performSegueWithIdentifier("ExitView", sender: nil)
 			})
@@ -64,7 +64,7 @@ class FilePanel: DefaultForm {
 
 		var section: FormSectionDescriptor = FormSectionDescriptor()
 
-		var row = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils().lexicon("file_name") as String) as FormRowDescriptor
+		var row = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils.lexicon("file_name") as String) as FormRowDescriptor
 		var params = NSMutableDictionary.init(dictionary: self.defaultParams)
 		params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 		row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
@@ -79,8 +79,8 @@ class FilePanel: DefaultForm {
 				var params = NSMutableDictionary.init(dictionary: self.defaultParams)
 				params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 				params["textField.enabled"] = false
-				params["textField.textColor"] = Colors().disabledText()
-				var row = FormRowDescriptor.self(tag: field, rowType: FormRowType.Name, title: Utils().lexicon("file_" + field) as String) as FormRowDescriptor
+				params["textField.textColor"] = Colors.disabledText()
+				var row = FormRowDescriptor.self(tag: field, rowType: FormRowType.Name, title: Utils.lexicon("file_" + field) as String) as FormRowDescriptor
 				if field == "size" {
 					var size = data["size"] as! Int
 					var k = "b"
@@ -123,7 +123,7 @@ class FilePanel: DefaultForm {
 					row.configuration[FormRowDescriptor.Configuration.Required] = false
 
 					var section: FormSectionDescriptor = FormSectionDescriptor()
-					section.headerTitle = Utils().lexicon("file_content") as String
+					section.headerTitle = Utils.lexicon("file_content") as String
 					section.addRow(row)
 					form.sections.append(section)
 					adjust = true
@@ -142,7 +142,7 @@ class FilePanel: DefaultForm {
 					row.value = decodedString
 
 					var section: FormSectionDescriptor = FormSectionDescriptor()
-					section.headerTitle = Utils().lexicon("file_content") as String
+					section.headerTitle = Utils.lexicon("file_content") as String
 					section.addRow(row)
 					form.sections.append(section)
 					adjust = true
@@ -159,12 +159,12 @@ class FilePanel: DefaultForm {
 
 	override func submitForm(sender: UIBarButtonItem!) {
 		if let required = self.form.validateForm() {
-			var message = Utils().lexicon("field_required", placeholders: ["field": required.title])
-			Utils().alert("", message: message, view: self, closure: nil)
+			var message = Utils.lexicon("field_required", placeholders: ["field": required.title])
+			Utils.alert("", message: message, view: self, closure: nil)
 		}
 		else {
 			self.view.endEditing(true)
-			//Utils().alert("Form data", message: self.form.formValues().description, view: self, closure: nil)
+			//Utils.alert("Form data", message: self.form.formValues().description, view: self, closure: nil)
 			var values = self.form.formValues()
 			var request: [String:AnyObject] = [
 					"mx_action": "files/file/" + self.action,
@@ -180,10 +180,10 @@ class FilePanel: DefaultForm {
 				request["content"] = content
 			}
 
-			Utils().showSpinner(self.view)
+			Utils.showSpinner(self.view)
 			self.Request(request, success: {
 				(data: NSDictionary!) in
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 
 				self.title = values["name"] as? String
 				if let response = data["data"] as? NSDictionary {
@@ -196,8 +196,8 @@ class FilePanel: DefaultForm {
 				}
 			}, failure: {
 				(data: NSDictionary!) in
-				Utils().hideSpinner(self.view)
-				Utils().alert("", message: data["message"] as! String, view: self)
+				Utils.hideSpinner(self.view)
+				Utils.alert("", message: data["message"] as! String, view: self)
 			})
 		}
 	}

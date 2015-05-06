@@ -41,7 +41,7 @@ class DefaultTextField: UITextField {
 	func addBorder() {
 		self.layer.cornerRadius = 5.0;
 		self.layer.masksToBounds = true;
-		self.layer.borderColor = Colors().borderColor().CGColor
+		self.layer.borderColor = Colors.borderColor().CGColor
 		self.layer.borderWidth = 0.5;
 	}
 
@@ -51,10 +51,10 @@ extension UITextField {
 
 	func markError(marked: Bool) {
 		if marked {
-			self.layer.borderColor = Colors().red().CGColor
+			self.layer.borderColor = Colors.red().CGColor
 		}
 		else {
-			self.layer.borderColor = Colors().borderColor().CGColor
+			self.layer.borderColor = Colors.borderColor().CGColor
 		}
 	}
 

@@ -22,7 +22,7 @@ class ResourceCell: DefaultCell {
 				self.textLabel?.text = self.data["key"] as! String?
 			}
 			self.detailTextLabel?.text = self.data["description"] as! String?
-			self.imageView?.image = Utils().getIcon("globe")
+			self.imageView?.image = Utils.getIcon("globe")
 			self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
 		}
 		else {
@@ -35,7 +35,7 @@ class ResourceCell: DefaultCell {
 			self.detailTextLabel?.text = self.data["longtitle"] as! String?
 
 			if type == "folder" {
-				self.imageView?.image = Utils().getIcon("folder")
+				self.imageView?.image = Utils.getIcon("folder")
 				self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
 			}
 			else {
@@ -53,13 +53,13 @@ class ResourceCell: DefaultCell {
 				default:
 					image = "file"
 				}
-				self.imageView?.image = Utils().getIcon(image)
+				self.imageView?.image = Utils.getIcon(image)
 				self.accessoryType = UITableViewCellAccessoryType.None
 			}
 
-			var normalColor = Colors().defaultText()
-			var disabledColor = Colors().disabledText()
-			var deletedColor = Colors().red(alpha: 0.3)
+			var normalColor = Colors.defaultText()
+			var disabledColor = Colors.disabledText()
+			var deletedColor = Colors.red(alpha: 0.3)
 
 			if self.data["hidemenu"] as! Int == 1 || self.data["published"] as! Int == 0 {
 				self.imageView?.alpha = 0.5

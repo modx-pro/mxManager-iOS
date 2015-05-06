@@ -32,7 +32,7 @@ class ResourceSettingsPanel: DefaultForm {
 			var tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			tmp_params["valueLabel.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 			if data[field] != nil {
-				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.DateAndTime, title: Utils().lexicon("resource_" + field) as String) as FormRowDescriptor
+				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.DateAndTime, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = tmp_params
 				row.configuration[FormRowDescriptor.Configuration.Required] = false
 				row.configuration[FormRowDescriptor.Configuration.LabelWidth] = 150.0 as CGFloat
@@ -54,7 +54,7 @@ class ResourceSettingsPanel: DefaultForm {
 		section = FormSectionDescriptor()
 		for field in ["parent", "template", "class_key", "content_type", "content_dispo"] {
 			if data[field] != nil {
-				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.MultipleSelector, title: Utils().lexicon("resource_" + field) as String) as FormRowDescriptor
+				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.MultipleSelector, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 				var tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
 				tmp_params["valueLabel.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 				tmp_params["valueLabel.color"] = UIColor.blackColor()
@@ -78,7 +78,7 @@ class ResourceSettingsPanel: DefaultForm {
 						row.configuration[FormRowDescriptor.Configuration.BeforeSelectClosure] = {
 							(controller: DefaultTable, tableView: UITableView, indexPath: NSIndexPath) in
 							if self.parent.tvs && self.parent.tvs_loaded {
-								Utils().confirm(
+								Utils.confirm(
 									"",
 									message: "resource_template_confirm",
 									view: controller,
@@ -133,7 +133,7 @@ class ResourceSettingsPanel: DefaultForm {
 					row.configuration[FormRowDescriptor.Configuration.TitleFormatterClosure] = {
 						(value: AnyObject!) in
 						if let type = value as? String {
-							return Utils().lexicon(type) as String
+							return Utils.lexicon(type) as String
 						}
 						return nil
 					} as TitleFormatterClosure
@@ -151,7 +151,7 @@ class ResourceSettingsPanel: DefaultForm {
 					row.configuration[FormRowDescriptor.Configuration.TitleFormatterClosure] = {
 						(value: AnyObject!) in
 						if let type = value as? Int {
-							return Utils().lexicon("resource_content_dispo_" + String(type)) as String
+							return Utils.lexicon("resource_content_dispo_" + String(type)) as String
 						}
 						return nil
 					} as TitleFormatterClosure
@@ -165,14 +165,14 @@ class ResourceSettingsPanel: DefaultForm {
 				params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 				var row: FormRowDescriptor
 				if field == "menuindex" {
-					row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Number, title: Utils().lexicon("resource_" + field) as String) as FormRowDescriptor
+					row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Number, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 					row.configuration[FormRowDescriptor.Configuration.Required] = true
 					if let tmp = data[field] as? Int {
 						row.value = String(tmp)
 					}
 				}
 				else {
-					row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: Utils().lexicon("resource_" + field) as String) as FormRowDescriptor
+					row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 					row.configuration[FormRowDescriptor.Configuration.Required] = false
 					row.value = data[field] as? String
 				}
@@ -190,17 +190,17 @@ class ResourceSettingsPanel: DefaultForm {
 				"syncsite", "deleted", "show_in_tree", "uri_override"] {
 			var tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			if data[field] != nil {
-				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.BooleanSwitch, title: Utils().lexicon("resource_" + field) as String) as FormRowDescriptor
+				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.BooleanSwitch, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 				var color: UIColor
 				switch field {
 					case "deleted":
-						color = Colors().red()
+						color = Colors.red()
 						break
 					case "syncsite":
-						color = Colors().blue()
+						color = Colors.blue()
 						break
 					default:
-						color = Colors().green()
+						color = Colors.green()
 				}
 				tmp_params["switchView.onTintColor"] = color
 				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = tmp_params
@@ -233,7 +233,7 @@ class ResourceSettingsPanel: DefaultForm {
 			var field = "uri"
 			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
-			let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: Utils().lexicon("resource_" + field) as String) as FormRowDescriptor
+			let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 			row.value = data[field] as? String
 			row.configuration[FormRowDescriptor.Configuration.Required] = data["uri_override"] as! Bool
 			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params

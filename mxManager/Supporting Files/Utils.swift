@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 bezumkin. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import Alamofire
 import MBProgressHUD
@@ -26,7 +25,7 @@ class Utils: NSObject {
 		return nil
 	}
 
-	func lexicon(string: NSString, placeholders: [String:String] = [:]) -> String {
+	class func lexicon(string: NSString, placeholders: [String:String] = [:]) -> String {
 		if string == "" {
 			return ""
 		}
@@ -41,48 +40,48 @@ class Utils: NSObject {
 		return string as String
 	}
 
-	func alert(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)? = nil ) {
+	class func alert(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)? = nil ) {
 		let alert: UIAlertController = UIAlertController.init(
-			title: self.lexicon(title) as String,
-			message: self.lexicon(message) as String,
+			title: Utils.lexicon(title) as String,
+			message: Utils.lexicon(message) as String,
 			preferredStyle: UIAlertControllerStyle.Alert
 		)
 
 		alert.addAction(UIAlertAction.init(
-			title: self.lexicon("close") as String,
+			title: Utils.lexicon("close") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: closure != nil
 				? { (alert: UIAlertAction!) in closure!() }
 				: nil
 		))
 
-		alert.view.tintColor = Colors().defaultText()
+		alert.view.tintColor = Colors.defaultText()
 		view.presentViewController(alert, animated: true, completion: nil)
 	}
 
-	func confirm(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)!) {
+	class func confirm(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)!) {
 		let alert: UIAlertController = UIAlertController.init(
-			title: self.lexicon(title) as String,
-			message: self.lexicon(message) as String,
+			title: Utils.lexicon(title) as String,
+			message: Utils.lexicon(message) as String,
 			preferredStyle: UIAlertControllerStyle.Alert
 		)
 
 		alert.addAction(UIAlertAction.init(
-			title: self.lexicon("cancel") as String,
+			title: Utils.lexicon("cancel") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: nil
 		))
 		alert.addAction(UIAlertAction.init(
-			title: self.lexicon("ok") as String,
+			title: Utils.lexicon("ok") as String,
 			style: UIAlertActionStyle.Default,
 			handler: { (alert: UIAlertAction!) in closure() }
 		))
 
-		alert.view.tintColor = Colors().defaultText()
+		alert.view.tintColor = Colors.defaultText()
 		view.presentViewController(alert, animated: true, completion: nil)
 	}
 
-	func console(view: UIViewController, rows: NSArray) -> UIViewController {
+	class func console(view: UIViewController, rows: NSArray) -> UIViewController {
 		var text = NSMutableAttributedString.init() as NSMutableAttributedString
 
 		for row in rows as! [NSDictionary] {
@@ -95,7 +94,7 @@ class Utils: NSObject {
 				attributes[NSForegroundColorAttributeName] = UIColor.grayColor()
 			}
 			else if level == "error" {
-				attributes[NSForegroundColorAttributeName] = Colors().red()
+				attributes[NSForegroundColorAttributeName] = Colors.red()
 			}
 			else {
 				attributes[NSForegroundColorAttributeName] = UIColor.blackColor()
@@ -118,7 +117,7 @@ class Utils: NSObject {
 		return window
 	}
 
-	func showSpinner(view: UIView, animated: Bool = true) {
+	class func showSpinner(view: UIView, animated: Bool = true) {
 		let huds = MBProgressHUD.allHUDsForView(view) as NSArray
 		if huds.count == 0 {
 			let spinner = MBProgressHUD.showHUDAddedTo(view, animated: animated)
@@ -130,11 +129,11 @@ class Utils: NSObject {
 		}
 	}
 
-	func hideSpinner(view: UIView, animated: Bool = true) {
+	class func hideSpinner(view: UIView, animated: Bool = true) {
 		MBProgressHUD.hideAllHUDsForView(view, animated: animated)
 	}
 
-	func getIcon(name: NSString) -> UIImage {
+	class func getIcon(name: NSString) -> UIImage {
 		let bundle = NSBundle.mainBundle() as NSBundle
 		let path = bundle.pathForResource(name as String, ofType: "png")
 		var icon = UIImage.init(contentsOfFile: path!) as UIImage!
@@ -142,7 +141,7 @@ class Utils: NSObject {
 		return icon.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
 	}
 
-	func addSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
+	class func addSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
 		let keychain = Keychain.init() as Keychain
 		let sites = [] as NSMutableArray
 		sites.addObjectsFromArray(self.getSites() as [AnyObject])
@@ -171,7 +170,7 @@ class Utils: NSObject {
 		return true
 	}
 
-	func updateSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
+	class func updateSite(key: String, site: NSDictionary, notify: Bool = true) -> Bool {
 		let keychain = Keychain.init() as Keychain
 		let sites = [] as NSMutableArray
 		sites.addObjectsFromArray(self.getSites() as [AnyObject])
@@ -196,7 +195,7 @@ class Utils: NSObject {
 		return true
 	}
 
-	func removeSite(key: String, notify: Bool = true) -> Bool {
+	class func removeSite(key: String, notify: Bool = true) -> Bool {
 		let keychain = Keychain.init() as Keychain
 		let sites = [] as NSMutableArray
 		sites.addObjectsFromArray(self.getSites() as [AnyObject])
@@ -216,7 +215,7 @@ class Utils: NSObject {
 		return true
 	}
 
-	func getSites() -> NSArray {
+	class func getSites() -> NSArray {
 		let keychain = Keychain.init() as Keychain
 
 		let sites = keychain.get(ArchiveKey(keyName: "Sites")).item?.object as? NSArray

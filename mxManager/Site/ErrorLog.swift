@@ -33,15 +33,15 @@ class ErrorLog: DefaultView {
 				"mx_action": "main/errorlog/get"
 		]
 
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.Request(parameters, success: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
+			Utils.hideSpinner(self.view)
 			self.setLog(data["data"] as! NSDictionary)
 		}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as! String, view: self)
+			Utils.hideSpinner(self.view)
+			Utils.alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -50,17 +50,17 @@ class ErrorLog: DefaultView {
 				"mx_action": "main/errorlog/clear"
 		]
 
-		Utils().confirm("", message: "error_log_clear_confirm" as String, view: self, closure: {
+		Utils.confirm("", message: "error_log_clear_confirm" as String, view: self, closure: {
 			_ in
-			Utils().showSpinner(self.view)
+			Utils.showSpinner(self.view)
 			self.Request(parameters, success: {
 				(data: NSDictionary!) in
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 				self.setLog(data["data"] as! NSDictionary)
 			}, failure: {
 				(data: NSDictionary!) in
-				Utils().hideSpinner(self.view)
-				Utils().alert("", message: data["message"] as! String, view: self)
+				Utils.hideSpinner(self.view)
+				Utils.alert("", message: data["message"] as! String, view: self)
 			})
 		})
 	}
@@ -70,7 +70,7 @@ class ErrorLog: DefaultView {
 			var log = ""
 
 			if data["tooLarge"] as! Bool {
-				log = Utils().lexicon("error_log_too_large") as String
+				log = Utils.lexicon("error_log_too_large") as String
 			}
 			else {
 				let decodedData = NSData.init(base64EncodedString: data["log"] as! String, options: nil)
@@ -79,7 +79,7 @@ class ErrorLog: DefaultView {
 					self.clearBtn?.enabled = true
 				}
 				if log == "" {
-					log = Utils().lexicon("error_log_empty") as String
+					log = Utils.lexicon("error_log_empty") as String
 					self.clearBtn?.enabled = false
 				}
 			}

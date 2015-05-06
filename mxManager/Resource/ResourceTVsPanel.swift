@@ -176,19 +176,19 @@ class ResourceTVsPanel: DefaultForm {
 
 		let spinner = spinner && self.navigationController!.visibleViewController?.isKindOfClass(ResourceTVsPanel) != nil
 		if spinner {
-			Utils().showSpinner(self.view)
+			Utils.showSpinner(self.view)
 		}
 		parent.Request(request, success: {
 			(data: NSDictionary!) in
 			if spinner {
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 			}
 			self.setFormValues(data["data"] as! NSArray)
 		}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
+			Utils.hideSpinner(self.view)
 			if spinner {
-				Utils().alert("", message: data["message"] as! String, view: self, closure: {
+				Utils.alert("", message: data["message"] as! String, view: self, closure: {
 					_ in
 					self.parent.selectedIndex = 0
 				})

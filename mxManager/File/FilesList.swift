@@ -214,7 +214,7 @@ class FilesList: DefaultTable {
 			message: nil,
 			preferredStyle: UIAlertControllerStyle.ActionSheet
 		)
-		sheet.view.tintColor = Colors().defaultText()
+		sheet.view.tintColor = Colors.defaultText()
 
 		if let popoverController = sheet.popoverPresentationController {
 			if let btn = sender as? UIBarButtonItem {
@@ -227,7 +227,7 @@ class FilesList: DefaultTable {
 		}
 
 		sheet.addAction(UIAlertAction.init(
-		title: Utils().lexicon("create_dir") as String,
+		title: Utils.lexicon("create_dir") as String,
 				style: UIAlertActionStyle.Default,
 				handler: {
 					(alert: UIAlertAction!) in
@@ -236,7 +236,7 @@ class FilesList: DefaultTable {
 		))
 
 		sheet.addAction(UIAlertAction.init(
-			title: Utils().lexicon("new_file") as String,
+			title: Utils.lexicon("new_file") as String,
 			style: UIAlertActionStyle.Default,
 			handler: {
 				(alert: UIAlertAction!) in
@@ -247,7 +247,7 @@ class FilesList: DefaultTable {
 					"source": item["source"] as! Int,
 					"path": item["path"] as! String,
 					"pathRelative": item["pathRelative"] as! String,
-					"title": Utils().lexicon("create_file")
+					"title": Utils.lexicon("create_file")
 				]
 				self.performSegueWithIdentifier("showFile", sender: cell)
 			}
@@ -255,7 +255,7 @@ class FilesList: DefaultTable {
 
 		/*
 		sheet.addAction(UIAlertAction.init(
-			title: Utils().lexicon("create_file"),
+			title: Utils.lexicon("create_file"),
 			style: UIAlertActionStyle.Default,
 			handler: {
 				(alert: UIAlertAction!) in
@@ -265,7 +265,7 @@ class FilesList: DefaultTable {
 		*/
 
 		sheet.addAction(UIAlertAction.init(
-			title: Utils().lexicon("cancel") as String,
+			title: Utils.lexicon("cancel") as String,
 			style: UIAlertActionStyle.Cancel,
 			handler: nil
 		))
@@ -290,8 +290,8 @@ class FilesList: DefaultTable {
 		}
 
 		let data = [
-			"title": Utils().lexicon(title),
-			"save": Utils().lexicon(save),
+			"title": Utils.lexicon(title),
+			"save": Utils.lexicon(save),
 			"text": (item["name"] as? String) == nil
 				? ""
 				: item["name"] as! String,
@@ -307,13 +307,13 @@ class FilesList: DefaultTable {
 		var message: String
 		var saveTitle: String
 		if action == "create" {
-			saveTitle = Utils().lexicon("create")
+			saveTitle = Utils.lexicon("create")
 			message = type == "dir"
 					? "create_dir_intro"
 					: "create_file_intro"
 		}
 		else {
-			saveTitle = Utils().lexicon("save")
+			saveTitle = Utils.lexicon("save")
 			message = type == "dir"
 					? "update_dir_intro"
 					: "update_file_intro"
@@ -321,13 +321,13 @@ class FilesList: DefaultTable {
 
 		let window: UIAlertController = UIAlertController.init(
 		title: "",
-				message: Utils().lexicon(message),
+				message: Utils.lexicon(message),
 				preferredStyle: UIAlertControllerStyle.Alert
 		)
-		window.view.tintColor = Colors().defaultText()
+		window.view.tintColor = Colors.defaultText()
 
 		let btnCancel = UIAlertAction.init(
-			title: Utils().lexicon("cancel"),
+			title: Utils.lexicon("cancel"),
 			style: UIAlertActionStyle.Cancel,
 			handler: {
 				(alert: UIAlertAction!) in
@@ -393,11 +393,11 @@ class FilesList: DefaultTable {
 			"source": item["source"] as! NSNumber,
 			"path": item["pathRelative"] as! NSString,
 		]
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.Request(request, success: {
 			(data: NSDictionary!) in
 			if request["path"] != self.pathRelative {
-				Utils().hideSpinner(self.view, animated: false)
+				Utils.hideSpinner(self.view, animated: false)
 				if self.tableView != nil {
 					let cell = self.tableView(self.tableView!, cellForRowAtIndexPath: self.selectedRow) as! FileCell
 					self.performSegueWithIdentifier("getFiles", sender: cell)
@@ -408,8 +408,8 @@ class FilesList: DefaultTable {
 			}
 		}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as! String, view: self)
+			Utils.hideSpinner(self.view)
+			Utils.alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -423,14 +423,14 @@ class FilesList: DefaultTable {
 			"source": item["source"] as! NSNumber,
 			"path": item["pathRelative"] as! NSString,
 		]
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.Request(request, success: {
 			(data: NSDictionary!) in
 			self.loadRows()
 			}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as! String, view: self)
+			Utils.hideSpinner(self.view)
+			Utils.alert("", message: data["message"] as! String, view: self)
 		})
 	}
 
@@ -449,20 +449,20 @@ class FilesList: DefaultTable {
 				: item["pathRelative"] as! NSString
 		]
 
-		Utils().confirm(
+		Utils.confirm(
 			item["name"] as! String,
 			message: message,
 			view: self,
 			closure: {
 				_ in
-				Utils().showSpinner(self.view)
+				Utils.showSpinner(self.view)
 				self.Request(request, success: {
 					(data: NSDictionary!) in
 					self.loadRows()
 				}, failure: {
 					(data: NSDictionary!) in
-					Utils().hideSpinner(self.view)
-					Utils().alert("", message: data["message"] as! String, view: self)
+					Utils.hideSpinner(self.view)
+					Utils.alert("", message: data["message"] as! String, view: self)
 				})
 			}
 		)

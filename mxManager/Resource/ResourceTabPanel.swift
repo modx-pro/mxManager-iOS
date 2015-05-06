@@ -30,7 +30,7 @@ class ResourceTabPanel: UITabBarController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
-		self.tabBar.tintColor = Colors().defaultText()
+		self.tabBar.tintColor = Colors.defaultText()
 
 		self.loadData()
 	}
@@ -52,15 +52,15 @@ class ResourceTabPanel: UITabBarController {
 			request["parent"] = self.parent as NSNumber
 		}
 
-		Utils().showSpinner(self.view)
+		Utils.showSpinner(self.view)
 		self.Request(request, success: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
+			Utils.hideSpinner(self.view)
 			self.setFormValues(data["data"] as! NSDictionary)
 		}, failure: {
 			(data: NSDictionary!) in
-			Utils().hideSpinner(self.view)
-			Utils().alert("", message: data["message"] as! String, view: self, closure: {
+			Utils.hideSpinner(self.view)
+			Utils.alert("", message: data["message"] as! String, view: self, closure: {
 				_ in
 				self.performSegueWithIdentifier("ExitView", sender: nil)
 			})
@@ -122,12 +122,12 @@ class ResourceTabPanel: UITabBarController {
 					}
 					if tab.form != nil {
 						if let required = tab.form.validateForm() {
-							var message = Utils().lexicon(
+							var message = Utils.lexicon(
 							"field_required",
 							placeholders: [
-									"field": Utils().lexicon("resource_" + required.tag) as String
+									"field": Utils.lexicon("resource_" + required.tag) as String
 							])
-							Utils().alert("", message: message, view: self, closure: nil)
+							Utils.alert("", message: message, view: self, closure: nil)
 							return [:]
 						}
 						else {
@@ -158,12 +158,12 @@ class ResourceTabPanel: UITabBarController {
 			for (key, value) in values {
 				request[key as! String] = value
 			}
-			//Utils().alert("Form data", message: request.description, view: self, closure: nil)
+			//Utils.alert("Form data", message: request.description, view: self, closure: nil)
 
-			Utils().showSpinner(self.view)
+			Utils.showSpinner(self.view)
 			self.Request(request, success: {
 				(data: NSDictionary!) in
-				Utils().hideSpinner(self.view)
+				Utils.hideSpinner(self.view)
 
 				self.title = values["pagetitle"] as? String
 				if let response = data["data"] as? NSDictionary {
@@ -176,8 +176,8 @@ class ResourceTabPanel: UITabBarController {
 				}
 			}, failure: {
 				(data: NSDictionary!) in
-				Utils().hideSpinner(self.view)
-				Utils().alert("", message: data["message"] as! String, view: self)
+				Utils.hideSpinner(self.view)
+				Utils.alert("", message: data["message"] as! String, view: self)
 			})
 		}
 	}

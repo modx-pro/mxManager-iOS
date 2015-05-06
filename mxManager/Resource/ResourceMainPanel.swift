@@ -36,7 +36,7 @@ class ResourceMainPanel: DefaultForm {
 		for field in ["pagetitle", "longtitle"] {
 			if data[field] != nil {
 				let section: FormSectionDescriptor = FormSectionDescriptor()
-				section.headerTitle = Utils().lexicon("resource_" + field) as String
+				section.headerTitle = Utils.lexicon("resource_" + field) as String
 				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: "") as FormRowDescriptor
 				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 				row.configuration[FormRowDescriptor.Configuration.Required] = field == "pagetitle"
@@ -49,7 +49,7 @@ class ResourceMainPanel: DefaultForm {
 		let section: FormSectionDescriptor = FormSectionDescriptor()
 		for field in ["alias", "menutitle", "link_attributes"] {
 			if data[field] != nil {
-				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: Utils().lexicon("resource_" + field) as String) as FormRowDescriptor
+				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 				row.configuration[FormRowDescriptor.Configuration.Required] = false
 				row.value = data[field] as! String
 				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
@@ -60,10 +60,10 @@ class ResourceMainPanel: DefaultForm {
 		for field in ["published", "hidemenu"] {
 			var tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			if data[field] != nil {
-				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.BooleanSwitch, title: Utils().lexicon("resource_" + field) as String) as FormRowDescriptor
+				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.BooleanSwitch, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 				tmp_params["switchView.onTintColor"] = field == "hidemenu"
-					? Colors().red()
-					: Colors().green()
+					? Colors.red()
+					: Colors.green()
 				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = tmp_params
 				row.configuration[FormRowDescriptor.Configuration.Required] = false
 				row.configuration[FormRowDescriptor.Configuration.LabelWidth] = 125.0 as CGFloat
@@ -81,14 +81,14 @@ class ResourceMainPanel: DefaultForm {
 				if field == "content" {
 					switch self.parent.class_key {
 					case "modSymLink", "modWebLink", "modStaticResource":
-						section.headerTitle = Utils().lexicon(self.parent.class_key)
+						section.headerTitle = Utils.lexicon(self.parent.class_key)
 						break
 					default:
-						section.headerTitle = Utils().lexicon("resource_content")
+						section.headerTitle = Utils.lexicon("resource_content")
 					}
 				}
 				else {
-					section.headerTitle = Utils().lexicon("resource_" + field)
+					section.headerTitle = Utils.lexicon("resource_" + field)
 				}
 				var row: FormRowDescriptor
 				var value = ""
