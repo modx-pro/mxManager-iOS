@@ -12,6 +12,7 @@
 		5105A11F1A761EE0004DF472 /* SiteSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5105A11E1A761EE0004DF472 /* SiteSettings.swift */; };
 		5105A1211A761F47004DF472 /* SiteMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5105A1201A761F47004DF472 /* SiteMain.swift */; };
 		5105A1271A762123004DF472 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5105A1261A762123004DF472 /* Utils.swift */; };
+		51079B271AFA544C0037A12F /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51079B261AFA544C0037A12F /* IAPManager.swift */; };
 		51107E451A67F35700667F69 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 51107E441A67F35700667F69 /* Podfile */; };
 		511E800F1AB5AAE10018C6D9 /* DefaultLabelField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511E800E1AB5AAE10018C6D9 /* DefaultLabelField.swift */; };
 		512914951AB0373800F0B010 /* DefaultTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512914941AB0373800F0B010 /* DefaultTextView.swift */; };
@@ -116,6 +117,7 @@
 		5105A11E1A761EE0004DF472 /* SiteSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SiteSettings.swift; path = Site/SiteSettings.swift; sourceTree = "<group>"; };
 		5105A1201A761F47004DF472 /* SiteMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SiteMain.swift; path = Site/SiteMain.swift; sourceTree = "<group>"; };
 		5105A1261A762123004DF472 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "Supporting Files/Utils.swift"; sourceTree = "<group>"; };
+		51079B261AFA544C0037A12F /* IAPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IAPManager.swift; path = "Supporting Files/IAPManager.swift"; sourceTree = "<group>"; };
 		51107E441A67F35700667F69 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		511E800E1AB5AAE10018C6D9 /* DefaultLabelField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultLabelField.swift; path = "Supporting Files/DefaultLabelField.swift"; sourceTree = "<group>"; };
 		512914941AB0373800F0B010 /* DefaultTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultTextView.swift; path = "Supporting Files/DefaultTextView.swift"; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				51A561EB1AB318FC0007B28B /* DefaultCodeView.swift */,
 				511E800E1AB5AAE10018C6D9 /* DefaultLabelField.swift */,
 				519649081ADBFA770027BFF0 /* PopupWindow.swift */,
+				51079B261AFA544C0037A12F /* IAPManager.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -631,6 +634,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51079B271AFA544C0037A12F /* IAPManager.swift in Sources */,
 				519649091ADBFA770027BFF0 /* PopupWindow.swift in Sources */,
 				5135C8E41A7D011E00817A0C /* Colors.swift in Sources */,
 				51CA38D51AAEB38F00315059 /* FormDescriptor.swift in Sources */,
@@ -743,7 +747,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -767,8 +771,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vasiliy Naumkin (J2E69EUB66)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vasiliy Naumkin (J2E69EUB66)";
 				COPY_PHASE_STRIP = NO;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -789,7 +793,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -810,7 +814,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -833,8 +837,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vasiliy Naumkin (J2E69EUB66)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vasiliy Naumkin (J2E69EUB66)";
 				COPY_PHASE_STRIP = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -849,7 +853,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

@@ -22,6 +22,43 @@ class SitesList: DefaultTable {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"SiteUpdated", object: nil)
 	}
 
+	override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+
+		let productId = "bez.mxManager.MultipleSites"
+		if identifier == "AddSite" {
+			let sites = Utils().getSites()
+			if sites.count == 0 {
+				return true
+			}
+			else if !IAPManager.sharedManager.isProductPurchased(productId) {
+				self.btnAdd.enabled = false
+				Utils().showSpinner(self.view)
+				IAPManager.sharedManager.purchaseProductWithId(productId) {
+					(error) -> Void in
+					Utils().hideSpinner(self.view)
+					self.btnAdd.enabled = true
+					if error != nil {
+						if error!.code == 2 {
+							return
+						}
+						Utils().alert(
+							"error",
+							message: (error!.userInfo?[NSLocalizedDescriptionKey] != nil)
+								? error!.userInfo![NSLocalizedDescriptionKey] as! String
+								: "",
+							view: self
+						)
+					}
+					else {
+						self.performSegueWithIdentifier("AddSite", sender: nil)
+					}
+				}
+				return false
+			}
+		}
+		return true
+	}
+
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
 
