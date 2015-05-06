@@ -80,21 +80,15 @@ class ResourceMainPanel: DefaultForm {
 				let section: FormSectionDescriptor = FormSectionDescriptor()
 				if field == "content" {
 					switch self.parent.class_key {
-					case "modSymLink":
-						section.headerTitle = Utils().lexicon("resource_modSymLink") as String
-						break
-					case "modWebLink":
-						section.headerTitle = Utils().lexicon("resource_modWebLink") as String
-						break
-					case "modStaticResource":
-						section.headerTitle = Utils().lexicon("resource_modStaticResource") as String
+					case "modSymLink", "modWebLink", "modStaticResource":
+						section.headerTitle = Utils().lexicon(self.parent.class_key)
 						break
 					default:
-						section.headerTitle = Utils().lexicon("resource_content") as String
+						section.headerTitle = Utils().lexicon("resource_content")
 					}
 				}
 				else {
-					section.headerTitle = Utils().lexicon("resource_" + field) as String
+					section.headerTitle = Utils().lexicon("resource_" + field)
 				}
 				var row: FormRowDescriptor
 				var value = ""

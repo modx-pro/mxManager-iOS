@@ -29,19 +29,27 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 	@IBOutlet var labelBasePassword: UILabel!
 
 	var keyboardHeight: CGFloat = 0
+	var disableCancel = false
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.addSaveButton()
-		//self.fixTopOffset(UIApplication.sharedApplication().statusBarOrientation.isLandscape)
+		self.fixTopOffset(UIApplication.sharedApplication().statusBarOrientation.isLandscape)
 
 		if self.data.count != 0 {
 			self.setFormValues(self.data)
+			self.navigationItem.title = Utils().lexicon("site_settings")
+		}
+		else {
+			self.navigationItem.title = Utils().lexicon("new_site")
+			if self.disableCancel {
+				self.btnCancel.enabled = false
+			}
 		}
 	}
 
 	override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-		//self.fixTopOffset(toInterfaceOrientation.isLandscape)
+		self.fixTopOffset(toInterfaceOrientation.isLandscape)
 	}
 
 	override func viewWillAppear(animated: Bool) {
@@ -105,6 +113,12 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 			self.fieldManager.markError(true)
 		}
 		else {
+			if !Regex("^http(s|)://").test(self.fieldManager.text) {
+				self.fieldManager.text = "http://" + self.fieldManager.text
+			}
+			if !Regex("/$").test(self.fieldManager.text) {
+				self.fieldManager.text = self.fieldManager.text + "/"
+			}
 			self.fieldManager.markError(false)
 		}
 
@@ -169,7 +183,7 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 
 		let sites = Utils().getSites()
 		if sites.count > 0 {
-			for (index, existing_site) in enumerate(sites) {
+			for existing_site in sites {
 				// Check for existing site with the same name or url
 				let s = existing_site["site"] as! NSString
 				let m = existing_site["manager"] as! NSString

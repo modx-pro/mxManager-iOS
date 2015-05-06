@@ -2,10 +2,11 @@
 "qVD-Ik-Fjz.title" = "mxManager";
 
 // Site settings
-"2wo-ha-oOD.title" = "Настройки";
+"new_site" = "Добавить сайт";
+"site_settings" = "Настройки";
 "6vo-wq-XXz.text" = "Пароль";
 "OlN-mj-pPq.text" = "Адрес менеджера";
-"PTA-MF-zHp.placeholder" = "http://mysite.com/manager";
+"PTA-MF-zHp.placeholder" = "mysite.com/manager/";
 "Uhc-DW-JKP.text" = "Имя пользователя";
 "bdT-OZ-Not.text" = "Название сайта";
 "cFa-I7-sET.placeholder" = "Мой любимый сайт";

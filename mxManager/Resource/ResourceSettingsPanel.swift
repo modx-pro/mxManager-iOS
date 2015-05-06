@@ -187,7 +187,7 @@ class ResourceSettingsPanel: DefaultForm {
 
 		section = FormSectionDescriptor()
 		for field in ["isfolder", "searchable", "richtext", "cacheable",
-				"syncsite", "deleted", "uri_override", "show_in_tree"] {
+				"syncsite", "deleted", "show_in_tree", "uri_override"] {
 			var tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			if data[field] != nil {
 				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.BooleanSwitch, title: Utils().lexicon("resource_" + field) as String) as FormRowDescriptor

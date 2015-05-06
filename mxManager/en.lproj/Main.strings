@@ -2,10 +2,11 @@
 "qVD-Ik-Fjz.title" = "mxManager";
 
 // Site settings
-"2wo-ha-oOD.title" = "Settings";
+"new_site" = "New site";
+"site_settings" = "Settings";
 "6vo-wq-XXz.text" = "Password";
 "OlN-mj-pPq.text" = "Manager address";
-"PTA-MF-zHp.placeholder" = "http://mysite.com/manager";
+"PTA-MF-zHp.placeholder" = "mysite.com/manager/";
 "Uhc-DW-JKP.text" = "Username";
 "bdT-OZ-Not.text" = "Site name";
 "cFa-I7-sET.placeholder" = "My favorite site";

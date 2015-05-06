@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 bezumkin. All rights reserved.
 //
 
+// @TODO  Добавить in-app purchase для разблокировки работы с несколькими сайтами
+
 import UIKit
 
 class SitesList: DefaultTable {
@@ -23,7 +25,15 @@ class SitesList: DefaultTable {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
 
-		if segue.identifier == "ShowSettings" {
+		if segue.identifier == "AddSite" {
+			var controller = segue.destinationViewController as! SiteSettings
+			if let data = sender as? NSDictionary {
+				if data["disable_cancel"] != nil {
+					controller.disableCancel = true
+				}
+			}
+		}
+		else if segue.identifier == "ShowSettings" {
 			var controller = segue.destinationViewController as! SiteSettings
 			controller.data = sender as! NSDictionary
 		}
@@ -37,10 +47,15 @@ class SitesList: DefaultTable {
 
 	override func loadRows(spinner: Bool = false) {
 		let rows = Utils().getSites()
+		self.refreshControl.endRefreshing()
 		if rows.count > 0 {
 			self.rows = rows
-			self.refreshControl.endRefreshing()
 			self.tableView.reloadData()
+		}
+		else {
+			dispatch_async(dispatch_get_main_queue()) {
+				self.performSegueWithIdentifier("AddSite", sender: ["disable_cancel": true])
+			}
 		}
 	}
 

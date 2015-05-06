@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jH8-gs-4gB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jH8-gs-4gB">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -1143,8 +1143,8 @@
                         <outlet property="fieldUser" destination="bgD-FQ-PrQ" id="oZW-xp-bHZ"/>
                         <outlet property="labelBasePassword" destination="nTe-nZ-58l" id="pLm-qa-Gkt"/>
                         <outlet property="labelBaseUser" destination="hpf-EP-fja" id="0uc-cc-fhq"/>
-                        <outlet property="navigationBar" destination="FoT-Aw-aPw" id="M8C-zm-QPs"/>
-                        <outlet property="navigationItem" destination="2wo-ha-oOD" id="axI-wW-ggU"/>
+                        <outlet property="navigationBar" destination="FoT-Aw-aPw" id="Zp7-Kj-tFX"/>
+                        <outlet property="navigationItem" destination="2wo-ha-oOD" id="hYa-GG-8hE"/>
                         <outlet property="scrollView" destination="3al-4i-VLg" id="cQx-E0-sPp"/>
                     </connections>
                 </viewController>
@@ -1170,10 +1170,10 @@
         <image name="trash.png" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ivP-bZ-bMA"/>
-        <segue reference="vci-AX-8KV"/>
         <segue reference="YJd-8c-ry4"/>
         <segue reference="4pt-1a-vLf"/>
+        <segue reference="vci-AX-8KV"/>
         <segue reference="3YO-3S-6nX"/>
+        <segue reference="ivP-bZ-bMA"/>
     </inferredMetricsTieBreakers>
 </document>
