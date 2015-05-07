@@ -10,7 +10,7 @@
 #define COCOAPODS_POD_AVAILABLE_Alamofire
 #define COCOAPODS_VERSION_MAJOR_Alamofire 1
 #define COCOAPODS_VERSION_MINOR_Alamofire 2
-#define COCOAPODS_VERSION_PATCH_Alamofire 0
+#define COCOAPODS_VERSION_PATCH_Alamofire 1
 
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD
@@ -22,5 +22,5 @@
 #define COCOAPODS_POD_AVAILABLE_SwiftKeychain
 #define COCOAPODS_VERSION_MAJOR_SwiftKeychain 0
 #define COCOAPODS_VERSION_MINOR_SwiftKeychain 1
-#define COCOAPODS_VERSION_PATCH_SwiftKeychain 1
+#define COCOAPODS_VERSION_PATCH_SwiftKeychain 2
 
