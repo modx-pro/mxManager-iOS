@@ -36,7 +36,7 @@ class ResourceTabPanel: UITabBarController {
 	}
 
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
-		let parent: DefaultView = DefaultView();
+		let parent: DefaultView = DefaultView()
 		parent.data = self.data
 		parent.Request(parameters, success: success, failure: failure)
 	}

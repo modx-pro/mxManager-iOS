@@ -20,17 +20,17 @@ class FileCell: DefaultCell {
 				self.detailTextLabel?.text = self.data["description"] as! String?
 				self.imageView?.image = Utils.getIcon("hdd")
 				self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-				break;
+				break
 			case "dir":
 				self.detailTextLabel?.text = ""
 				self.imageView?.image = Utils.getIcon("folder")
 				self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-				break;
+				break
 			case "image":
 				self.detailTextLabel?.text = ""
 				self.accessoryType = UITableViewCellAccessoryType.None
 				self.imageView?.image = Utils.getIcon("file-image")
-				break;
+				break
 			case "file":
 				self.detailTextLabel?.text = ""
 				self.accessoryType = UITableViewCellAccessoryType.None
@@ -38,18 +38,18 @@ class FileCell: DefaultCell {
 				switch ext {
 					case "htaccess", "access":
 						self.imageView?.image = Utils.getIcon("lock")
-						break;
+						break
 					case "txt", "rtf", "md":
 						self.imageView?.image = Utils.getIcon("file-text")
-						break;
+						break
 					case "php", "xml", "js", "css", "less", "scss", "tpl", "html":
 						self.imageView?.image = Utils.getIcon("file-code")
-						break;
+						break
 				 	default:
 						self.imageView?.image = Utils.getIcon("file-o")
 				}
 			default:
-				break;
+				break
 		}
 
 	}

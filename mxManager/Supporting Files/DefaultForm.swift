@@ -170,7 +170,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 	*/
 
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
-		let parent: DefaultView = DefaultView();
+		let parent: DefaultView = DefaultView()
 		parent.data = self.data
 		parent.Request(parameters, success: success, failure: failure)
 	}
@@ -230,9 +230,9 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 		let info: NSDictionary = notification.userInfo!
 		if let rectValue = info[UIKeyboardFrameBeginUserInfoKey] as? NSValue {
 			let kbSize: CGRect = rectValue.CGRectValue()
-			//var contentInset: UIEdgeInsets = self.tableView.contentInset;
-			//contentInset.bottom = kbSize.size.height;
-			//self.tableView.contentInset = contentInset;
+			//var contentInset: UIEdgeInsets = self.tableView.contentInset
+			//contentInset.bottom = kbSize.size.height
+			//self.tableView.contentInset = contentInset
 			if self.keyboardHeight != kbSize.size.height {
 				self.keyboardHeight = kbSize.size.height
 				dispatch_async(dispatch_get_main_queue()) {

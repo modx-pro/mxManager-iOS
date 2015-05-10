@@ -131,12 +131,12 @@ class ResourceMainPanel: DefaultForm {
 			height = 66
 			self.wasAdjusted = false
 			rowType = .URL
-			break;
+			break
 		case "modSymLink":
 			height = 66
 			self.wasAdjusted = false
 			rowType = .Number
-			break;
+			break
 		case "modStaticResource":
 			height = 66
 			self.wasAdjusted = false

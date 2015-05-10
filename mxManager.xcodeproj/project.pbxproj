@@ -749,7 +749,7 @@
 				INFOPLIST_FILE = mxManager/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -816,7 +816,7 @@
 				INFOPLIST_FILE = mxManager/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
 				SWIFT_OBJC_BRIDGING_HEADER = "";

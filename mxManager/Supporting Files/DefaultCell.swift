@@ -13,7 +13,7 @@ class DefaultCell: UITableViewCell {
 	var data = [:]
 
 	override func setSelected(selected: Bool, animated: Bool) {
-		super.setSelected(false, animated: animated);
+		super.setSelected(false, animated: animated)
 	}
 
 	override func layoutSubviews() {
@@ -25,12 +25,12 @@ class DefaultCell: UITableViewCell {
 			self.imageView?.frame = CGRectMake(8, 13, 24, 24)
 
 			if var tmpFrame = self.textLabel?.frame {
-				tmpFrame.origin.x = 40;
+				tmpFrame.origin.x = 40
 				self.textLabel?.frame = tmpFrame
 			}
 
 			if var tmpFrame = self.detailTextLabel?.frame {
-				tmpFrame.origin.x = 40;
+				tmpFrame.origin.x = 40
 				self.detailTextLabel?.frame = tmpFrame
 			}
 

@@ -1092,12 +1092,12 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Site name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdT-OZ-Not">
-                                        <rect key="frame" x="16" y="10" width="288" height="20.5"/>
+                                        <rect key="frame" x="16" y="10" width="288" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.33333333329999998" green="0.42352941179999998" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="My favorite site" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cFa-I7-sET" customClass="DefaultTextField" customModule="mxManager" customModuleProvider="target">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="My favorite site" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cFa-I7-sET" customClass="DefaultTextField" customModule="mxManager" customModuleProvider="target">
                                         <rect key="frame" x="16" y="38" width="288" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
@@ -1107,7 +1107,7 @@
                                         </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manager address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OlN-mj-pPq">
-                                        <rect key="frame" x="16" y="85" width="288" height="20.5"/>
+                                        <rect key="frame" x="16" y="84" width="288" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.33333333329999998" green="0.42352941179999998" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1122,12 +1122,12 @@
                                         </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uhc-DW-JKP">
-                                        <rect key="frame" x="16" y="159" width="288" height="20.5"/>
+                                        <rect key="frame" x="16" y="159" width="288" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.33333333329999998" green="0.42352941179999998" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="user" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Admin" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bgD-FQ-PrQ" customClass="DefaultTextField" customModule="mxManager" customModuleProvider="target">
+                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" restorationIdentifier="user" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Admin" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bgD-FQ-PrQ" customClass="DefaultTextField" customModule="mxManager" customModuleProvider="target">
                                         <rect key="frame" x="16" y="188" width="288" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
@@ -1137,7 +1137,7 @@
                                         </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6vo-wq-XXz">
-                                        <rect key="frame" x="16" y="235" width="288" height="20.5"/>
+                                        <rect key="frame" x="16" y="235" width="288" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.33333333329999998" green="0.42352941179999998" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1219,6 +1219,7 @@
                                     <constraint firstAttribute="trailing" secondItem="bgD-FQ-PrQ" secondAttribute="trailing" constant="16" id="9TK-ZR-7eb"/>
                                     <constraint firstItem="Uhc-DW-JKP" firstAttribute="leading" secondItem="3al-4i-VLg" secondAttribute="leading" constant="16" id="9s0-ud-l1B"/>
                                     <constraint firstItem="hpf-EP-fja" firstAttribute="leading" secondItem="3al-4i-VLg" secondAttribute="leading" constant="27" id="Av5-41-ZTf"/>
+                                    <constraint firstItem="6vo-wq-XXz" firstAttribute="top" secondItem="bgD-FQ-PrQ" secondAttribute="bottom" constant="17" id="Cd9-gc-A2K"/>
                                     <constraint firstItem="Go1-yp-Na9" firstAttribute="top" secondItem="6vo-wq-XXz" secondAttribute="bottom" constant="8" id="FFZ-9L-R70"/>
                                     <constraint firstItem="hpf-EP-fja" firstAttribute="leading" secondItem="3al-4i-VLg" secondAttribute="leading" constant="27" id="Jh5-91-Pxp"/>
                                     <constraint firstItem="hpf-EP-fja" firstAttribute="top" secondItem="p5V-KN-IfC" secondAttribute="bottom" constant="25" id="Ku0-rk-YIq"/>
@@ -1231,6 +1232,7 @@
                                     <constraint firstItem="hpf-EP-fja" firstAttribute="top" secondItem="p5V-KN-IfC" secondAttribute="bottom" constant="25" id="Skq-Hf-Sdo"/>
                                     <constraint firstItem="hpf-EP-fja" firstAttribute="top" secondItem="p5V-KN-IfC" secondAttribute="bottom" constant="25" id="TSx-xI-qnI"/>
                                     <constraint firstItem="Do1-r6-ftx" firstAttribute="leading" secondItem="hpf-EP-fja" secondAttribute="trailing" constant="7" id="UN1-nt-Quu"/>
+                                    <constraint firstItem="Go1-yp-Na9" firstAttribute="top" secondItem="6vo-wq-XXz" secondAttribute="bottom" constant="7" id="VYc-l3-YwH"/>
                                     <constraint firstItem="Go1-yp-Na9" firstAttribute="leading" secondItem="3al-4i-VLg" secondAttribute="leading" constant="16" id="VdI-5P-dDn"/>
                                     <constraint firstItem="OlN-mj-pPq" firstAttribute="top" secondItem="cFa-I7-sET" secondAttribute="bottom" constant="16" id="Vk7-So-TCA"/>
                                     <constraint firstAttribute="trailing" secondItem="hb4-T0-cSO" secondAttribute="trailing" constant="16" id="WRU-Ys-SUv"/>
@@ -1243,6 +1245,7 @@
                                     <constraint firstItem="6vo-wq-XXz" firstAttribute="top" secondItem="bgD-FQ-PrQ" secondAttribute="bottom" constant="16" id="c99-b9-t9w"/>
                                     <constraint firstItem="OlN-mj-pPq" firstAttribute="leading" secondItem="3al-4i-VLg" secondAttribute="leading" constant="16" id="d7c-Hl-L6P"/>
                                     <constraint firstItem="hb4-T0-cSO" firstAttribute="top" secondItem="Go1-yp-Na9" secondAttribute="bottom" constant="11" id="heg-SD-0Ct"/>
+                                    <constraint firstItem="OlN-mj-pPq" firstAttribute="top" secondItem="cFa-I7-sET" secondAttribute="bottom" constant="16" id="iBf-dZ-OXF"/>
                                     <constraint firstAttribute="bottom" secondItem="Jzs-PW-uc1" secondAttribute="bottom" constant="16" id="iqO-wL-4d8"/>
                                     <constraint firstItem="Uhc-DW-JKP" firstAttribute="top" secondItem="PTA-MF-zHp" secondAttribute="bottom" constant="16" id="k7q-qg-4nF"/>
                                     <constraint firstAttribute="trailing" secondItem="Jzs-PW-uc1" secondAttribute="trailing" constant="16" id="mEn-Na-G3Q"/>
@@ -1255,6 +1258,7 @@
                                     <constraint firstItem="hb4-T0-cSO" firstAttribute="leading" secondItem="p5V-KN-IfC" secondAttribute="trailing" constant="7" id="tBB-pe-Wel"/>
                                     <constraint firstAttribute="trailing" secondItem="cFa-I7-sET" secondAttribute="trailing" constant="16" id="u1W-GF-BsG"/>
                                     <constraint firstItem="p5V-KN-IfC" firstAttribute="leading" secondItem="3al-4i-VLg" secondAttribute="leading" constant="16" id="uJ6-pa-vFs"/>
+                                    <constraint firstItem="cFa-I7-sET" firstAttribute="top" secondItem="bdT-OZ-Not" secondAttribute="bottom" constant="7.5" id="uQf-uE-gBV"/>
                                     <constraint firstItem="nTe-nZ-58l" firstAttribute="top" secondItem="hpf-EP-fja" secondAttribute="bottom" constant="24" id="utY-7l-BIq"/>
                                     <constraint firstItem="6vo-wq-XXz" firstAttribute="leading" secondItem="3al-4i-VLg" secondAttribute="leading" constant="16" id="y9t-rp-eOF"/>
                                     <constraint firstItem="Do1-r6-ftx" firstAttribute="top" secondItem="hb4-T0-cSO" secondAttribute="bottom" constant="16" id="yAx-iw-b3u"/>
@@ -1263,6 +1267,10 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="yEC-VJ-K21"/>
+                                        <exclude reference="Vk7-So-TCA"/>
+                                        <exclude reference="c99-b9-t9w"/>
+                                        <exclude reference="FFZ-9L-R70"/>
                                         <exclude reference="Av5-41-ZTf"/>
                                         <exclude reference="Ku0-rk-YIq"/>
                                         <exclude reference="Skq-Hf-Sdo"/>

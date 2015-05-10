@@ -55,25 +55,25 @@ class ElementCell: DefaultCell {
 		switch section {
 			case "template":
 				icon = Utils.getIcon("columns")
-				break;
+				break
 			case "tv":
 				icon = Utils.getIcon("list-alt")
-				break;
+				break
 			case "chunk":
 				icon = Utils.getIcon("th-large")
-				break;
+				break
 			case "snippet":
 				icon = Utils.getIcon("file-code")
-				break;
+				break
 			case "plugin":
 				icon = Utils.getIcon("cogs")
-				break;
+				break
 			case "category":
 				icon = Utils.getIcon("folder")
-				break;
+				break
 			default:
 				icon = Utils.getIcon("file-o")
-				break;
+				break
 			}
 
 		return icon

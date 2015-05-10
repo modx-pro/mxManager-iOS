@@ -204,8 +204,8 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 		}
 
 		Utils.showSpinner(self.view)
-		self.btnSave.enabled = false;
-		self.btnCancel.enabled = false;
+		self.btnSave.enabled = false
+		self.btnCancel.enabled = false
 		self.data = site
 		self.Request([
 				"mx_action": "auth",
@@ -228,8 +228,8 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 			}, failure: {
 			data in
 				Utils.alert("", message: data["message"] as! String, view: self)
-				self.btnSave.enabled = true;
-				self.btnCancel.enabled = !self.disableCancel;
+				self.btnSave.enabled = true
+				self.btnCancel.enabled = !self.disableCancel
 				Utils.hideSpinner(self.view)
 		})
 	}
@@ -265,9 +265,9 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 			if self.keyboardHeight != kbSize.size.height {
 				self.keyboardHeight = kbSize.size.height
 
-				var contentInset: UIEdgeInsets = self.scrollView.contentInset;
-				contentInset.bottom = kbSize.size.height;
-				self.scrollView.contentInset = contentInset;
+				var contentInset: UIEdgeInsets = self.scrollView.contentInset
+				contentInset.bottom = kbSize.size.height
+				self.scrollView.contentInset = contentInset
 				dispatch_async(dispatch_get_main_queue()) {
 					self.addHideKeyboardButton()
 				}
@@ -278,9 +278,9 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 	func onKeyboardWillHide(notification: NSNotification) {
 		if self.keyboardHeight != 0 {
 			self.keyboardHeight = 0
-			let contentInsets: UIEdgeInsets = UIEdgeInsetsZero;
-			self.scrollView.contentInset = contentInsets;
-			self.scrollView.scrollIndicatorInsets = contentInsets;
+			let contentInsets: UIEdgeInsets = UIEdgeInsetsZero
+			self.scrollView.contentInset = contentInsets
+			self.scrollView.scrollIndicatorInsets = contentInsets
 			dispatch_async(dispatch_get_main_queue()) {
 				self.addSaveButton()
 			}

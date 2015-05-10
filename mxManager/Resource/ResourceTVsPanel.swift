@@ -71,7 +71,7 @@ class ResourceTVsPanel: DefaultForm {
 				row.configuration[FormRowDescriptor.Configuration.LabelWidth] = 125.0 as CGFloat
 				row.value = item["value"] as? String
 				section.addRow(row)
-			break;
+			break
 			case "list-multiple-legacy", "listbox-multiple", "resourcelist",
 				 "listbox", "option", "checkbox":
 				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.MultipleSelector, title: name) as FormRowDescriptor

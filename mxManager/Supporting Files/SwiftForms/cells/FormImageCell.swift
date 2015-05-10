@@ -52,10 +52,10 @@ class FormImageCell: FormBaseCell {
 		contentView.addConstraint(NSLayoutConstraint(item: imageField, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1.0, constant: 4.0))
 		contentView.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: imageField, attribute: .Bottom, multiplier: 1.0, constant: 4.0))
 
-		imageField.layer.cornerRadius = 5.0;
-		imageField.layer.masksToBounds = true;
+		imageField.layer.cornerRadius = 5.0
+		imageField.layer.masksToBounds = true
 		imageField.layer.borderColor = Colors.borderColor().CGColor
-		imageField.layer.borderWidth = 0.5;
+		imageField.layer.borderWidth = 0.5
 		//imageField.backgroundColor = Colors.borderColor()
 	}
 

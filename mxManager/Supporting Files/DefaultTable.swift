@@ -182,7 +182,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 
 	func loadMore() {
 		if self.isLoading || self.loaded >= self.total {
-			return;
+			return
 		}
 		self.isLoading = true
 
@@ -204,7 +204,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 				if self.invokeMoreEvent != "" {
 					NSNotificationCenter.defaultCenter().postNotificationName(self.invokeMoreEvent, object: tmp)
 				}
-				self.tableView.reloadData();
+				self.tableView.reloadData()
 			}
 			self.tableView.tableFooterView = self.loaded < self.total
 					? self.activityIndicator

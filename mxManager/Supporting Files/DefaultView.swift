@@ -11,14 +11,8 @@ import Alamofire
 
 class DefaultView: UIViewController {
 
-	let version = "1.0-beta"
+	let version = "1.0.0-pl"
 	var data = [:]
-
-	/*
-	override func prefersStatusBarHidden() -> Bool {
-		return false
-	}
-	*/
 
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
 		var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -51,7 +45,7 @@ class DefaultView: UIViewController {
 				}
 			}
 			else if failure != nil {
-				var message = "";
+				var message = ""
 				if response == nil {
 					message = "site_err_connect"
 				}
