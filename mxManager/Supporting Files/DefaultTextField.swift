@@ -45,6 +45,11 @@ class DefaultTextField: UITextField {
 		self.layer.borderWidth = 0.5;
 	}
 
+	override func deleteBackward() {
+		super.deleteBackward()
+		delegate?.textFieldShouldEndEditing?(self)
+	}
+
 }
 
 extension UITextField {

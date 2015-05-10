@@ -229,7 +229,7 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 			data in
 				Utils.alert("", message: data["message"] as! String, view: self)
 				self.btnSave.enabled = true;
-				self.btnCancel.enabled = true;
+				self.btnCancel.enabled = !self.disableCancel;
 				Utils.hideSpinner(self.view)
 		})
 	}

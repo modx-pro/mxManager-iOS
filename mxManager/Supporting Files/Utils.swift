@@ -228,4 +228,26 @@ class Utils: NSObject {
 		}
 	}
 
+	class func getPIN() -> String? {
+		let keychain = Keychain.init() as Keychain
+		let key = GenericKey(keyName: "PIN")
+
+		return keychain.get(key).item?.value as? String
+	}
+
+	class func setPIN(pin: String) {
+		let keychain = Keychain.init() as Keychain
+		let key = GenericKey(keyName: "PIN", value: pin)
+
+		if Utils.getPIN() != nil {
+			keychain.remove(GenericKey(keyName: "PIN"))
+		}
+		keychain.add(key)
+	}
+
+	class func removePIN() {
+		let keychain = Keychain.init() as Keychain
+		keychain.remove(GenericKey(keyName: "PIN"))
+	}
+
 }

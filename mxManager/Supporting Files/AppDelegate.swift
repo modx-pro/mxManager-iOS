@@ -18,13 +18,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject:AnyObject]?) -> Bool {
-		// StatusBar color
-		/*
-		let addStatusBar = UIView()
-		addStatusBar.frame = CGRectMake(0, 0, 2048, 20)
-		addStatusBar.backgroundColor = UIColor(red: 228 / 255, green: 233 / 255, blue: 238 / 255, alpha: 0.5)
-		self.window!.rootViewController!.view.addSubview(addStatusBar)
-		*/
+		// Check if we need to delete sites
+		let defaults = NSUserDefaults.standardUserDefaults()
+
+		let flag = defaults.objectForKey("mxManagerProtection") as? String
+		if flag == nil {
+			let sites = Utils.getSites()
+			if sites.count > 0 {
+				for site in sites {
+					if let key = site["key"] as? String {
+						Utils.removeSite(key, notify: false)
+					}
+				}
+			}
+			Utils.removePIN()
+		}
+		defaults.setObject("Yes", forKey: "mxManagerProtection")
 
 		return true
 	}

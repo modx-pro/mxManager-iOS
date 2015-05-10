@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 bezumkin. All rights reserved.
 //
 
-// @TODO  Добавить in-app purchase для разблокировки работы с несколькими сайтами
-
 import UIKit
 
 class SitesList: DefaultTable {
@@ -20,6 +18,12 @@ class SitesList: DefaultTable {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"SiteAdded", object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"SiteDeleted", object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"SiteUpdated", object: nil)
+
+		/*
+		let storyboard = UIStoryboard(name: "Main", bundle: nil)
+		let vc = storyboard.instantiateViewControllerWithIdentifier("LockScreen") as! UIViewController
+		self.navigationController?.presentViewController(vc, animated: false, completion: nil)
+		*/
 	}
 
 	override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {

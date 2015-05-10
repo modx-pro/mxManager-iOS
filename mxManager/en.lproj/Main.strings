@@ -13,6 +13,7 @@
 "p5V-KN-IfC.text" = "Basic authentication";
 "hpf-EP-fja.text" = "Username";
 "nTe-nZ-58l.text" = "Password";
+"63v-vD-qqa.text" = "If you forget your pin code, then just reinstall the app. This will reset all settings.";
 
 // Site Main View
 "Ipm-cT-0Sq.normalTitle" = "Refresh";
@@ -58,6 +59,7 @@
 "btn_clear" = "Clear";
 "btn_cancel" = "Cancel";
 "no" = "No";
+"reset" = "Reset";
 
 // Files
 
@@ -186,9 +188,16 @@
 "site_err_manager_ae" = "You already have an account with this manager address";
 "site_err_connect" = "The site is not responding";
 "site_err_base_auth" = "Wrong credentials for basic authentication";
-"site_err_no_manager" = "Unable to connect to site. Maybe app backend is not installed?";
+"site_err_no_manager" = "Unable to connect to site. Maybe component mxManager is not installed on it?";
 "site_delete_confirm" = "Are you sure you want to remove this site?";
 "error_log_too_large" = "The error log is too large to be viewed";
 "error_log_empty" = "The error log is empty";
 "error_log_clear_confirm" = "Are you sure you want to clear the error log?";
 "field_required" = "The field \"[[+field]]\" is required";
+
+"pin_create" = "Create new PIN";
+"pin_retry" = "Retry your PIN";
+"pin_enter" = "Enter your PIN";
+"pin_reset" = "Enter the current PIN";
+"pin_err_match" = "Specified codes do not match!";
+"pin_err_wrong" = "Wrong PIN. Please, try again.";
