@@ -11,7 +11,6 @@ import Alamofire
 
 class DefaultView: UIViewController {
 
-	let version = "1.0.0-pl"
 	var data = [:]
 
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
@@ -26,7 +25,7 @@ class DefaultView: UIViewController {
 		for (key, value) in parameters {
 			request[key as String] = value
 		}
-		request["mx_version"] = self.version
+		request["mx_version"] = MX_VERSION
 		AlamofireManager.request(.POST, self.data["manager"] as! String, parameters: request)
 		.authenticate(user: self.data["base_user"] as! String, password: self.data["base_password"] as! String)
 		.responseJSON {

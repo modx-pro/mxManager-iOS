@@ -25,7 +25,7 @@ class LockScreen: UIViewController, UITextFieldDelegate {
 	}
 
 	override func supportedInterfaceOrientations() -> Int {
-		return UIInterfaceOrientation.Portrait.rawValue
+		return Int(UIInterfaceOrientationMask.Portrait.rawValue)
 	}
 
 	@IBAction func unwindFromViewController(sender: UIStoryboardSegue) {

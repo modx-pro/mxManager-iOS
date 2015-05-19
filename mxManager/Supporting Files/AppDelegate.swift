@@ -9,6 +9,7 @@
 
 import UIKit
 
+let MX_VERSION = "1.0.0-pl"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -68,4 +69,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 
+}
+
+
+extension UINavigationController {
+	public override func supportedInterfaceOrientations() -> Int {
+		return visibleViewController.supportedInterfaceOrientations()
+	}
+
+	public override func shouldAutorotate() -> Bool {
+		return visibleViewController.shouldAutorotate()
+	}
 }

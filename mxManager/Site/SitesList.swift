@@ -11,6 +11,8 @@ import UIKit
 class SitesList: DefaultTable {
 
 	@IBOutlet var btnAdd: UIBarButtonItem!
+	var exitBtn: UIBarButtonItem?
+	var infoBtn: UIBarButtonItem?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -19,15 +21,19 @@ class SitesList: DefaultTable {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"SiteDeleted", object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"SiteUpdated", object: nil)
 
-		/*
-		let storyboard = UIStoryboard(name: "Main", bundle: nil)
-		let vc = storyboard.instantiateViewControllerWithIdentifier("LockScreen") as! UIViewController
-		self.navigationController?.presentViewController(vc, animated: false, completion: nil)
-		*/
+		self.addLeftButtons()
+	}
+
+	func addLeftButtons() {
+		self.exitBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-power-off"), style: UIBarButtonItemStyle.Plain, target: self, action: "exitView")
+		self.infoBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-info"), style: UIBarButtonItemStyle.Plain, target: self, action: "showInfo")
+
+		self.navigationItem.setLeftBarButtonItems([self.exitBtn!, self.infoBtn!], animated: false)
 	}
 
 	override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
 
+		//IAPManager.sharedManager.clearPurchasedItems()
 		let productId = "bez.mxManager.MultipleSites"
 		if identifier == "AddSite" {
 			let sites = Utils.getSites()
@@ -139,6 +145,14 @@ class SitesList: DefaultTable {
 	}
 
 	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+	}
+
+	func exitView() {
+		self.performSegueWithIdentifier("ExitView", sender: self.exitBtn)
+	}
+
+	func showInfo() {
+		self.performSegueWithIdentifier("ShowInfo", sender: self.infoBtn)
 	}
 
 }

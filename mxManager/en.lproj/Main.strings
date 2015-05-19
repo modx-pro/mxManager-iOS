@@ -15,6 +15,12 @@
 "nTe-nZ-58l.text" = "Password";
 "63v-vD-qqa.text" = "If you forget your pin code, then just reinstall the app. This will reset all settings.";
 
+// Info
+"MSX-cv-aj6.title" = "Info";
+"info_restore" = "Restore in-app purchases";
+"info_restore_ok" = "In-app purchases was successfully restored";
+"info_description" = "The App comes as is. You using it at your own risk, no claims will be accepted.\nOn my side I assure you that there is no malicious code, and none of your data is not sent to third party servers.\n\nVasily Naumkin\n\nVersion: [[+version]]";
+
 // Site Main View
 "Ipm-cT-0Sq.normalTitle" = "Refresh";
 "saf-p9-FdZ.normalTitle" = "Clear";
@@ -42,6 +48,7 @@
 
 // Messages
 "error" = "Error";
+"success" = "Success";
 "warning" = "Warning";
 "close" = "Close";
 "cancel" = "Cancel";
