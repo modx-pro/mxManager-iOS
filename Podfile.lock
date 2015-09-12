@@ -1,7 +1,7 @@
 PODS:
-  - Alamofire (1.2.1)
+  - Alamofire (2.0.0)
   - MBProgressHUD (0.9.1)
-  - SwiftKeychain (0.1.2)
+  - SwiftKeychain (0.1.5)
 
 DEPENDENCIES:
   - Alamofire
@@ -9,8 +9,8 @@ DEPENDENCIES:
   - SwiftKeychain
 
 SPEC CHECKSUMS:
-  Alamofire: 1acfdf179aff68b41a48dff70c1ac7fa263e2bcb
+  Alamofire: 2f13548b29d25a58ecd91c9225fb51493e2b782b
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  SwiftKeychain: 889be6ab38b56c98f40dfac0d0c84f3b2bd2550a
+  SwiftKeychain: 1387edad8b56c659daa93d9ffc99526bac5b0088
 
-COCOAPODS: 0.36.0.beta.2
+COCOAPODS: 0.39.0.beta.4

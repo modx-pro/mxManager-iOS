@@ -24,7 +24,7 @@ class ResourceParentSelector: FormRemoteSelectorController {
 				"query": self.searchQuery,
 				"start": 0
 		]
-		super.loadRows(spinner: spinner)
+		super.loadRows(spinner)
 	}
 
 	override func loadMore() {
@@ -38,11 +38,11 @@ class ResourceParentSelector: FormRemoteSelectorController {
 	}
 
 	override func onLoadRows(notification: NSNotification) {
-		var ids = NSMutableArray()
-		var titles = NSMutableDictionary()
+		let ids = NSMutableArray()
+		let titles = NSMutableDictionary()
 
 		for value in self.rows as NSArray {
-			var id = value["id"] as! Int
+			let id = value["id"] as! Int
 			ids.addObject(id)
 			titles[id] = value["pagetitle"] as! String
 		}
@@ -50,7 +50,7 @@ class ResourceParentSelector: FormRemoteSelectorController {
 		formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.Options] = ids
 		formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.TitleFormatterClosure] = {
 			(value: AnyObject!) in
-			if var id = value as? Int {
+			if let id = value as? Int {
 				if let title = titles[id] as? String {
 					return title
 				}
@@ -63,7 +63,7 @@ class ResourceParentSelector: FormRemoteSelectorController {
 		let cell = ResourceCell.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell") as ResourceCell
 
 		cell.data = self.rows[indexPath.row] as! NSDictionary
-		cell.template(idx: indexPath.row)
+		cell.template(indexPath.row)
 
 		let optionValue = cell.data["id"] as! Int
 		if let selectedOption = formCell.rowDescriptor.value {

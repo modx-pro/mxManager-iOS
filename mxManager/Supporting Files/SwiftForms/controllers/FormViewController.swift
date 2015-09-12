@@ -47,7 +47,7 @@ class FormViewController : UITableViewController {
         baseInit()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         baseInit()
     }
@@ -109,10 +109,10 @@ class FormViewController : UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let rowDescriptor = formRowDescriptorAtIndexPath(indexPath)
-        var formBaseCellClass = formBaseCellClassFromRowDescriptor(rowDescriptor)
+        let formBaseCellClass = formBaseCellClassFromRowDescriptor(rowDescriptor)
         let reuseIdentifier = NSStringFromClass(formBaseCellClass)
 
-		let cell = formBaseCellClass(style: .Default, reuseIdentifier: reuseIdentifier) as FormBaseCell
+		let cell = formBaseCellClass.init(style: .Default, reuseIdentifier: reuseIdentifier) as FormBaseCell
 		cell.formViewController = self
 		cell.rowDescriptor = rowDescriptor
 		cell.configure()

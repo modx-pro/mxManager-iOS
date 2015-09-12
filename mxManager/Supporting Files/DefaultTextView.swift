@@ -29,7 +29,7 @@ class DefaultTextView: UITextView {
 		self.addBorder()
 	}
 
-	required init(coder aDecoder: NSCoder) {
+	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 		self.addBorder()
 	}

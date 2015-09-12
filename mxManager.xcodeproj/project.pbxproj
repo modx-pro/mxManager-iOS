@@ -100,6 +100,7 @@
 		51EA6CCA1A7E2ACE00E00280 /* ErrorLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EA6CC91A7E2ACE00E00280 /* ErrorLog.swift */; };
 		51EA6CCC1A7E32CB00E00280 /* ManagerLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EA6CCB1A7E32CB00E00280 /* ManagerLog.swift */; };
 		51EA6CCE1A7E589900E00280 /* ManagerLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EA6CCD1A7E589900E00280 /* ManagerLogCell.swift */; };
+		51F48C6E1B7CF6B40030178E /* SettingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F48C6D1B7CF6B40030178E /* SettingsList.swift */; };
 		79DBB23EFD273E08E48D333D /* files.png in Resources */ = {isa = PBXBuildFile; fileRef = 79DBB2877DB7C97B58D10058 /* files.png */; };
 		79DBB2F337D989D3DBEE65CD /* FormRemoteSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBBA98C7B6674E83A12144 /* FormRemoteSelectorController.swift */; };
 		79DBB4F8F1965803F2518A7D /* ResourceTemplateSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBBA09C8470BE82FC5BD60 /* ResourceTemplateSelector.swift */; };
@@ -210,6 +211,7 @@
 		51EA6CC91A7E2ACE00E00280 /* ErrorLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorLog.swift; path = Site/ErrorLog.swift; sourceTree = "<group>"; };
 		51EA6CCB1A7E32CB00E00280 /* ManagerLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagerLog.swift; path = Site/ManagerLog.swift; sourceTree = "<group>"; };
 		51EA6CCD1A7E589900E00280 /* ManagerLogCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagerLogCell.swift; path = Site/ManagerLogCell.swift; sourceTree = "<group>"; };
+		51F48C6D1B7CF6B40030178E /* SettingsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsList.swift; sourceTree = "<group>"; };
 		5615EE9AFCFB44C2FCDB39CB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		79DBB264ECBDB5BBA83BA5A9 /* FormTextCodeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextCodeCell.swift; sourceTree = "<group>"; };
 		79DBB2877DB7C97B58D10058 /* files.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = files.png; sourceTree = "<group>"; };
@@ -325,6 +327,14 @@
 				510697A61AFCCF8B0062DA77 /* LockScreen.swift */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5135C8901B293C2200CBEE7F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				51F48C6D1B7CF6B40030178E /* SettingsList.swift */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		5139650E1A848C77008BD09E /* Element */ = {
@@ -468,6 +478,7 @@
 				5139650E1A848C77008BD09E /* Element */,
 				51A45C8B1A822A84003A5C44 /* File */,
 				513183621A435233002497F2 /* Supporting Files */,
+				5135C8901B293C2200CBEE7F /* Settings */,
 				5105A12A1A762F00004DF472 /* Icons */,
 				51B127441A4A885600603921 /* Main.storyboard */,
 				5185F0BE1A4171F9008B42A1 /* Images.xcassets */,
@@ -521,7 +532,9 @@
 		79DBBECE25ED04DEBE68F711 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = bezumkin;
 				TargetAttributes = {
 					79DBB03F292ED24A84783304 = {
@@ -605,7 +618,7 @@
 		};
 		C469261C09E8E15F2B6B329E /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -613,14 +626,14 @@
 			name = "Copy Pods Resources";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CC9727BE5DB1D4AA5E0B747B /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -628,7 +641,7 @@
 			name = "Embed Pods Frameworks";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
@@ -670,6 +683,7 @@
 				51CA38D61AAEB38F00315059 /* FormRowDescriptor.swift in Sources */,
 				513965101A848CA9008BD09E /* ElementsList.swift in Sources */,
 				51CA38CF1AAEB38F00315059 /* FormSwitchCell.swift in Sources */,
+				51F48C6E1B7CF6B40030178E /* SettingsList.swift in Sources */,
 				51A561E51AB310720007B28B /* JLTextViewController.swift in Sources */,
 				513965151A848CED008BD09E /* Console.swift in Sources */,
 				51A561DC1AB310720007B28B /* JLColorTheme.swift in Sources */,
@@ -754,6 +768,7 @@
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "bez.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -784,6 +799,7 @@
 				COPY_PHASE_STRIP = NO;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -821,6 +837,7 @@
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "bez.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
 				SWIFT_OBJC_BRIDGING_HEADER = "";

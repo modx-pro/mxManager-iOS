@@ -21,7 +21,7 @@ class SiteMain: DefaultTable {
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
 
 		let cell = sender as! DefaultCell
-		var controller = segue.destinationViewController as! DefaultView
+		let controller = segue.destinationViewController as! DefaultView
 		controller.data = self.data
 		controller.title = cell.textLabel?.text
 	}
@@ -48,7 +48,7 @@ class SiteMain: DefaultTable {
 				"username": self.data["user"] as! String,
 				"password": self.data["password"] as! String,
 		]
-		super.loadRows(spinner: spinner)
+		super.loadRows(spinner)
 	}
 
 	override func onLoadRows(notification: NSNotification) {
@@ -61,7 +61,7 @@ class SiteMain: DefaultTable {
 		let identifier = self.rows[indexPath.row] as! NSString
 
 		let cell = tableView.dequeueReusableCellWithIdentifier(identifier as String, forIndexPath: indexPath) as! DefaultCell
-		cell.template(idx:indexPath.row)
+		cell.template(indexPath.row)
 
 		return cell
 	}

@@ -16,7 +16,7 @@ class FormRemoteSelectorController: DefaultTable, FormSelector {
 
 	/// MARK: Init
 
-	init() {
+	init?() {
 		let data = NSMutableData()
 		let archiver = NSKeyedArchiver(forWritingWithMutableData: data)
 		archiver.finishEncoding()
@@ -30,7 +30,7 @@ class FormRemoteSelectorController: DefaultTable, FormSelector {
 	override func prepareTable() {
 		super.prepareTable()
 
-		self.tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+		self.tableView.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(self.tableView)
 
 		self.view.addConstraint(NSLayoutConstraint(item: self.tableView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 0.0))
@@ -62,7 +62,7 @@ class FormRemoteSelectorController: DefaultTable, FormSelector {
 				formCell.rowDescriptor.value = NSMutableArray()
 			}
 
-			if var selectedOptions = formCell.rowDescriptor.value as? NSMutableArray {
+			if let selectedOptions = formCell.rowDescriptor.value as? NSMutableArray {
 
 				if selectedOptions.containsObject(optionValue) {
 					selectedOptions.removeObject(optionValue)

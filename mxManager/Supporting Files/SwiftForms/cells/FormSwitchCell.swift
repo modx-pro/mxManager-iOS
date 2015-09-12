@@ -21,7 +21,7 @@ class FormSwitchCell: FormTitleCell {
 
         selectionStyle = .None
 
-		switchView.setTranslatesAutoresizingMaskIntoConstraints(false)
+		switchView.translatesAutoresizingMaskIntoConstraints = false
 		contentView.addSubview(switchView)
 
 		contentView.addConstraint(NSLayoutConstraint(item: switchView, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1.0, constant: 6.0))

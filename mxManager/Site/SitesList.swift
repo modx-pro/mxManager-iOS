@@ -53,8 +53,8 @@ class SitesList: DefaultTable {
 						}
 						Utils.alert(
 							"error",
-							message: (error!.userInfo?[NSLocalizedDescriptionKey] != nil)
-								? error!.userInfo![NSLocalizedDescriptionKey] as! String
+							message: (error!.userInfo[NSLocalizedDescriptionKey] != nil)
+								? error!.userInfo[NSLocalizedDescriptionKey] as! String
 								: "",
 							view: self
 						)
@@ -73,7 +73,7 @@ class SitesList: DefaultTable {
 		self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title:"", style:UIBarButtonItemStyle.Plain, target:nil, action:nil)
 
 		if segue.identifier == "AddSite" {
-			var controller = segue.destinationViewController as! SiteSettings
+			let controller = segue.destinationViewController as! SiteSettings
 			if let data = sender as? NSDictionary {
 				if data["disable_cancel"] != nil {
 					controller.disableCancel = true
@@ -81,12 +81,12 @@ class SitesList: DefaultTable {
 			}
 		}
 		else if segue.identifier == "ShowSettings" {
-			var controller = segue.destinationViewController as! SiteSettings
+			let controller = segue.destinationViewController as! SiteSettings
 			controller.data = sender as! NSDictionary
 		}
 		else if segue.identifier == "ShowSite" {
 			let cell = sender as! DefaultCell
-			var controller = segue.destinationViewController as! SiteMain
+			let controller = segue.destinationViewController as! SiteMain
 			controller.data = cell.data as NSDictionary
 			controller.title = cell.data["site"] as? String
 		}
@@ -110,7 +110,7 @@ class SitesList: DefaultTable {
 		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! SiteCell
 		let data = self.rows[indexPath.row] as! NSDictionary
 		cell.data = data
-		cell.template(idx: indexPath.row)
+		cell.template(indexPath.row)
 
 		return cell
 	}
@@ -118,7 +118,7 @@ class SitesList: DefaultTable {
 	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
 		let data = self.rows[indexPath.row] as! NSDictionary
 		if data["key"] == nil {
-			println("No key in \(data)")
+			print("No key in \(data)")
 			return []
 		}
 		let key = data["key"] as! String

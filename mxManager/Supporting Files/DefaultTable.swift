@@ -33,7 +33,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 		activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
 		tableView = UITableView(frame: CGRectMake(0, 0, 0, 0), style: UITableViewStyle.Plain)
 
-		super.init(coder: aDecoder)
+		super.init(coder: aDecoder)!
 
 		refreshControl.addTarget(self, action: "refreshRows", forControlEvents: UIControlEvents.ValueChanged)
 		activityIndicator.frame = CGRectMake(0, 0, 0, 40)
@@ -107,7 +107,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = DefaultCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell") as DefaultCell
-		cell.template(idx: indexPath.row)
+		cell.template(indexPath.row)
 
 		return cell
 	}
@@ -160,7 +160,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 	}
 
 	func refreshRows() {
-		self.loadRows(spinner: false)
+		self.loadRows(false)
 	}
 
 	func onLoadRows(notification: NSNotification) {
@@ -247,15 +247,15 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 
 	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-		if /*count(searchText) >= 3 || */count(searchText) == 0 {
+		if /*searchText.characters.count >= 3 || */ searchText.characters.count == 0 {
 			self.searchQuery = searchText
-			self.loadRows(spinner: false)
+			self.loadRows(false)
 		}
 	}
 
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 		self.view.endEditing(true)
-		self.searchQuery = searchBar.text
+		self.searchQuery = searchBar.text!
 		self.loadRows()
 	}
 

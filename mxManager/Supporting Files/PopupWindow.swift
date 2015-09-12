@@ -31,7 +31,7 @@ class PopupWindow: UIViewController, UITextFieldDelegate {
 		}
 
 		self.btnCancel.setTitle(Utils.lexicon("cancel"), forState: UIControlState.Normal)
-		var tmp = self.data["save"] != nil
+		let tmp = self.data["save"] != nil
 			? self.data["save"] as! String
 			: Utils.lexicon("save")
 		self.btnSave.setTitle(tmp, forState: UIControlState.Normal)
@@ -103,12 +103,10 @@ class PopupWindow: UIViewController, UITextFieldDelegate {
 		let height1: CGFloat = self.view.frame.height / 2
 		let height2: CGFloat = height1 - self.keyboardHeight / 2
 		let margin: CGFloat = height1 - height2
-		for tmp in self.view.constraints() {
-			if let constraint = tmp as? NSLayoutConstraint {
-				if constraint.firstAttribute == NSLayoutAttribute.CenterY {
-					if constraint.constant != margin {
-						constraint.constant = margin
-					}
+		for constraint in self.view.constraints {
+			if constraint.firstAttribute == NSLayoutAttribute.CenterY {
+				if constraint.constant != margin {
+					constraint.constant = margin
 				}
 			}
 
@@ -118,7 +116,7 @@ class PopupWindow: UIViewController, UITextFieldDelegate {
 	func textFieldDidChange(notification: NSNotification) {
 		if notification.object != nil {
 			if let textField = notification.object as? UITextField {
-				self.btnSave.enabled = count(textField.text) > 0 && textField.text != self.tmpText
+				self.btnSave.enabled = textField.text!.characters.count > 0 && textField.text != self.tmpText
 			}
 		}
 	}

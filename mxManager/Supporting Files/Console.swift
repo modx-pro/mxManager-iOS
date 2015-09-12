@@ -37,7 +37,7 @@ class Console: UIViewController {
 
 class CAVTransitioner: NSObject, UIViewControllerTransitioningDelegate {
 
-	func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+	func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
 		return ConsolePresentationController(presentedViewController: presented, presentingViewController: presenting)
 	}
 
@@ -61,15 +61,15 @@ class ConsolePresentationController: UIPresentationController {
 	}
 
 	override func presentationTransitionWillBegin() {
-		self.decorateView(self.presentedView())
+		self.decorateView(self.presentedView()!)
 		let vc = self.presentingViewController
 		let v = vc.view
 		let con = self.containerView
-		let shadow = UIView(frame: con.bounds)
+		let shadow = UIView(frame: con!.bounds)
 		shadow.backgroundColor = UIColor(white: 0, alpha: 0.4)
 		shadow.alpha = 0
-		con.insertSubview(shadow, atIndex: 0)
-		shadow.autoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight
+		con!.insertSubview(shadow, atIndex: 0)
+		shadow.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
 		let tc = vc.transitionCoordinator()!
 		tc.animateAlongsideTransition({
 			_ in
@@ -84,7 +84,7 @@ class ConsolePresentationController: UIPresentationController {
 		let vc = self.presentingViewController
 		let v = vc.view
 		let con = self.containerView
-		let shadow = (con.subviews as! [UIView])[0]
+		let shadow = con!.subviews[0]
 		let tc = vc.transitionCoordinator()!
 		tc.animateAlongsideTransition({
 			_ in
@@ -101,22 +101,26 @@ class ConsolePresentationController: UIPresentationController {
 		// but here we just assume that it *is* its native size
 		let v = self.presentedView()
 		let con = self.containerView
-		v.center = CGPointMake(con.bounds.midX, con.bounds.midY)
-		return v.frame.integerRect
+		v!.center = CGPointMake(con!.bounds.midX, con!.bounds.midY)
+		return v!.frame.integral
 	}
 
 	override func containerViewWillLayoutSubviews() {
 		// deal with future rotation
 		// again, I can think of more than one approach
 		let v = self.presentedView()
-		v.autoresizingMask = UIViewAutoresizing.FlexibleTopMargin | UIViewAutoresizing.FlexibleBottomMargin |
-				UIViewAutoresizing.FlexibleLeftMargin | UIViewAutoresizing.FlexibleRightMargin
-		v.setTranslatesAutoresizingMaskIntoConstraints(true)
+		v!.autoresizingMask = [
+			UIViewAutoresizing.FlexibleTopMargin,
+			UIViewAutoresizing.FlexibleBottomMargin,
+			UIViewAutoresizing.FlexibleLeftMargin,
+			UIViewAutoresizing.FlexibleRightMargin
+		]
+		v!.translatesAutoresizingMaskIntoConstraints = true
 	}
 
 }
 
-extension CAVTransitioner: UIViewControllerTransitioningDelegate {
+extension CAVTransitioner {
 
 	func animationControllerForPresentedController(presented: UIViewController?!, presentingController presenting: UIViewController!, sourceController source: UIViewController!) -> UIViewControllerAnimatedTransitioning! {
 		return self
@@ -130,7 +134,7 @@ extension CAVTransitioner: UIViewControllerTransitioningDelegate {
 
 extension CAVTransitioner: UIViewControllerAnimatedTransitioning {
 
-	func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+	func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
 		return 0.25
 	}
 
@@ -140,8 +144,8 @@ extension CAVTransitioner: UIViewControllerAnimatedTransitioning {
 
 		let con = transitionContext.containerView()
 
-		let r1start = transitionContext.initialFrameForViewController(vc1!)
-		let r2end = transitionContext.finalFrameForViewController(vc2!)
+		transitionContext.initialFrameForViewController(vc1!)
+		transitionContext.finalFrameForViewController(vc2!)
 
 		let v1 = transitionContext.viewForKey(UITransitionContextFromViewKey)
 		let v2 = transitionContext.viewForKey(UITransitionContextToViewKey)
@@ -152,7 +156,7 @@ extension CAVTransitioner: UIViewControllerAnimatedTransitioning {
 
 		if let v2 = v2 {
 			// presenting
-			con.addSubview(v2)
+			con!.addSubview(v2)
 			let scale = CGAffineTransformMakeScale(1.6, 1.6)
 			v2.transform = scale
 			v2.alpha = 0

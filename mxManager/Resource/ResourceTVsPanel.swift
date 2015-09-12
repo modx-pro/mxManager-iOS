@@ -12,7 +12,7 @@ class ResourceTVsPanel: DefaultForm {
 
 	var parent: ResourceTabPanel!
 
-	 required init(coder aDecoder: NSCoder) {
+	 required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 		name = "tvs"
 	}
@@ -30,9 +30,9 @@ class ResourceTVsPanel: DefaultForm {
 		let form: FormDescriptor = FormDescriptor()
 
 		var current_category = ""
-		for (idx, item) in enumerate(data as! [NSDictionary]) {
+		for (idx, item) in (data as! [NSDictionary]).enumerate() {
 			var section: FormSectionDescriptor
-			var category = (item["category"] as? String) != nil
+			let category = (item["category"] as? String) != nil
 				? item["category"] as! String
 				: ""
 			if idx == 0 || category != current_category {
@@ -86,8 +86,8 @@ class ResourceTVsPanel: DefaultForm {
 					row.value = item["value"] as? String
 				}
 
-				var ids = [] as NSMutableArray
-				var titles = [:] as NSMutableDictionary
+				let ids = [] as NSMutableArray
+				let titles = [:] as NSMutableDictionary
 				for element:String in (item["elements"] as! [String]) {
 					let parts = element.componentsSeparatedByString("==")
 					let value: String?

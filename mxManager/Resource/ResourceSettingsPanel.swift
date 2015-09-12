@@ -13,7 +13,7 @@ class ResourceSettingsPanel: DefaultForm {
 	var parent: ResourceTabPanel!
 	var hiddenRows: [String:NSIndexPath] = [:]
 
-	 required init(coder aDecoder: NSCoder) {
+	 required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 		name = "settings"
 	}
@@ -29,7 +29,7 @@ class ResourceSettingsPanel: DefaultForm {
 
 		var section: FormSectionDescriptor = FormSectionDescriptor()
 		for field in ["publishedon", "pub_date", "unpub_date"] {
-			var tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			let tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			tmp_params["valueLabel.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 			if data[field] != nil {
 				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.DateAndTime, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
@@ -55,15 +55,15 @@ class ResourceSettingsPanel: DefaultForm {
 		for field in ["parent", "template", "class_key", "content_type", "content_dispo"] {
 			if data[field] != nil {
 				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.MultipleSelector, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
-				var tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
+				let tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
 				tmp_params["valueLabel.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 				tmp_params["valueLabel.color"] = UIColor.blackColor()
 				tmp_params["valueLabel.textAlignment"] = NSTextAlignment.Left.rawValue
 				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = tmp_params
-				row.configuration[FormRowDescriptor.Configuration.Required] = find(["class_key", "content_type"], field) != nil
+				row.configuration[FormRowDescriptor.Configuration.Required] = ["class_key", "content_type"].indexOf(field) != nil
 				row.configuration[FormRowDescriptor.Configuration.AllowsMultipleSelection] = false
 				row.configuration[FormRowDescriptor.Configuration.LabelWidth] = 150.0 as CGFloat
-				if find(["parent", "template", "content_type"], field) != nil {
+				if ["parent", "template", "content_type"].indexOf(field) != nil {
 					row.value = data[field] as? Int
 					row.configuration["id"] = data["id"] as! Int
 					if field == "parent" {
@@ -114,7 +114,7 @@ class ResourceSettingsPanel: DefaultForm {
 							self.parent.template = rowDescriptor.value as! Int
 							if self.parent.tvs_loaded {
 								if let tvs = self.parent.tabs["tvs"] as! ResourceTVsPanel! {
-									tvs.loadData(spinner: false)
+									tvs.loadData(false)
 								}
 							}
 						} as UpdateClosure
@@ -161,7 +161,7 @@ class ResourceSettingsPanel: DefaultForm {
 		}
 		for field in ["responseCode", "menuindex"] {
 			if data[field] != nil {
-				var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+				let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 				params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 				var row: FormRowDescriptor
 				if field == "menuindex" {
@@ -188,7 +188,7 @@ class ResourceSettingsPanel: DefaultForm {
 		section = FormSectionDescriptor()
 		for field in ["isfolder", "searchable", "richtext", "cacheable",
 				"syncsite", "deleted", "show_in_tree", "uri_override"] {
-			var tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			let tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			if data[field] != nil {
 				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.BooleanSwitch, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 				var color: UIColor
@@ -230,8 +230,8 @@ class ResourceSettingsPanel: DefaultForm {
 			}
 		}
 		if data["uri_override"] != nil && data["uri"] != nil {
-			var field = "uri"
-			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			let field = "uri"
+			let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 			let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.Name, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 			row.value = data[field] as? String
@@ -253,7 +253,7 @@ class ResourceSettingsPanel: DefaultForm {
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		var number = super.tableView(tableView, numberOfRowsInSection: section)
 		let values = self.getFormValues()
-		for (key, indexPath: NSIndexPath) in self.hiddenRows {
+		for (key, indexPath) in self.hiddenRows {
 			if indexPath.section == section && values[key] != nil && values[key] as! Bool == false {
 				number -= 1
 			}

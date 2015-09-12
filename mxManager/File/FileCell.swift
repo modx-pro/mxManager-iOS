@@ -11,7 +11,7 @@ import UIKit
 class FileCell: DefaultCell {
 
 	override func template(idx: Int = 0) {
-		super.template(idx: idx)
+		super.template(idx)
 
 		self.textLabel?.text = self.data["name"] as! String?
 		let type: String = self.data["type"] as! String

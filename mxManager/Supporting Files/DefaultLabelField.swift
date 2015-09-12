@@ -25,13 +25,13 @@ class DefaultLabelField: UILabel {
 		self.addBorder()
 	}
 
-	required init(coder aDecoder: NSCoder) {
+	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 		self.addBorder()
 	}
 
 	override func drawTextInRect(rect: CGRect) {
-		var insets = UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
+		let insets = UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
 		super.drawTextInRect(UIEdgeInsetsInsetRect(rect, insets))
 	}
 

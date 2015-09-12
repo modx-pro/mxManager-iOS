@@ -26,6 +26,7 @@ class ResourceTabPanel: UITabBarController {
 	var template = 0
 	var tvs = false
 	var tvs_loaded = false
+	var defaultView: DefaultView?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -36,9 +37,9 @@ class ResourceTabPanel: UITabBarController {
 	}
 
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
-		let parent: DefaultView = DefaultView()
-		parent.data = self.data
-		parent.Request(parameters, success: success, failure: failure)
+		self.defaultView = DefaultView()
+		self.defaultView!.data = self.data
+		self.defaultView!.Request(parameters, success: success, failure: failure)
 	}
 
 	func loadData() {
@@ -68,7 +69,7 @@ class ResourceTabPanel: UITabBarController {
 	}
 
 	func setFormValues(data: NSDictionary) {
-		var data = NSMutableDictionary.init(dictionary: data)
+		let data = NSMutableDictionary.init(dictionary: data)
 		data["class_key"] = self.class_key
 		self.item = data
 
@@ -84,7 +85,7 @@ class ResourceTabPanel: UITabBarController {
 		}
 
 		if self.viewControllers != nil {
-			for (key, item) in enumerate(self.viewControllers!) {
+			for (key, item) in self.viewControllers!.enumerate() {
 				if let tab = item as? DefaultForm {
 					if tab.name == "tvs" {
 						if let tvs = data["tvs"] as? Bool {
@@ -97,9 +98,8 @@ class ResourceTabPanel: UITabBarController {
 					else {
 						tab.setFormValues(data)
 						if tab.form.sections.count == 0 && self.tabBar.items != nil {
-							if let btn = self.tabBar.items![key] as? UITabBarItem {
-								btn.enabled = false
-							}
+							let btn = self.tabBar.items![key]
+							btn.enabled = false
 						}
 					}
 					self.tabs[tab.name] = tab
@@ -112,7 +112,7 @@ class ResourceTabPanel: UITabBarController {
 	}
 
 	func getFormValues() -> NSDictionary {
-		var values = [:] as NSMutableDictionary
+		let values = [:] as NSMutableDictionary
 
 		if self.viewControllers != nil {
 			for item in self.viewControllers! {
@@ -122,7 +122,7 @@ class ResourceTabPanel: UITabBarController {
 					}
 					if tab.form != nil {
 						if let required = tab.form.validateForm() {
-							var message = Utils.lexicon(
+							let message = Utils.lexicon(
 							"field_required",
 							placeholders: [
 									"field": Utils.lexicon("resource_" + required.tag) as String
@@ -218,12 +218,11 @@ class ResourceTabPanel: UITabBarController {
 
 	func activateTVsTab(enabled: Bool) {
 		self.tvs = enabled
-		for (key, item) in enumerate(self.viewControllers!) {
+		for (key, item) in self.viewControllers!.enumerate() {
 			if let tab = item as? DefaultForm where tab.name == "tvs" {
 				if self.tabBar.items != nil {
-					if let btn = self.tabBar.items![key] as? UITabBarItem {
-						btn.enabled = enabled
-					}
+					let btn = self.tabBar.items![key]
+					btn.enabled = enabled
 				}
 				break
 			}

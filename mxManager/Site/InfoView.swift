@@ -19,8 +19,8 @@ class InfoView: UIViewController {
 		return false
 	}
 
-	override func supportedInterfaceOrientations() -> Int {
-		return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+		return UIInterfaceOrientationMask.Portrait
 	}
 
 	override func viewDidLoad() {
@@ -48,8 +48,8 @@ class InfoView: UIViewController {
 			if error != nil {
 				Utils.alert(
 					"error",
-					message: (error!.userInfo?[NSLocalizedDescriptionKey] != nil)
-						? error!.userInfo![NSLocalizedDescriptionKey] as! String
+					message: (error!.userInfo[NSLocalizedDescriptionKey] != nil)
+						? error!.userInfo[NSLocalizedDescriptionKey] as! String
 						: "",
 					view: self
 				)
@@ -65,8 +65,8 @@ class InfoView: UIViewController {
 	}
 
 	func fixTopOffset(landscape: Bool) {
-		let constraints = self.navigationBar.constraints()
-		let constraint = constraints[0] as! NSLayoutConstraint
+		let constraints = self.navigationBar.constraints
+		let constraint = constraints[0] 
 
 		constraint.constant = landscape
 				? 32.0

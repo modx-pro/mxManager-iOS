@@ -50,10 +50,10 @@ class ElementsList: DefaultTable {
 				controller.closure = {
 					(textField: UITextField!) in
 					if (controller.data["action"] as! String) == "create" {
-						self.createItem(textField.text, item: controller.data["item"] as! NSDictionary, type: controller.data["type"] as! String)
+						self.createItem(textField.text!, item: controller.data["item"] as! NSDictionary, type: controller.data["type"] as! String)
 					}
 					else {
-						self.renameItem(textField.text, item: controller.data["item"] as! NSDictionary)
+						self.renameItem(textField.text!, item: controller.data["item"] as! NSDictionary)
 					}
 				}
 			}
@@ -107,7 +107,7 @@ class ElementsList: DefaultTable {
 			"category": self.category,
 			"start": 0
 		]
-		super.loadRows(spinner: spinner)
+		super.loadRows(spinner)
 	}
 
 	override func loadMore() {
@@ -123,7 +123,7 @@ class ElementsList: DefaultTable {
 	override func onLoadRows(notification: NSNotification) {
 		if self.type == "" {
 			self.btnAdd.enabled = false
-			var types = [] as NSMutableArray
+			let types = [] as NSMutableArray
 			if let object = notification.object as? NSDictionary {
 				for value in object["rows"] as! NSArray {
 					if value["type"] != nil {
@@ -143,7 +143,7 @@ class ElementsList: DefaultTable {
 		let cell = ElementCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell") as ElementCell
 
 		cell.data = self.rows[indexPath.row] as! NSDictionary
-		cell.template(idx: indexPath.row)
+		cell.template(indexPath.row)
 
 		return cell
 	}
@@ -173,7 +173,7 @@ class ElementsList: DefaultTable {
 		let item = self.rows[indexPath.row] as! NSDictionary
 		let permissions = item["permissions"] as! NSDictionary
 		let type = item["type"] as! String
-		var buttons = [] as NSMutableArray
+		let buttons = [] as NSMutableArray
 
 		if permissions["remove"] != nil && permissions["remove"] as! Int == 1 {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
@@ -189,7 +189,7 @@ class ElementsList: DefaultTable {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
-				self.showPopupWindow(action: "update", item: item, type: type)
+				self.showPopupWindow("update", item: item, type: type)
 			}
 			btn.backgroundColor = UIColor(patternImage: UIImage(named: "btn-edit")!)
 			buttons.addObject(btn)
@@ -216,7 +216,7 @@ class ElementsList: DefaultTable {
 	func setTypes() {
 		self.typesControl.removeAllSegments()
 
-		for (key, value) in enumerate(self.types) {
+		for (key, value) in self.types.enumerate() {
 			self.typesControl.insertSegmentWithTitle(
 				Utils.lexicon((value as! String) + "s") as String,
 				atIndex: key,
@@ -276,7 +276,7 @@ class ElementsList: DefaultTable {
 			let types = [
 				"template", "tv", "chunk", "snippet", "plugin", "category"
 			]
-			for (key, value) in enumerate(types) {
+			for (_, value) in types.enumerate() {
 				let type = value as String
 				if permissions["new_" + type] != nil && permissions["new_" + type] as! Bool {
 					if action == "update" || type == "category" {
@@ -285,7 +285,7 @@ class ElementsList: DefaultTable {
 							style: UIAlertActionStyle.Default,
 							handler: {
 								(alert: UIAlertAction!) in
-								self.showPopupWindow(action: action, item: item, type: type)
+								self.showPopupWindow(action, item: item, type: type)
 							}
 						))
 					}
@@ -295,7 +295,7 @@ class ElementsList: DefaultTable {
 							style: UIAlertActionStyle.Default,
 							handler: {
 								(alert: UIAlertAction!) in
-								var cell = ElementCell.init() as ElementCell
+								let cell = ElementCell.init() as ElementCell
 								cell.data = [
 									"name": "",
 									"type": type,

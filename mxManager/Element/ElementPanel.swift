@@ -44,29 +44,29 @@ class ElementPanel: DefaultForm {
 
 		var section: FormSectionDescriptor = FormSectionDescriptor()
 		if data["name"] != nil {
-			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils.lexicon("element_name") as String)
+			let row: FormRowDescriptor = FormRowDescriptor.init(tag: "name", rowType: FormRowType.Name, title: Utils.lexicon("element_name") as String)
 			row.value = data["name"] as! String
 			if row.value == "" {
 				row.value = nil
 			}
-			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 			row.configuration[FormRowDescriptor.Configuration.Required] = true
 			section.addRow(row)
 		}
 		if self.type == "tv" && data["caption"] != nil {
-			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "caption", rowType: FormRowType.Name, title: Utils.lexicon("element_caption") as String)
+			let row: FormRowDescriptor = FormRowDescriptor.init(tag: "caption", rowType: FormRowType.Name, title: Utils.lexicon("element_caption") as String)
 			row.value = data["caption"] as! String
-			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 			section.addRow(row)
 		}
 		if data["description"] != nil {
-			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "description", rowType: FormRowType.MultilineText, title: Utils.lexicon("element_description") as String, height: 54)
+			let row: FormRowDescriptor = FormRowDescriptor.init(tag: "description", rowType: FormRowType.MultilineText, title: Utils.lexicon("element_description") as String, height: 54)
 			row.value = data["description"] as! String
-			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 			section.addRow(row)
@@ -74,12 +74,12 @@ class ElementPanel: DefaultForm {
 
 		if data["categories"] != nil {
 			if let categories = data["categories"] as? NSArray {
-				var row: FormRowDescriptor = FormRowDescriptor.init(tag: "category", rowType: FormRowType.MultipleSelector, title: Utils.lexicon("element_category") as String)
-				var ids = [] as NSMutableArray
-				var names = [:] as NSMutableDictionary
-				for (idx, item) in enumerate(categories) {
-					if var id = item["id"] as? Int {
-						if var name = item["name"] as? String {
+				let row: FormRowDescriptor = FormRowDescriptor.init(tag: "category", rowType: FormRowType.MultipleSelector, title: Utils.lexicon("element_category") as String)
+				let ids = [] as NSMutableArray
+				let names = [:] as NSMutableDictionary
+				for (_, item) in categories.enumerate() {
+					if let id = item["id"] as? Int {
+						if let name = item["name"] as? String {
 							names[id] = name
 							ids.addObject(id)
 						}
@@ -89,7 +89,7 @@ class ElementPanel: DefaultForm {
 				if row.value == 0 && self.category != 0 && self.action == "create" {
 					row.value = self.category
 				}
-				var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+				let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 				params["valueLabel.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 				params["valueLabel.color"] = UIColor.blackColor()
 				params["valueLabel.textAlignment"] = NSTextAlignment.Left.rawValue
@@ -99,7 +99,7 @@ class ElementPanel: DefaultForm {
 				row.configuration[FormRowDescriptor.Configuration.Required] = false
 				row.configuration[FormRowDescriptor.Configuration.TitleFormatterClosure] = {
 					(value: AnyObject!) in
-					if var id = value as? Int {
+					if let id = value as? Int {
 						if let title = names[id] as? String {
 							return title
 						}
@@ -116,10 +116,10 @@ class ElementPanel: DefaultForm {
 				let ids = [] as NSMutableArray
 				let names = [:] as NSMutableDictionary
 				let enabled_items = [] as NSMutableArray
-				for (idx2, item) in enumerate(items) {
+				for (_, item) in items.enumerate() {
 					if let name = item["name"] as? String {
 						if (type == "events") {
-							if var group = item["group"] as? String {
+							if let group = item["group"] as? String {
 								names[name] = "\(name)||\(group)"
 							}
 							else {
@@ -131,8 +131,8 @@ class ElementPanel: DefaultForm {
 							ids.addObject(name)
 						}
 						else {
-							var id = item["id"] as! Int
-							if var description = item["description"] as? String {
+							let id = item["id"] as! Int
+							if let description = item["description"] as? String {
 								names[id] = "\(name)||\(description)"
 							}
 							else {
@@ -170,16 +170,16 @@ class ElementPanel: DefaultForm {
 		}
 
 		if self.type == "tv" {
-			for (idx, type) in enumerate(["type", "display"]) {
+			for (_, type) in ["type", "display"].enumerate() {
 				if let items = data[type + "s"] as? NSArray {
-					var row: FormRowDescriptor = FormRowDescriptor.init(tag: type, rowType: FormRowType.MultipleSelector, title: Utils.lexicon("element_" + type) as String)
-					var ids = [] as NSMutableArray
-					var names = [:] as NSMutableDictionary
-					var enabled_items = [] as NSMutableArray
-					for (idx, item) in enumerate(items) {
+					let row: FormRowDescriptor = FormRowDescriptor.init(tag: type, rowType: FormRowType.MultipleSelector, title: Utils.lexicon("element_" + type) as String)
+					let ids = [] as NSMutableArray
+					let names = [:] as NSMutableDictionary
+					_ = [] as NSMutableArray
+					for (_, item) in items.enumerate() {
 						if item["value"] != nil && item["name"] != nil {
-							var id = item["value"] as! String
-							var name = item["name"] as! String
+							let id = item["value"] as! String
+							let name = item["name"] as! String
 							names[id] = name
 							ids.addObject(id)
 						}
@@ -188,7 +188,7 @@ class ElementPanel: DefaultForm {
 					if row.value != nil && row.value == "" {
 						row.value = nil
 					}
-					var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+					let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 					params["valueLabel.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 					params["valueLabel.color"] = UIColor.blackColor()
 					params["valueLabel.textAlignment"] = NSTextAlignment.Left.rawValue
@@ -198,7 +198,7 @@ class ElementPanel: DefaultForm {
 					row.configuration[FormRowDescriptor.Configuration.Required] = true
 					row.configuration[FormRowDescriptor.Configuration.TitleFormatterClosure] = {
 						(value: AnyObject!) in
-						if var id = value as? String {
+						if let id = value as? String {
 							if let title = names[id] as? String {
 								return title
 							}
@@ -211,9 +211,9 @@ class ElementPanel: DefaultForm {
 		}
 
 		if self.type == "plugin" && data["disabled"] != nil {
-			var row: FormRowDescriptor = FormRowDescriptor.init(tag: "disabled", rowType: FormRowType.BooleanSwitch, title: Utils.lexicon("element_disabled") as String)
+			let row: FormRowDescriptor = FormRowDescriptor.init(tag: "disabled", rowType: FormRowType.BooleanSwitch, title: Utils.lexicon("element_disabled") as String)
 			row.value = data["disabled"] as! Bool
-			var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["switchView.onTintColor"] = Colors.red()
 			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 			section.addRow(row)
@@ -228,14 +228,14 @@ class ElementPanel: DefaultForm {
 			? Utils.lexicon("element_default_value")
 			: Utils.lexicon("element_content")) as String
 		if data["content"] != nil {
-			let decodedData = NSData.init(base64EncodedString: data["content"] as! String, options: nil)
+			let decodedData = NSData.init(base64EncodedString: data["content"] as! String, options: [])
 			if let decodedString = NSString.init(data: decodedData!, encoding: NSUTF8StringEncoding) {
 				let type: FormRowType = decodedString.length > 30000 || self.type == "tv"
 						? FormRowType.MultilineText
 						: FormRowType.Code
-				var row: FormRowDescriptor = FormRowDescriptor.init(tag: "content", rowType: type, title: "", height: lastHeight)
+				let row: FormRowDescriptor = FormRowDescriptor.init(tag: "content", rowType: type, title: "", height: lastHeight)
 				row.value = decodedString
-				var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+				let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 				params["textField.font"] = UIFont.init(name: "Courier New", size: self.defaultTextFontSize) as UIFont!
 				row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
 				row.configuration[FormRowDescriptor.Configuration.Required] = false
@@ -252,12 +252,12 @@ class ElementPanel: DefaultForm {
 
 	override func submitForm(sender: UIBarButtonItem!) {
 		if let required = self.form.validateForm() {
-			var message = Utils.lexicon("field_required", placeholders: ["field": required.title])
+			let message = Utils.lexicon("field_required", placeholders: ["field": required.title])
 			Utils.alert("", message: message, view: self, closure: nil)
 		}
 		else {
 			self.view.endEditing(true)
-			var values = self.form.formValues()
+			let values = self.form.formValues()
 			var request: [String:AnyObject] = [
 					"mx_action": "elements/\(self.type)/\(self.action)",
 					"id": self.id as NSNumber
@@ -267,7 +267,7 @@ class ElementPanel: DefaultForm {
 				if (key as! String) == "content" {
 					var content = ""
 					if let plainData = (value as! NSString).dataUsingEncoding(NSUTF8StringEncoding) {
-						content = plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(0))
+						content = plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0))
 					}
 					request["content"] = content
 				}

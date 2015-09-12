@@ -26,8 +26,8 @@ class FormSegmentedControlCell: FormBaseCell {
         
         selectionStyle = .None
         
-        titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        segmentedControl.setTranslatesAutoresizingMaskIntoConstraints(false)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         
         titleLabel.setContentCompressionResistancePriority(500, forAxis: .Horizontal)
         segmentedControl.setContentCompressionResistancePriority(500, forAxis: .Horizontal)
@@ -69,7 +69,7 @@ class FormSegmentedControlCell: FormBaseCell {
     
     override func defaultVisualConstraints() -> [String] {
         
-        if titleLabel.text != nil && count(titleLabel.text!) > 0 {
+        if titleLabel.text != nil && titleLabel.text!.characters.count > 0 {
             return ["H:|-16-[titleLabel]-16-[segmentedControl]-16-|"]
         }
         else {

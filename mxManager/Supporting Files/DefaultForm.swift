@@ -24,6 +24,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 	var keyboardHeight: CGFloat = 0
 	var isRotating: Bool = false
 	var wasAdjusted = false
+	var defaultView: DefaultView?
 
 	override func viewDidLoad() {
 		// Default form
@@ -57,10 +58,10 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 	}
 
 	func cellForTag(tag: String) -> AnyObject! {
-		for (s, section) in enumerate(form.sections) {
-			for (r, row) in enumerate(section.rows) {
+		for (s, section) in form.sections.enumerate() {
+			for (r, row) in section.rows.enumerate() {
 				if row.tag == tag {
-					var indexPath = NSIndexPath.init(forRow: r, inSection: s)
+					let indexPath = NSIndexPath.init(forRow: r, inSection: s)
 					if let cell = self.tableView.cellForRowAtIndexPath(indexPath) {
 						return cell
 					}
@@ -170,9 +171,9 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 	*/
 
 	func Request(parameters: [String:AnyObject], success: ((data:NSDictionary!) -> Void)?, failure: ((data:NSDictionary!) -> Void)?) {
-		let parent: DefaultView = DefaultView()
-		parent.data = self.data
-		parent.Request(parameters, success: success, failure: failure)
+		self.defaultView = DefaultView()
+		self.defaultView!.data = self.data
+		self.defaultView!.Request(parameters, success: success, failure: failure)
 	}
 
 	func finishEdit(sender: UIBarButtonItem!) {
@@ -196,7 +197,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 		//self.tableView.reloadData()
 		//self.adjustLastRowHeight()
 
-		println(data)
+		print(data)
 	}
 
 	func submitForm(sender: UIBarButtonItem!) {
@@ -222,7 +223,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 		else {
 			self.view.endEditing(true)
 			Utils.alert("Form data", message: message, view: self, closure: nil)
-			println(values)
+			print(values)
 		}
 	}
 
@@ -282,7 +283,7 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 			let currentHeight = self.tableView(self.tableView, heightForRowAtIndexPath: indexPath)
 
 			var newHeight = currentHeight
-			var onlyTableHeight = tableHeight - currentHeight
+			let onlyTableHeight = tableHeight - currentHeight
 			if onlyTableHeight + minHeight < screenHeight && !isLandscape && self.keyboardHeight == 0 {
 				newHeight = screenHeight - onlyTableHeight
 			}

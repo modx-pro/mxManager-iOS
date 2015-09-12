@@ -73,7 +73,7 @@ class ErrorLog: DefaultView {
 				log = Utils.lexicon("error_log_too_large") as String
 			}
 			else {
-				let decodedData = NSData.init(base64EncodedString: data["log"] as! String, options: nil)
+				let decodedData = NSData.init(base64EncodedString: data["log"] as! String, options: [])
 				if let decodedString: NSString = NSString.init(data: decodedData!, encoding: NSUTF8StringEncoding) {
 					log = decodedString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 					self.clearBtn?.enabled = true

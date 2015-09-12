@@ -108,16 +108,16 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 			self.fieldSite.markError(false)
 		}
 
-		if self.fieldManager.text == "" || !Regex("\\w{1,}\\.\\w{2,}").test(self.fieldManager.text) {
+		if self.fieldManager.text == "" || !Regex("\\w{1,}\\.\\w{2,}").test(self.fieldManager.text!) {
 			hasError = true
 			self.fieldManager.markError(true)
 		}
 		else {
-			if !Regex("^http(s|)://").test(self.fieldManager.text) {
-				self.fieldManager.text = "http://" + self.fieldManager.text
+			if !Regex("^http(s|)://").test(self.fieldManager.text!) {
+				self.fieldManager.text = "http://" + self.fieldManager.text!
 			}
-			if !Regex("/$").test(self.fieldManager.text) {
-				self.fieldManager.text = self.fieldManager.text + "/"
+			if !Regex("/$").test(self.fieldManager.text!) {
+				self.fieldManager.text = self.fieldManager.text! + "/"
 			}
 			self.fieldManager.markError(false)
 		}
@@ -167,19 +167,21 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 		self.view.endEditing(true)
 
 		let site = [
-				"site": self.fieldSite.text,
-				"manager": self.fieldManager.text,
-				"user": self.fieldUser.text,
-				"password": self.fieldPassword.text,
+				"site": self.fieldSite.text!,
+				"manager": self.fieldManager.text!,
+				"user": self.fieldUser.text!,
+				"password": self.fieldPassword.text!,
 				"base_auth": self.fieldBaseAuth.on,
-				"base_user": self.fieldBaseAuth.on ? self.fieldBaseUser.text : "",
-				"base_password": self.fieldBaseAuth.on ? self.fieldBasePassword.text : "",
+				"base_user": self.fieldBaseAuth.on
+					? self.fieldBaseUser.text!
+					: String(""),
+				"base_password": self.fieldBaseAuth.on
+					? self.fieldBasePassword.text!
+					: String(""),
+				"key": self.data["key"] != nil
+					? self.data["key"] as! String
+					: NSUUID().UUIDString,
 		] as NSMutableDictionary
-		var key = NSUUID().UUIDString
-		if self.data["key"] != nil {
-			key = self.data["key"] as! String
-			site["key"] = key
-		}
 
 		let sites = Utils.getSites()
 		if sites.count > 0 {
@@ -190,10 +192,10 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 				let s2 = self.fieldSite.text
 				let m2 = self.fieldManager.text
 				var message = ""
-				if s.lowercaseString == s2.lowercaseString && key != existing_site["key"] as! String {
+				if s.lowercaseString == s2!.lowercaseString && site["key"] as! String != existing_site["key"] as! String {
 					message = "site_err_site_ae"
 				}
-				else if m.lowercaseString == m2.lowercaseString && key != existing_site["key"] as! String {
+				else if m.lowercaseString == m2!.lowercaseString && site["key"] as! String != existing_site["key"] as! String {
 					message = "site_err_manager_ae"
 				}
 				if message != "" {
@@ -215,13 +217,13 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 			data in
 				if let tmp = data["data"] as? NSDictionary {
 					if tmp["site_url"] != nil {
-						site["site_url"] = tmp["site_url"] as! String
+						site["site_url"] = tmp["site_url"] as? String
 					}
 					if tmp["version"] != nil {
-						site["version"] = tmp["version"] as! String
+						site["version"] = tmp["version"] as? String
 					}
 				}
-				if Utils.addSite(key, site:site) {
+				if Utils.addSite(site["key"] as! String, site:site) {
 					self.closePopup()
 				}
 				Utils.hideSpinner(self.view)
@@ -239,8 +241,8 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 	}
 
 	func fixTopOffset(landscape: Bool) {
-		let constraints = self.navigationBar.constraints()
-		let constraint = constraints[0] as! NSLayoutConstraint
+		let constraints = self.navigationBar.constraints
+		let constraint = constraints[0] 
 
 		constraint.constant = landscape
 				? 32.0
@@ -248,7 +250,7 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 	}
 
 	@IBAction func switchBaseAuth(sender: UISwitch) {
-		var enabled = sender.on as Bool
+		let enabled = sender.on as Bool
 
 		self.fieldBaseUser.hidden = !enabled
 		self.fieldBaseUser.enabled = enabled

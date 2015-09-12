@@ -16,7 +16,7 @@ class ManagerLogCell: DefaultCell {
 	@IBOutlet var item: UILabel!
 
 	override func template(idx: Int = 0) {
-		super.template(idx: idx)
+		super.template(idx)
 
 		if self.data["occurred"] != nil {
 			self.time.text = Utils.dateFormat(self.data["occurred"] as! String)

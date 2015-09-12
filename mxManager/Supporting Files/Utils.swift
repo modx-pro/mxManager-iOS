@@ -82,12 +82,12 @@ class Utils: NSObject {
 	}
 
 	class func console(view: UIViewController, rows: NSArray) -> UIViewController {
-		var text = NSMutableAttributedString.init() as NSMutableAttributedString
+		let text = NSMutableAttributedString.init() as NSMutableAttributedString
 
 		for row in rows as! [NSDictionary] {
-			var level = row["level"] as! String
+			let level = row["level"] as! String
 
-			var attributes = [:] as NSMutableDictionary
+			var attributes: [String: AnyObject] = [:]
 			//attributes[NSFontAttributeName] = UIFont(name: "Courier New", size: 12)
 
 			if level == "info" {
@@ -99,7 +99,7 @@ class Utils: NSObject {
 			else {
 				attributes[NSForegroundColorAttributeName] = UIColor.blackColor()
 			}
-			var tmp = NSAttributedString.init(string: row["message"] as! String, attributes: attributes as [NSObject : AnyObject])
+			let tmp = NSAttributedString.init(string: row["message"] as! String, attributes: attributes)
 			text.appendAttributedString(tmp)
 			text.appendAttributedString(NSAttributedString.init(string: "\n"))
 		}
@@ -136,7 +136,7 @@ class Utils: NSObject {
 	class func getIcon(name: NSString) -> UIImage {
 		let bundle = NSBundle.mainBundle() as NSBundle
 		let path = bundle.pathForResource(name as String, ofType: "png")
-		var icon = UIImage.init(contentsOfFile: path!) as UIImage!
+		let icon = UIImage.init(contentsOfFile: path!) as UIImage!
 
 		return icon.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
 	}
@@ -146,7 +146,7 @@ class Utils: NSObject {
 		let sites = [] as NSMutableArray
 		sites.addObjectsFromArray(self.getSites() as [AnyObject])
 
-		for (index, existing_site) in enumerate(sites) {
+		for (_, existing_site) in sites.enumerate() {
 			if key == existing_site["key"] as! String {
 				return self.updateSite(key, site: site)
 			}
@@ -161,7 +161,7 @@ class Utils: NSObject {
 			sites.addObject(site)
 		}
 
-		if let error = keychain.update(ArchiveKey(keyName: "Sites", object: sites)) {
+		if (keychain.update(ArchiveKey(keyName: "Sites", object: sites)) != nil) {
 			return false
 		}
 		else if notify {
@@ -175,18 +175,20 @@ class Utils: NSObject {
 		let sites = [] as NSMutableArray
 		sites.addObjectsFromArray(self.getSites() as [AnyObject])
 
-		for (index, existing_site) in enumerate(sites) {
+		for (index, existing_site) in sites.enumerate() {
 			if key == existing_site["key"] as! String {
+				/*
 				if site["key"] == nil {
 					let tmp = [:] as NSMutableDictionary
 					tmp["key"] = key
 					var site = tmp as NSDictionary
 				}
+				*/
 				sites[index] = site
 			}
 		}
 
-		if let error = keychain.update(ArchiveKey(keyName: "Sites", object: sites)) {
+		if (keychain.update(ArchiveKey(keyName: "Sites", object: sites)) != nil) {
 			return false
 		}
 		else if notify {
@@ -200,13 +202,13 @@ class Utils: NSObject {
 		let sites = [] as NSMutableArray
 		sites.addObjectsFromArray(self.getSites() as [AnyObject])
 
-		for (index, site) in enumerate(sites) {
+		for (index, site) in sites.enumerate() {
 			if key == site["key"] as! String {
 				sites.removeObjectAtIndex(index)
 			}
 		}
 
-		if let error = keychain.update(ArchiveKey(keyName: "Sites", object: sites)) {
+		if (keychain.update(ArchiveKey(keyName: "Sites", object: sites)) != nil) {
 			return false
 		}
 		else if notify {

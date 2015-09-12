@@ -15,7 +15,7 @@ class ManagerLog: DefaultTable {
 			"mx_action": "main/log/getlist",
 			"start": 0 as NSNumber
 		]
-		super.loadRows(spinner: spinner)
+		super.loadRows(spinner)
 	}
 
 	override func loadMore() {
@@ -30,7 +30,7 @@ class ManagerLog: DefaultTable {
 		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! ManagerLogCell
 
 		cell.data = self.rows[indexPath.row] as! NSDictionary
-		cell.template(idx: indexPath.row)
+		cell.template(indexPath.row)
 
 		return cell
 	}

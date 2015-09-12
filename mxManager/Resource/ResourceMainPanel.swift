@@ -12,7 +12,7 @@ class ResourceMainPanel: DefaultForm {
 
 	var parent: ResourceTabPanel!
 
-	 required init(coder aDecoder: NSCoder) {
+	 required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 		name = "main"
 	}
@@ -30,7 +30,7 @@ class ResourceMainPanel: DefaultForm {
 			self.tableHeaderView!.backgroundColor = UIColor.whiteColor()
 		}
 
-		var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+		let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 		params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 
 		for field in ["pagetitle", "longtitle"] {
@@ -58,7 +58,7 @@ class ResourceMainPanel: DefaultForm {
 			}
 		}
 		for field in ["published", "hidemenu"] {
-			var tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
+			let tmp_params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			if data[field] != nil {
 				let row = FormRowDescriptor.init(tag: field, rowType: FormRowType.BooleanSwitch, title: Utils.lexicon("resource_" + field) as String) as FormRowDescriptor
 				tmp_params["switchView.onTintColor"] = field == "hidemenu"
@@ -92,7 +92,7 @@ class ResourceMainPanel: DefaultForm {
 				}
 				var row: FormRowDescriptor
 				var value = ""
-				let decodedData = NSData.init(base64EncodedString: data[field] as! String, options: nil)
+				let decodedData = NSData.init(base64EncodedString: data[field] as! String, options: [])
 				if let decodedString = NSString.init(data: decodedData!, encoding: NSUTF8StringEncoding) {
 					value = decodedString as String
 				}
@@ -113,14 +113,14 @@ class ResourceMainPanel: DefaultForm {
 
 		self.form = form
 		self.tableView.reloadData()
-		if find(["modWebLink", "modSymLink", "modStaticResource"], self.parent.class_key) == nil {
-			self.adjustLastRowHeight(minHeight: 200)
+		if ["modWebLink", "modSymLink", "modStaticResource"].indexOf(self.parent.class_key) == nil {
+			self.adjustLastRowHeight(200)
 		}
 	}
 
 	func getContentRow(content: AnyObject?) -> FormRowDescriptor {
 		var configuration: [NSObject: Any] = [:]
-		var params = NSMutableDictionary.init(dictionary: self.defaultParams)
+		let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 		params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 
 		var height: CGFloat
@@ -157,12 +157,12 @@ class ResourceMainPanel: DefaultForm {
 	}
 
 	override func getFormValues() -> NSDictionary {
-		var data = NSMutableDictionary.init(dictionary: super.getFormValues())
+		let data = NSMutableDictionary.init(dictionary: super.getFormValues())
 
 		for field in ["description", "introtext", "content"] {
 			if data[field] != nil {
 				if let plainData = (data[field] as! NSString).dataUsingEncoding(NSUTF8StringEncoding) {
-					data[field] = plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(0))
+					data[field] = plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0))
 				}
 			}
 		}

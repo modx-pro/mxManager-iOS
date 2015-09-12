@@ -100,22 +100,23 @@ class FormDateCell: FormValueCell {
 		actionBar.translucent = true
 		actionBar.sizeToFit()
 		actionBar.barStyle = .Default
-		let buttons = NSMutableArray()
+//		let buttons = NSMutableArray()
+		var buttons: [UIBarButtonItem] = []
 
 		if startValue != nil {
 			let clearButton: UIBarButtonItem = UIBarButtonItem(title: Utils.lexicon("btn_clear") as String, style: .Plain, target: self, action: "handleClearAction:")
 			clearButton.tintColor = Colors.defaultText()
-			buttons.addObject(clearButton)
+			buttons.append(clearButton)
 		}
 
 		let flexible = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-		buttons.addObject(flexible)
+		buttons.append(flexible)
 
 		let cancelButton: UIBarButtonItem = UIBarButtonItem(title: Utils.lexicon("btn_cancel") as String, style: .Plain, target: self, action: "handleCancelAction:")
 		cancelButton.tintColor = Colors.defaultText()
-		buttons.addObject(cancelButton)
+		buttons.append(cancelButton)
 
-		actionBar.items = buttons as [AnyObject]
+		actionBar.items = buttons
 		return actionBar
 	}
 

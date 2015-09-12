@@ -87,7 +87,7 @@ class ResourcesList: DefaultTable {
 				"start": 0,
 				"query": self.searchQuery
 		]
-		super.loadRows(spinner: spinner)
+		super.loadRows(spinner)
 	}
 
 	override func loadMore() {
@@ -133,7 +133,7 @@ class ResourcesList: DefaultTable {
 		let cell = ResourceCell.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell") as ResourceCell
 
 		cell.data = self.rows[indexPath.row] as! NSDictionary
-		cell.template(idx: indexPath.row)
+		cell.template(indexPath.row)
 
 		return cell
 	}
@@ -167,7 +167,7 @@ class ResourcesList: DefaultTable {
 		let classes = (item["classes"] as? NSArray) != nil
 			? item["classes"] as! NSArray
 			: []
-		var buttons = [] as NSMutableArray
+		let buttons = [] as NSMutableArray
 
 		if let deleted = item["deleted"] as? Bool {
 			if (!deleted && permissions["undelete"] as! Bool) || (deleted && permissions["delete"] as! Bool) {
@@ -268,7 +268,7 @@ class ResourcesList: DefaultTable {
 
 	func updateRow(data: NSDictionary, indexPath: NSIndexPath) {
 		if let row = data["data"] as? NSDictionary {
-			let rows = NSMutableArray.init() as NSMutableArray
+			let rows = NSMutableArray()
 			rows.addObjectsFromArray(self.rows as [AnyObject])
 			rows[indexPath.row] = row
 			self.rows = rows
@@ -315,7 +315,7 @@ class ResourcesList: DefaultTable {
 					style: UIAlertActionStyle.Default,
 					handler: {
 						(alert: UIAlertAction!) in
-						var cell = ResourceCell.init() as ResourceCell
+						let cell = ResourceCell.init() as ResourceCell
 						cell.data = [
 								"pagetitle": title,
 								"type": "resource",

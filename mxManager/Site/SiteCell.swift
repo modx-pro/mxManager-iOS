@@ -11,7 +11,7 @@ import UIKit
 class SiteCell: DefaultCell {
 
 	override func template(idx: Int = 0) {
-		super.template(idx: idx)
+		super.template(idx)
 
 		self.textLabel?.text = self.data["site"] as! String?
 		if self.data["version"] != nil {

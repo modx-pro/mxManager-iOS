@@ -11,7 +11,7 @@ import UIKit
 class ElementCell: DefaultCell {
 
 	override func template(idx: Int = 0) {
-		super.template(idx: idx)
+		super.template(idx)
 
 		let type = self.data["type"] as! String
 		self.textLabel?.text = self.data["name"] as! String?

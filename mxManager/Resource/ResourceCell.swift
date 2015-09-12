@@ -11,7 +11,7 @@ import UIKit
 class ResourceCell: DefaultCell {
 
 	override func template(idx: Int = 0) {
-		super.template(idx: idx)
+		super.template(idx)
 
 		let type: String = self.data["type"] as! String
 		if type == "context" {
@@ -57,9 +57,9 @@ class ResourceCell: DefaultCell {
 				self.accessoryType = UITableViewCellAccessoryType.None
 			}
 
-			var normalColor = Colors.defaultText()
-			var disabledColor = Colors.disabledText()
-			var deletedColor = Colors.red(alpha: 0.3)
+			//var normalColor = Colors.defaultText()
+			//var disabledColor = Colors.disabledText()
+			let deletedColor = Colors.red(0.3)
 
 			if self.data["hidemenu"] as! Int == 1 || self.data["published"] as! Int == 0 {
 				self.imageView?.alpha = 0.5

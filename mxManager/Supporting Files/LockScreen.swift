@@ -24,8 +24,8 @@ class LockScreen: UIViewController, UITextFieldDelegate {
 		return false
 	}
 
-	override func supportedInterfaceOrientations() -> Int {
-		return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+		return UIInterfaceOrientationMask.Portrait
 	}
 
 	@IBAction func unwindFromViewController(sender: UIStoryboardSegue) {
@@ -36,14 +36,14 @@ class LockScreen: UIViewController, UITextFieldDelegate {
 		super.viewWillAppear(animated)
 
 		self.setAction()
-
+		self.i1.becomeFirstResponder()
 	}
 
 	override func viewWillDisappear(animated: Bool) {
 		self.navigationController?.setNavigationBarHidden(false, animated: true)
 		super.viewWillDisappear(animated)
 
-		self.resetForm(showKeyboard: false)
+		self.resetForm(false)
 		self.view.endEditing(true)
 	}
 
@@ -74,7 +74,7 @@ class LockScreen: UIViewController, UITextFieldDelegate {
 	func getPIN() -> String {
 		var pin = ""
 		for field:UITextField in [i1, i2, i3, i4] {
-			pin += field.text
+			pin += field.text!
 		}
 		return pin
 	}
@@ -155,16 +155,16 @@ class LockScreen: UIViewController, UITextFieldDelegate {
 	}
 
 	func textFieldDidChange(textField: UITextField) {
-		let tag = textField.tag
-		let num = count(textField.text)
+		// let tag = textField.tag
+		let num = textField.text?.characters.count
 		if num > 1 {
-			textField.text = (textField.text as NSString).substringToIndex(1)
+			textField.text = NSString(string: textField.text!).substringToIndex(1)
 		}
 
 		if num > 0 {
 			var found = false
 			for field:UITextField in [i1, i2, i3, i4] {
-				if count(field.text) == 0 {
+				if field.text?.characters.count == 0 {
 					field.becomeFirstResponder()
 					found = true
 					break

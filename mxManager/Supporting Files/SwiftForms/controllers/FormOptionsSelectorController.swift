@@ -16,7 +16,7 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
 
     /// MARK: Init
 
-	init() {
+	init?() {
 		let data = NSMutableData()
 		let archiver = NSKeyedArchiver(forWritingWithMutableData: data)
 		archiver.finishEncoding()
@@ -30,7 +30,7 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
 	override func prepareTable() {
 		super.prepareTable()
 
-		self.tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+		self.tableView.translatesAutoresizingMaskIntoConstraints = false
 		self.view.addSubview(self.tableView)
 
 		self.view.addConstraint(NSLayoutConstraint(item: self.tableView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 0.0))
@@ -66,8 +66,8 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
         let options = formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.Options] as! NSArray
         let optionValue = options[indexPath.row] as! NSObject
 
-		cell!.template(idx: indexPath.row)
-		var title = formCell.rowDescriptor.titleForOptionValue(optionValue)
+		cell!.template(indexPath.row)
+		let title = formCell.rowDescriptor.titleForOptionValue(optionValue)
 		if title != nil {
 			var title = title.componentsSeparatedByString("||")
 			cell!.textLabel!.text = title[0]
@@ -79,8 +79,8 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
 		}
 
         if let selectedOptions = formCell.rowDescriptor.value as? [NSObject] {
-            if (find(selectedOptions, optionValue as NSObject) != nil) {
-                
+            if (selectedOptions.indexOf(optionValue as NSObject) != nil) {
+				
                 if let checkMarkAccessoryView = formCell.rowDescriptor.configuration[FormRowDescriptor.Configuration.CheckmarkAccessoryView] as? UIView {
                     cell!.accessoryView = checkMarkAccessoryView
                 }
@@ -123,7 +123,7 @@ class FormOptionsSelectorController: DefaultTable, FormSelector {
                 formCell.rowDescriptor.value = NSMutableArray()
             }
 
-            if var selectedOptions = formCell.rowDescriptor.value as? NSMutableArray {
+            if let selectedOptions = formCell.rowDescriptor.value as? NSMutableArray {
                 
                 if selectedOptions.containsObject(optionValue) {
                     selectedOptions.removeObject(optionValue)

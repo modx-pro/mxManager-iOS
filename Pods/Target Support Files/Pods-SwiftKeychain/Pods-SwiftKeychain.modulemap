@@ -1,6 +1,0 @@
-framework module SwiftKeychain {
-  umbrella header "Pods-SwiftKeychain-umbrella.h"
-
-  export *
-  module * { export * }
-}

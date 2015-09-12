@@ -31,8 +31,8 @@ public class JLNestedScope: JLScope {
     private var oldIndexSet = NSMutableIndexSet()
     
     func perform(indexSet: NSIndexSet, tokens: [JLTokenizingScope.TokenResult]) {
-        var newIndexSet = NSMutableIndexSet()
-        var newSubscopeIndexSet = NSMutableIndexSet()
+        let newIndexSet = NSMutableIndexSet()
+        //var newSubscopeIndexSet = NSMutableIndexSet()
         
         var incrementingTokens = Dictionary<Int, JLTokenizingScope.TokenResult>()
         var depth = 0
@@ -54,7 +54,7 @@ public class JLNestedScope: JLScope {
         
         // We only need update attributes in indexes that just was added
         // And in indexes that has been reset by the document scope
-        var (additions, deletions) = NSIndexSetDelta(oldIndexSet, newIndexSet)
+        let (additions, _) = NSIndexSetDelta(oldIndexSet, newSet: newIndexSet)
         let intersection = indexSet.intersectionWithSet(newIndexSet)
         setAttributesInIndexSet(intersection + additions)
         
@@ -62,7 +62,7 @@ public class JLNestedScope: JLScope {
         
         delegate?.nestedScopeDidPerform(self, additions: additions)
         performSubscopes(attributedString, indexSet: intersection)
-        //println("Intersection: \(intersection)")
+        //print("Intersection: \(intersection)")
         
         self.indexSet = newIndexSet
         oldIndexSet = newIndexSet.mutableCopy() as! NSMutableIndexSet
@@ -95,7 +95,7 @@ public class JLNestedScope: JLScope {
     
     
     func indexesForTokens(incrementingToken: JLTokenizingScope.TokenResult, decrementingToken: JLTokenizingScope.TokenResult, hollow: Bool) -> NSIndexSet {
-        var indexSet = NSMutableIndexSet()
+        let indexSet = NSMutableIndexSet()
         if hollow {
             indexSet += incrementingToken.range
             indexSet += decrementingToken.range

@@ -44,10 +44,10 @@ class FilesList: DefaultTable {
 				controller.closure = {
 					(textField: UITextField!) in
 					if (controller.data["action"] as! String) == "create" {
-						self.createItem(textField.text, item: controller.data["item"] as! NSDictionary, type: controller.data["type"] as! String)
+						self.createItem(textField.text!, item: controller.data["item"] as! NSDictionary, type: controller.data["type"] as! String)
 					}
 					else {
-						self.renameItem(textField.text, item: controller.data["item"] as! NSDictionary)
+						self.renameItem(textField.text!, item: controller.data["item"] as! NSDictionary)
 					}
 				}
 			}
@@ -92,14 +92,14 @@ class FilesList: DefaultTable {
 			"source": self.source,
 			"path": self.pathRelative,
 		]
-		super.loadRows(spinner: spinner)
+		super.loadRows(spinner)
 	}
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = FileCell.init(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell") as FileCell
 		let data = self.rows[indexPath.row] as! NSDictionary
 		cell.data = data
-		cell.template(idx: indexPath.row)
+		cell.template(indexPath.row)
 
 		return cell
 	}
@@ -155,7 +155,7 @@ class FilesList: DefaultTable {
 		let item = self.rows[indexPath.row] as! NSDictionary
 		let permissions = item["permissions"] as! NSDictionary
 		let type = item["type"] as! String
-		var buttons = [] as NSMutableArray
+		let buttons = [] as NSMutableArray
 
 		if permissions["remove"] != nil && permissions["remove"] as! Int == 1 {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
@@ -171,7 +171,7 @@ class FilesList: DefaultTable {
 			let btn: UITableViewRowAction = UITableViewRowAction.init(style: UITableViewRowActionStyle.Default, title: "      ") {
 				(action, indexPath) -> Void in
 				tableView.editing = false
-				self.showPopupWindow(action: "update", item: item, type: type)
+				self.showPopupWindow("update", item: item, type: type)
 			}
 			btn.backgroundColor = UIColor(patternImage: UIImage(named: "btn-edit")!)
 			buttons.addObject(btn)
@@ -231,7 +231,7 @@ class FilesList: DefaultTable {
 				style: UIAlertActionStyle.Default,
 				handler: {
 					(alert: UIAlertAction!) in
-					self.showPopupWindow(action: action, item: item, type: "dir")
+					self.showPopupWindow(action, item: item, type: "dir")
 				}
 		))
 
@@ -240,7 +240,7 @@ class FilesList: DefaultTable {
 			style: UIAlertActionStyle.Default,
 			handler: {
 				(alert: UIAlertAction!) in
-				var cell = FileCell.init() as FileCell
+				let cell = FileCell.init() as FileCell
 				cell.data = [
 					"type": "file",
 					"action": "create",

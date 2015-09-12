@@ -25,8 +25,8 @@ class FormImageCell: FormBaseCell {
 
 		selectionStyle = .None
 
-		titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-		imageField.setTranslatesAutoresizingMaskIntoConstraints(false)
+		titleLabel.translatesAutoresizingMaskIntoConstraints = false
+		imageField.translatesAutoresizingMaskIntoConstraints = false
 		imageField.contentMode = UIViewContentMode.ScaleAspectFit
 
 		titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -68,7 +68,7 @@ class FormImageCell: FormBaseCell {
 	}
 
 	override func defaultVisualConstraints() -> [String] {
-		if titleLabel.text != nil && count(titleLabel.text!) > 0 {
+		if titleLabel.text != nil && titleLabel.text!.characters.count > 0 {
 			return ["H:|-8-[titleLabel]-[imageField]-8-|"]
 		}
 		else {

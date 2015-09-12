@@ -26,8 +26,8 @@ class FormTextFieldCell: FormBaseCell, UITextFieldDelegate {
 
 		selectionStyle = .None
 
-		titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-		textField.setTranslatesAutoresizingMaskIntoConstraints(false)
+		titleLabel.translatesAutoresizingMaskIntoConstraints = false
+		textField.translatesAutoresizingMaskIntoConstraints = false
 
 		titleLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
 		textField.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -131,7 +131,7 @@ class FormTextFieldCell: FormBaseCell, UITextFieldDelegate {
 	override func defaultVisualConstraints() -> [String] {
 		if self.imageView!.image != nil {
 
-			if titleLabel.text != nil && count(titleLabel.text!) > 0 {
+			if titleLabel.text != nil && titleLabel.text!.characters.count > 0 {
 				return ["H:[imageView]-[titleLabel]-[textField]-8-|"]
 			}
 			else {
@@ -139,7 +139,7 @@ class FormTextFieldCell: FormBaseCell, UITextFieldDelegate {
 			}
 		}
 		else {
-			if titleLabel.text != nil && count(titleLabel.text!) > 0 {
+			if titleLabel.text != nil && titleLabel.text!.characters.count > 0 {
 				return ["H:|-8-[titleLabel]-[textField]-8-|"]
 			}
 			else {
@@ -159,8 +159,8 @@ class FormTextFieldCell: FormBaseCell, UITextFieldDelegate {
 	/// MARK: Actions
 
 	func editingChanged(sender: UITextField) {
-		let trimmedText = sender.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-		rowDescriptor.value = count(trimmedText) > 0 ? trimmedText : nil
+		let trimmedText = sender.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+		rowDescriptor.value = trimmedText.characters.count > 0 ? trimmedText : nil
 	}
 
 	func textFieldShouldReturn(textField: UITextField) -> Bool {

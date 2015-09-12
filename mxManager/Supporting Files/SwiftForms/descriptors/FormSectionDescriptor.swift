@@ -24,7 +24,7 @@ class FormSectionDescriptor: NSObject {
     }
     
     func removeRow(row: FormRowDescriptor) {
-        if let index = find(rows, row) {
+        if let index = rows.indexOf(row) {
             rows.removeAtIndex(index)
         }
     }

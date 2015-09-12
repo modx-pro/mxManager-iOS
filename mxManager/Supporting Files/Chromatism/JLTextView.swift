@@ -23,7 +23,7 @@ public class JLTextView: UITextView, JLNestedScopeDelegate {
         self.language = language.language()
         self.theme = theme
 
-        let frame = CGRect.zeroRect
+        let frame = CGRect.zero
         _textStorage = JLTextStorage(documentScope: self.language.documentScope)
         self.language.documentScope.theme = theme
         let layoutManager = NSLayoutManager()
@@ -39,7 +39,7 @@ public class JLTextView: UITextView, JLNestedScopeDelegate {
 //        layoutManager.allowsNonContiguousLayout = true
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -53,7 +53,11 @@ public class JLTextView: UITextView, JLNestedScopeDelegate {
     
     func updateTypingAttributes() {
         let color = theme[JLTokenType.Text]!
-        typingAttributes = [NSForegroundColorAttributeName: color, NSFontAttributeName: font]
+        var dict: [String: AnyObject] = [NSForegroundColorAttributeName: color]
+        if let font = font {
+            dict[NSFontAttributeName] = font
+        }
+        typingAttributes = dict
     }
     
     override public var text: String! {
@@ -63,13 +67,13 @@ public class JLTextView: UITextView, JLNestedScopeDelegate {
     }
     }
     
-    override public var textColor: UIColor! {
+    override public var textColor: UIColor? {
     didSet {
         updateTypingAttributes()
     }
     }
     
-    override public var font: UIFont! {
+    override public var font: UIFont? {
     didSet {
         updateTypingAttributes()
     }
@@ -78,17 +82,16 @@ public class JLTextView: UITextView, JLNestedScopeDelegate {
 
 // MARK: JLScopeDelegate
 
-extension JLTextView: JLNestedScopeDelegate {
+extension JLTextView {
     func nestedScopeDidPerform(scope: JLNestedScope, additions: NSIndexSet) {
         dispatch_async(dispatch_get_main_queue(), {
             additions.enumerateRangesUsingBlock { (range, stop) in
-                /*
+                
                 let range = self.textRange(range.start ..< range.end)
-                let array = self.selectionRectsForRange(range) as [UITextSelectionRect]
+                let array = self.selectionRectsForRange(range) as! [UITextSelectionRect]
                 for value in array {
                     self.flash(value.rect, color: UIColor(white: 0.0, alpha: 0.1))
                 }
-                */
             }
             })
     }
@@ -117,7 +120,7 @@ extension JLTextView: JLNestedScopeDelegate {
 
 private extension UIView {
     func animateToColor(color: UIColor, transform: CGAffineTransform, duration: Double, completion: () -> Void) {
-        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: nil, animations: {
+        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.3, options: [], animations: {
             self.backgroundColor = color
             self.transform = transform
             }, completion: { _ in
@@ -129,8 +132,8 @@ private extension UIView {
 private extension UITextView {
     func textRange(range: Range<Int>) -> UITextRange {
         let beginning = beginningOfDocument
-        let start = positionFromPosition(beginning, offset: range.startIndex)
-        let end = positionFromPosition(beginning, offset: range.endIndex)
-        return textRangeFromPosition(start, toPosition: end)
+        let start = positionFromPosition(beginning, offset: range.startIndex)!
+        let end = positionFromPosition(beginning, offset: range.endIndex)!
+        return textRangeFromPosition(start, toPosition: end)!
     }
 }
