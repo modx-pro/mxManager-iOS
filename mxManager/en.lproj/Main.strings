@@ -1,5 +1,7 @@
 // Main
 "qVD-Ik-Fjz.title" = "mxManager";
+"paid_feature" = "Additional feature";
+"purchase_multiple_sites" = "mxManager is free, but allows you to save the settings for only one website.\n\nIf you want to work with multiple sites, you need to unlock this feature once for all devices.\n\nOtherwise you can edit one site settings unlimited times.";
 
 // Site settings
 "new_site" = "New site";

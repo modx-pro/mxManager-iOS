@@ -41,28 +41,36 @@ class SitesList: DefaultTable {
 				return true
 			}
 			else if !IAPManager.sharedManager.isProductPurchased(productId) {
-				self.btnAdd.enabled = false
-				Utils.showSpinner(self.view)
-				IAPManager.sharedManager.purchaseProductWithId(productId) {
-					(error) -> Void in
-					Utils.hideSpinner(self.view)
-					self.btnAdd.enabled = true
-					if error != nil {
-						if error!.code == 2 {
-							return
+				Utils.confirm(
+					"paid_feature",
+					message:"purchase_multiple_sites",
+					view: self,
+					closure: {
+						_ in
+						self.btnAdd.enabled = false
+						Utils.showSpinner(self.view)
+						IAPManager.sharedManager.purchaseProductWithId(productId) {
+							(error) -> Void in
+							Utils.hideSpinner(self.view)
+							self.btnAdd.enabled = true
+							if error != nil {
+								if error!.code == 2 {
+									return
+								}
+								Utils.alert(
+									"error",
+									message: (error!.userInfo[NSLocalizedDescriptionKey] != nil)
+										? error!.userInfo[NSLocalizedDescriptionKey] as! String
+										: "",
+									view: self
+								)
+							}
+							else {
+								self.performSegueWithIdentifier("AddSite", sender: nil)
+							}
 						}
-						Utils.alert(
-							"error",
-							message: (error!.userInfo[NSLocalizedDescriptionKey] != nil)
-								? error!.userInfo[NSLocalizedDescriptionKey] as! String
-								: "",
-							view: self
-						)
 					}
-					else {
-						self.performSegueWithIdentifier("AddSite", sender: nil)
-					}
-				}
+				)
 				return false
 			}
 		}
@@ -135,9 +143,15 @@ class SitesList: DefaultTable {
 			(action, indexPath) -> Void in
 			tableView.editing = false
 
-			Utils.confirm("warning", message:"site_delete_confirm", view: self, closure: { _ in
-				if Utils.removeSite(key) {}
-			})
+			Utils.confirm(
+				"warning",
+				message:"site_delete_confirm",
+				view: self,
+				closure: {
+					_ in
+					Utils.removeSite(key)
+				}
+			)
 		}
 		delete.backgroundColor = UIColor(patternImage: UIImage(named:"btn-delete")!)
 
