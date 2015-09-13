@@ -104,13 +104,13 @@
 		51CA38D71AAEB38F00315059 /* FormSectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38C51AAEB38F00315059 /* FormSectionDescriptor.swift */; };
 		51CA38D91AAEC32600315059 /* DefaultForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38D81AAEC32600315059 /* DefaultForm.swift */; };
 		51D9DA531A4ADB570076C94A /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D9DA521A4ADB570076C94A /* DefaultCell.swift */; };
+		51DFC7741BA5773200D7F3C5 /* SettingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DFC7731BA5773200D7F3C5 /* SettingsList.swift */; settings = {ASSET_TAGS = (); }; };
 		51E94EB91ABFD4FD00B071ED /* ResourceTabPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E94EB81ABFD4FD00B071ED /* ResourceTabPanel.swift */; };
 		51E94EBD1ABFD6D700B071ED /* ResourceMainPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E94EBC1ABFD6D700B071ED /* ResourceMainPanel.swift */; };
 		51E94EBF1ABFD6EB00B071ED /* ResourceTVsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E94EBE1ABFD6EB00B071ED /* ResourceTVsPanel.swift */; };
 		51EA6CCA1A7E2ACE00E00280 /* ErrorLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EA6CC91A7E2ACE00E00280 /* ErrorLog.swift */; };
 		51EA6CCC1A7E32CB00E00280 /* ManagerLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EA6CCB1A7E32CB00E00280 /* ManagerLog.swift */; };
 		51EA6CCE1A7E589900E00280 /* ManagerLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EA6CCD1A7E589900E00280 /* ManagerLogCell.swift */; };
-		51F48C6E1B7CF6B40030178E /* SettingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F48C6D1B7CF6B40030178E /* SettingsList.swift */; };
 		79DBB23EFD273E08E48D333D /* files.png in Resources */ = {isa = PBXBuildFile; fileRef = 79DBB2877DB7C97B58D10058 /* files.png */; };
 		79DBB2F337D989D3DBEE65CD /* FormRemoteSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBBA98C7B6674E83A12144 /* FormRemoteSelectorController.swift */; };
 		79DBB4F8F1965803F2518A7D /* ResourceTemplateSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DBBA09C8470BE82FC5BD60 /* ResourceTemplateSelector.swift */; };
@@ -303,13 +303,13 @@
 		51CA38C51AAEB38F00315059 /* FormSectionDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSectionDescriptor.swift; sourceTree = "<group>"; };
 		51CA38D81AAEC32600315059 /* DefaultForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultForm.swift; path = "Supporting Files/DefaultForm.swift"; sourceTree = "<group>"; };
 		51D9DA521A4ADB570076C94A /* DefaultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultCell.swift; path = "Supporting Files/DefaultCell.swift"; sourceTree = "<group>"; };
+		51DFC7731BA5773200D7F3C5 /* SettingsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsList.swift; sourceTree = "<group>"; };
 		51E94EB81ABFD4FD00B071ED /* ResourceTabPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceTabPanel.swift; path = Resource/ResourceTabPanel.swift; sourceTree = "<group>"; };
 		51E94EBC1ABFD6D700B071ED /* ResourceMainPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceMainPanel.swift; path = Resource/ResourceMainPanel.swift; sourceTree = "<group>"; };
 		51E94EBE1ABFD6EB00B071ED /* ResourceTVsPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceTVsPanel.swift; path = Resource/ResourceTVsPanel.swift; sourceTree = "<group>"; };
 		51EA6CC91A7E2ACE00E00280 /* ErrorLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorLog.swift; path = Site/ErrorLog.swift; sourceTree = "<group>"; };
 		51EA6CCB1A7E32CB00E00280 /* ManagerLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagerLog.swift; path = Site/ManagerLog.swift; sourceTree = "<group>"; };
 		51EA6CCD1A7E589900E00280 /* ManagerLogCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagerLogCell.swift; path = Site/ManagerLogCell.swift; sourceTree = "<group>"; };
-		51F48C6D1B7CF6B40030178E /* SettingsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsList.swift; sourceTree = "<group>"; };
 		79DBB264ECBDB5BBA83BA5A9 /* FormTextCodeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextCodeCell.swift; sourceTree = "<group>"; };
 		79DBB2877DB7C97B58D10058 /* files.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = files.png; sourceTree = "<group>"; };
 		79DBB467A12633434B11128C /* link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = link.png; sourceTree = "<group>"; };
@@ -448,14 +448,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5135C8901B293C2200CBEE7F /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				51F48C6D1B7CF6B40030178E /* SettingsList.swift */,
-			);
-			name = Settings;
-			sourceTree = "<group>";
-		};
 		5139650E1A848C77008BD09E /* Element */ = {
 			isa = PBXGroup;
 			children = (
@@ -574,6 +566,14 @@
 			path = descriptors;
 			sourceTree = "<group>";
 		};
+		51DFC7721BA5773200D7F3C5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				51DFC7731BA5773200D7F3C5 /* SettingsList.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		79DBB3DD45F1C99DAD0DA534 = {
 			isa = PBXGroup;
 			children = (
@@ -607,9 +607,9 @@
 				5105A1191A761E33004DF472 /* Site */,
 				5105A1141A761D06004DF472 /* Resource */,
 				5139650E1A848C77008BD09E /* Element */,
+				51DFC7721BA5773200D7F3C5 /* Settings */,
 				51A45C8B1A822A84003A5C44 /* File */,
 				513183621A435233002497F2 /* Supporting Files */,
-				5135C8901B293C2200CBEE7F /* Settings */,
 				5105A12A1A762F00004DF472 /* Icons */,
 				51B127441A4A885600603921 /* Main.storyboard */,
 				5185F0BE1A4171F9008B42A1 /* Images.xcassets */,
@@ -804,6 +804,7 @@
 				5143CF271BA53F21009A2B6F /* ArchiveKey.swift in Sources */,
 				51A561E11AB310720007B28B /* JLRegexScope.swift in Sources */,
 				513183711A4352C7002497F2 /* AppDelegate.swift in Sources */,
+				51DFC7741BA5773200D7F3C5 /* SettingsList.swift in Sources */,
 				51A561E81AB310720007B28B /* NSIndexSet+Additions.swift in Sources */,
 				51EA6CCE1A7E589900E00280 /* ManagerLogCell.swift in Sources */,
 				5163F4961A9EFB0C00430861 /* FilePanel.swift in Sources */,
@@ -822,7 +823,6 @@
 				51CA38D61AAEB38F00315059 /* FormRowDescriptor.swift in Sources */,
 				513965101A848CA9008BD09E /* ElementsList.swift in Sources */,
 				51CA38CF1AAEB38F00315059 /* FormSwitchCell.swift in Sources */,
-				51F48C6E1B7CF6B40030178E /* SettingsList.swift in Sources */,
 				51A561E51AB310720007B28B /* JLTextViewController.swift in Sources */,
 				513965151A848CED008BD09E /* Console.swift in Sources */,
 				51A561DC1AB310720007B28B /* JLColorTheme.swift in Sources */,
