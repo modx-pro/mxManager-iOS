@@ -1,0 +1,9 @@
+[submodule "Alamofire"]
+	path = Alamofire
+	url = https://github.com/Alamofire/Alamofire.git
+[submodule "SubModules/MBProgressHUD"]
+	path = SubModules/MBProgressHUD
+	url = https://github.com/jdg/MBProgressHUD.git
+[submodule "SubModules/Alamofire"]
+	path = SubModules/Alamofire
+	url = https://github.com/Alamofire/Alamofire.git
