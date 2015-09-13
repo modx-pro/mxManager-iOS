@@ -61,6 +61,7 @@ class ElementPanel: DefaultForm {
 			let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+			row.configuration[FormRowDescriptor.Configuration.Required] = false
 			section.addRow(row)
 		}
 		if data["description"] != nil {
@@ -69,6 +70,7 @@ class ElementPanel: DefaultForm {
 			let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["textField.font"] = UIFont.systemFontOfSize(self.defaultTextFontSize)
 			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+			row.configuration[FormRowDescriptor.Configuration.Required] = false
 			section.addRow(row)
 		}
 
@@ -216,6 +218,7 @@ class ElementPanel: DefaultForm {
 			let params = NSMutableDictionary.init(dictionary: self.defaultParams)
 			params["switchView.onTintColor"] = Colors.red()
 			row.configuration[FormRowDescriptor.Configuration.CellConfiguration] = params
+			row.configuration[FormRowDescriptor.Configuration.Required] = false
 			section.addRow(row)
 		}
 

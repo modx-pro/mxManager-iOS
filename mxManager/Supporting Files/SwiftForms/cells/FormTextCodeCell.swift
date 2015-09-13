@@ -120,7 +120,9 @@ class FormTextCodeCell: FormBaseCell, UITextViewDelegate {
 
 	func textViewDidChange(textView: UITextView) {
 		let trimmedText = textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-		rowDescriptor.value = trimmedText.characters.count > 0 ? trimmedText : nil
+		rowDescriptor.value = trimmedText.characters.count > 0
+			? trimmedText
+			: String("")
 	}
 
 	/*
