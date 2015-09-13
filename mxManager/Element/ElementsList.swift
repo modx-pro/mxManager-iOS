@@ -260,7 +260,6 @@ class ElementsList: DefaultTable {
 			message: nil,
 			preferredStyle: UIAlertControllerStyle.ActionSheet
 		)
-		sheet.view.tintColor = Colors.defaultText()
 
 		if let popoverController = sheet.popoverPresentationController {
 			if let btn = sender as? UIBarButtonItem {
@@ -320,8 +319,10 @@ class ElementsList: DefaultTable {
 		))
 
 		self.presentViewController(sheet, animated: true, completion: nil)
+		sheet.view.tintColor = Colors.defaultText()
 	}
 
+	/*
 	func showPopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "dir") {
 		var title: String
 		var save: String
@@ -346,9 +347,9 @@ class ElementsList: DefaultTable {
 		]
 		self.performSegueWithIdentifier("showPopup", sender: data)
 	}
+	*/
 
-	/*
-	func PopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "category") {
+	func showPopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "category") {
 		var message: String
 		var saveTitle: String
 		if action == "create" {
@@ -365,7 +366,6 @@ class ElementsList: DefaultTable {
 			message: Utils.lexicon(message) as String,
 			preferredStyle: UIAlertControllerStyle.Alert
 		)
-		window.view.tintColor = Colors.defaultText()
 
 		let btnCancel = UIAlertAction.init(
 			title: Utils.lexicon("cancel") as String,
@@ -383,12 +383,12 @@ class ElementsList: DefaultTable {
 			handler: {
 				(alert: UIAlertAction!) in
 				if window.textFields?[0] != nil {
-					let textField = window.textFields![0] as! UITextField
+					let textField = window.textFields![0] 
 					if action == "create" {
-						self.createItem(textField.text, item: item, type: type)
+						self.createItem(textField.text!, item: item, type: type)
 					}
 					else {
-						self.renameItem(textField.text, item: item)
+						self.renameItem(textField.text!, item: item)
 					}
 				}
 				NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: nil)
@@ -400,8 +400,8 @@ class ElementsList: DefaultTable {
 			(textField: UITextField!) in
 			NSNotificationCenter.defaultCenter().addObserver(self, selector: "alertTextFieldDidChange:", name: UITextFieldTextDidChangeNotification, object: textField)
 			if action == "update" && item["name"] != nil {
-				textField.text = item["name"] as! String
-				self.tmpName = textField.text
+				textField.text = item["name"] as? String
+				self.tmpName = textField.text!
 			}
 			else {
 				self.tmpName = ""
@@ -409,6 +409,7 @@ class ElementsList: DefaultTable {
 		}
 		self.btnSave?.enabled = false
 		self.presentViewController(window, animated: true, completion: nil)
+		window.view.tintColor = Colors.defaultText()
 	}
 
 	func alertTextFieldDidChange(notification: NSNotification) {
@@ -417,7 +418,6 @@ class ElementsList: DefaultTable {
 			self.btnSave?.enabled = textField.text != self.tmpName
 		}
 	}
-	*/
 
 	// Действия
 

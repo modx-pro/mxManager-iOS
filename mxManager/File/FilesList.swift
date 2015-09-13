@@ -17,7 +17,7 @@ class FilesList: DefaultTable {
 	var pathRelative = ""
 	var permissions = [:]
 	var selectedRow = NSIndexPath.init(index: 0)
-	//var tmpName = ""
+	var tmpName = ""
 
 	required init(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -214,7 +214,6 @@ class FilesList: DefaultTable {
 			message: nil,
 			preferredStyle: UIAlertControllerStyle.ActionSheet
 		)
-		sheet.view.tintColor = Colors.defaultText()
 
 		if let popoverController = sheet.popoverPresentationController {
 			if let btn = sender as? UIBarButtonItem {
@@ -271,8 +270,10 @@ class FilesList: DefaultTable {
 		))
 
 		self.presentViewController(sheet, animated: true, completion: nil)
+		sheet.view.tintColor = Colors.defaultText()
 	}
 
+	/*
 	func showPopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "dir") {
 		var title: String
 		var save: String
@@ -301,8 +302,8 @@ class FilesList: DefaultTable {
 		]
 		self.performSegueWithIdentifier("showPopup", sender: data)
 	}
+	*/
 
-	/*
 	func showPopupWindow(action: String = "create", item: NSDictionary = [:], type: String = "dir") {
 		var message: String
 		var saveTitle: String
@@ -320,11 +321,10 @@ class FilesList: DefaultTable {
 		}
 
 		let window: UIAlertController = UIAlertController.init(
-		title: "",
-				message: Utils.lexicon(message),
-				preferredStyle: UIAlertControllerStyle.Alert
+			title: "",
+			message: Utils.lexicon(message),
+			preferredStyle: UIAlertControllerStyle.Alert
 		)
-		window.view.tintColor = Colors.defaultText()
 
 		let btnCancel = UIAlertAction.init(
 			title: Utils.lexicon("cancel"),
@@ -344,10 +344,10 @@ class FilesList: DefaultTable {
 				if window.textFields?[0] != nil {
 					let textField = window.textFields![0] as UITextField
 					if action == "create" {
-						self.createItem(textField.text, item: item, type: type)
+						self.createItem(textField.text!, item: item, type: type)
 					}
 					else {
-						self.renameItem(textField.text, item: item)
+						self.renameItem(textField.text!, item: item)
 					}
 				}
 				NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: nil)
@@ -358,14 +358,14 @@ class FilesList: DefaultTable {
 		window.addTextFieldWithConfigurationHandler{
 			(textField: UITextField!) in
 			NSNotificationCenter.defaultCenter().addObserver(
-			self,
-					selector: "alertTextFieldDidChange:",
-					name: UITextFieldTextDidChangeNotification,
-					object: textField
+				self,
+				selector: "alertTextFieldDidChange:",
+				name: UITextFieldTextDidChangeNotification,
+				object: textField
 			)
 			if action == "update" && item["name"] != nil {
-				textField.text = item["name"] as String
-				self.tmpName = textField.text
+				textField.text = item["name"] as? String
+				self.tmpName = textField.text!
 			}
 			else {
 				self.tmpName = ""
@@ -374,6 +374,7 @@ class FilesList: DefaultTable {
 		//self.btnSave?.enabled = action != "create"
 		self.btnSave?.enabled = false
 		self.presentViewController(window, animated: true, completion: nil)
+		window.view.tintColor = Colors.defaultText()
 	}
 
 	func alertTextFieldDidChange(notification: NSNotification) {
@@ -382,7 +383,6 @@ class FilesList: DefaultTable {
 			self.btnSave?.enabled = textField.text != self.tmpName
 		}
 	}
-	*/
 
 	// Действия
 

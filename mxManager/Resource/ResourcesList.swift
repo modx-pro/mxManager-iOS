@@ -295,7 +295,6 @@ class ResourcesList: DefaultTable {
 			message: Utils.lexicon("resource_create") as String,
 			preferredStyle: UIAlertControllerStyle.ActionSheet
 		)
-		sheet.view.tintColor = Colors.defaultText()
 
 		if let popoverController = sheet.popoverPresentationController {
 			if let btn = sender as? UIBarButtonItem {
@@ -338,6 +337,7 @@ class ResourcesList: DefaultTable {
 		))
 
 		self.presentViewController(sheet, animated: true, completion: nil)
+		sheet.view.tintColor = Colors.defaultText()
 	}
 
 }

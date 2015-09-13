@@ -55,8 +55,8 @@ class Utils: NSObject {
 				: nil
 		))
 
-		alert.view.tintColor = Colors.defaultText()
 		view.presentViewController(alert, animated: true, completion: nil)
+		alert.view.tintColor = Colors.defaultText()
 	}
 
 	class func confirm(title: NSString, message: NSString, view: UIViewController, closure: (() -> Void)!) {
@@ -77,8 +77,8 @@ class Utils: NSObject {
 			handler: { (alert: UIAlertAction!) in closure() }
 		))
 
-		alert.view.tintColor = Colors.defaultText()
 		view.presentViewController(alert, animated: true, completion: nil)
+		alert.view.tintColor = Colors.defaultText()
 	}
 
 	class func console(view: UIViewController, rows: NSArray) -> UIViewController {
