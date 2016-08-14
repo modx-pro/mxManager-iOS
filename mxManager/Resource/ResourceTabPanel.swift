@@ -197,11 +197,11 @@ class ResourceTabPanel: UITabBarController {
 
 	func addSaveButton() {
 		if self.saveBtn == nil {
-			self.saveBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-check"), style: UIBarButtonItemStyle.Plain, target: self, action: "submitForm:")
+			self.saveBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-check"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ResourceTabPanel.submitForm(_:)))
 			self.saveBtn!.enabled = false
 		}
 		if self.previewBtn == nil {
-			self.previewBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-eye"), style: UIBarButtonItemStyle.Plain, target: self, action: "viewItem:")
+			self.previewBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-eye"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ResourceTabPanel.viewItem(_:)))
 			self.previewBtn!.enabled = false
 		}
 
@@ -210,7 +210,7 @@ class ResourceTabPanel: UITabBarController {
 
 	func addHideKeyboardButton() {
 		if self.hideKeyboardBtn == nil {
-			self.hideKeyboardBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-keyboard-hide"), style: UIBarButtonItemStyle.Plain, target: self, action: "finishEdit:")
+			self.hideKeyboardBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-keyboard-hide"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ResourceTabPanel.finishEdit(_:)))
 		}
 
 		self.navigationItem.setRightBarButtonItems([self.hideKeyboardBtn!], animated: false)

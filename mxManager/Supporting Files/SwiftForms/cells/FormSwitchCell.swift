@@ -27,7 +27,7 @@ class FormSwitchCell: FormTitleCell {
 		contentView.addConstraint(NSLayoutConstraint(item: switchView, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1.0, constant: 6.0))
 		contentView.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: switchView, attribute: .Bottom, multiplier: 1.0, constant: 0.0))
 
-		switchView.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
+		switchView.addTarget(self, action: #selector(FormSwitchCell.valueChanged(_:)), forControlEvents: .ValueChanged)
 	}
 
     override func update() {

@@ -62,11 +62,11 @@ class PopupWindow: UIViewController, UITextFieldDelegate {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "textFieldDidChange:", name: UITextFieldTextDidChangeNotification, object: self.textField)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PopupWindow.textFieldDidChange(_:)), name: UITextFieldTextDidChangeNotification, object: self.textField)
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadWillShow:", name: UIKeyboardWillChangeFrameNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PopupWindow.onKeyboadWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PopupWindow.onKeyboadWillShow(_:)), name: UIKeyboardWillChangeFrameNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PopupWindow.onKeyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
 	}
 
 	override func viewWillDisappear(animated: Bool) {

@@ -34,12 +34,12 @@
 		513965151A848CED008BD09E /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513965131A848CED008BD09E /* Console.swift */; };
 		513965161A848CED008BD09E /* Console.xib in Resources */ = {isa = PBXBuildFile; fileRef = 513965141A848CED008BD09E /* Console.xib */; };
 		5142A1D41AA9ED8100F243F8 /* ElementPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5142A1D31AA9ED8100F243F8 /* ElementPanel.swift */; };
-		5143CF271BA53F21009A2B6F /* ArchiveKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF211BA53F21009A2B6F /* ArchiveKey.swift */; settings = {ASSET_TAGS = (); }; };
-		5143CF281BA53F21009A2B6F /* GenericKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF221BA53F21009A2B6F /* GenericKey.swift */; settings = {ASSET_TAGS = (); }; };
-		5143CF291BA53F21009A2B6F /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF231BA53F21009A2B6F /* Keychain.swift */; settings = {ASSET_TAGS = (); }; };
-		5143CF2A1BA53F21009A2B6F /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF241BA53F21009A2B6F /* KeychainItem.swift */; settings = {ASSET_TAGS = (); }; };
-		5143CF2B1BA53F21009A2B6F /* KeychainQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF251BA53F21009A2B6F /* KeychainQuery.swift */; settings = {ASSET_TAGS = (); }; };
-		5143CF2C1BA53F21009A2B6F /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF261BA53F21009A2B6F /* KeychainService.swift */; settings = {ASSET_TAGS = (); }; };
+		5143CF271BA53F21009A2B6F /* ArchiveKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF211BA53F21009A2B6F /* ArchiveKey.swift */; };
+		5143CF281BA53F21009A2B6F /* GenericKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF221BA53F21009A2B6F /* GenericKey.swift */; };
+		5143CF291BA53F21009A2B6F /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF231BA53F21009A2B6F /* Keychain.swift */; };
+		5143CF2A1BA53F21009A2B6F /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF241BA53F21009A2B6F /* KeychainItem.swift */; };
+		5143CF2B1BA53F21009A2B6F /* KeychainQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF251BA53F21009A2B6F /* KeychainQuery.swift */; };
+		5143CF2C1BA53F21009A2B6F /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5143CF261BA53F21009A2B6F /* KeychainService.swift */; };
 		5143CF2E1BA53F66009A2B6F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5143CF2D1BA53F66009A2B6F /* Security.framework */; };
 		515061151A7657DE00019287 /* desktop.png in Resources */ = {isa = PBXBuildFile; fileRef = 515061121A7657DE00019287 /* desktop.png */; };
 		515061161A7657DE00019287 /* file.png in Resources */ = {isa = PBXBuildFile; fileRef = 515061131A7657DE00019287 /* file.png */; };
@@ -104,7 +104,7 @@
 		51CA38D71AAEB38F00315059 /* FormSectionDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38C51AAEB38F00315059 /* FormSectionDescriptor.swift */; };
 		51CA38D91AAEC32600315059 /* DefaultForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CA38D81AAEC32600315059 /* DefaultForm.swift */; };
 		51D9DA531A4ADB570076C94A /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D9DA521A4ADB570076C94A /* DefaultCell.swift */; };
-		51DFC7741BA5773200D7F3C5 /* SettingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DFC7731BA5773200D7F3C5 /* SettingsList.swift */; settings = {ASSET_TAGS = (); }; };
+		51DFC7741BA5773200D7F3C5 /* SettingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DFC7731BA5773200D7F3C5 /* SettingsList.swift */; };
 		51E94EB91ABFD4FD00B071ED /* ResourceTabPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E94EB81ABFD4FD00B071ED /* ResourceTabPanel.swift */; };
 		51E94EBD1ABFD6D700B071ED /* ResourceMainPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E94EBC1ABFD6D700B071ED /* ResourceMainPanel.swift */; };
 		51E94EBF1ABFD6EB00B071ED /* ResourceTVsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E94EBE1ABFD6EB00B071ED /* ResourceTVsPanel.swift */; };
@@ -186,6 +186,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1D104D791ACA36CC00973364;
 			remoteInfo = "MBProgressHUD Framework";
+		};
+		51B2249F1D60418D00343E4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 510608911BA54521008822C4 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4CF626EF1BA7CB3E0011A099;
+			remoteInfo = "Alamofire tvOS";
+		};
+		51B224A11D60418D00343E4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 510608911BA54521008822C4 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4CF626F81BA7CB3E0011A099;
+			remoteInfo = "Alamofire tvOS Tests";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -401,10 +415,12 @@
 			isa = PBXGroup;
 			children = (
 				5106089A1BA54521008822C4 /* Alamofire.framework */,
-				5106089C1BA54521008822C4 /* Alamofire.framework */,
-				5106089E1BA54521008822C4 /* Alamofire.framework */,
 				510608A01BA54521008822C4 /* Alamofire iOS Tests.xctest */,
+				5106089C1BA54521008822C4 /* Alamofire.framework */,
 				510608A21BA54521008822C4 /* Alamofire OSX Tests.xctest */,
+				51B224A01D60418D00343E4A /* Alamofire.framework */,
+				51B224A21D60418D00343E4A /* Alamofire tvOS Tests.xctest */,
+				5106089E1BA54521008822C4 /* Alamofire.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -745,6 +761,20 @@
 			remoteRef = 510608AA1BA54529008822C4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		51B224A01D60418D00343E4A /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 51B2249F1D60418D00343E4A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		51B224A21D60418D00343E4A /* Alamofire tvOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Alamofire tvOS Tests.xctest";
+			remoteRef = 51B224A11D60418D00343E4A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -917,7 +947,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vasiliy Naumkin (J2E69EUB66)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mxManager/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
@@ -925,7 +956,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "bez.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -985,7 +1016,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vasiliy Naumkin (J2E69EUB66)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = mxManager/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
@@ -993,7 +1025,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "bez.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "43e1203b-8aae-47c1-bad1-1e3a48ae5fd1";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

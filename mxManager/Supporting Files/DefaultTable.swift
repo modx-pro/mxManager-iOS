@@ -35,7 +35,7 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 
 		super.init(coder: aDecoder)!
 
-		refreshControl.addTarget(self, action: "refreshRows", forControlEvents: UIControlEvents.ValueChanged)
+		refreshControl.addTarget(self, action: #selector(DefaultTable.refreshRows), forControlEvents: UIControlEvents.ValueChanged)
 		activityIndicator.frame = CGRectMake(0, 0, 0, 40)
 		activityIndicator.startAnimating()
 		tableView.delegate = self
@@ -53,10 +53,10 @@ class DefaultTable: DefaultView, UITableViewDataSource, UITableViewDelegate, UIS
 		self.loadRows()
 
 		if self.invokeEvent != "" {
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: "onLoadRows:", name: self.invokeEvent, object: nil)
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DefaultTable.onLoadRows(_:)), name: self.invokeEvent, object: nil)
 		}
 		if self.invokeMoreEvent != "" {
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: "onLoadRows:", name: self.invokeMoreEvent, object: nil)
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DefaultTable.onLoadRows(_:)), name: self.invokeMoreEvent, object: nil)
 		}
 	}
 

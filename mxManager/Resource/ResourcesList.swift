@@ -26,7 +26,7 @@ class ResourcesList: DefaultTable {
 		super.viewDidLoad()
 
 		let icon = UIImage.init(named: "icon-plus")
-		self.btnAdd = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "showAddMenuHere:")
+		self.btnAdd = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ResourcesList.showAddMenuHere(_:)))
 		self.btnAdd.enabled = false
 		self.navigationItem.setRightBarButtonItem(self.btnAdd, animated: false)
 
@@ -75,7 +75,7 @@ class ResourcesList: DefaultTable {
 			controller.action = controller.id == 0
 				? "create"
 				: "update"
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name: "ResourceUpdated", object: nil)
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshRows), name: "ResourceUpdated", object: nil)
 		}
 	}
 

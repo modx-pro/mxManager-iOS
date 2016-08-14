@@ -53,7 +53,7 @@ class FormTextFieldCell: FormBaseCell, UITextFieldDelegate {
 		contentView.addConstraint(NSLayoutConstraint(item: textField, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1.0, constant: 4.0))
 		contentView.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: textField, attribute: .Bottom, multiplier: 1.0, constant: 4.0))
 
-		textField.addTarget(self, action: "editingChanged:", forControlEvents: UIControlEvents.EditingChanged)
+		textField.addTarget(self, action: #selector(FormTextFieldCell.editingChanged(_:)), forControlEvents: UIControlEvents.EditingChanged)
 
 		textField.delegate = self
 	}

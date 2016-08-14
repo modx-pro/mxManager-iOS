@@ -69,7 +69,7 @@ class FormBaseCell: UITableViewCell {
 //        prevNext.tintColor = actionBar.tintColor
 //        prevNext.addTarget(self, action: "handleActionBarPreviousNext:", forControlEvents: .ValueChanged)
         
-        let doneButton = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .Done, target: self, action: "handleDoneAction:")
+        let doneButton = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .Done, target: self, action: #selector(FormBaseCell.handleDoneAction(_:)))
         
 //        let prevNextWrapper = UIBarButtonItem(customView: prevNext)
         let flexible = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)

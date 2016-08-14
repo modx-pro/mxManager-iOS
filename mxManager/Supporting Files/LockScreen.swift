@@ -51,7 +51,7 @@ class LockScreen: UIViewController, UITextFieldDelegate {
 		super.viewDidLoad()
 
 		for field:UITextField in [i1, i2, i3, i4] {
-			field.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+			field.addTarget(self, action: #selector(LockScreen.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
 		}
 
 		self.reset.setTitle(Utils.lexicon("reset"), forState: UIControlState.Normal)

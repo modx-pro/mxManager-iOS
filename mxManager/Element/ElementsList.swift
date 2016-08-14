@@ -34,7 +34,7 @@ class ElementsList: DefaultTable {
 		}
 
 		let icon = UIImage.init(named: "icon-plus")
-		self.btnAdd = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "showAddMenuHere:")
+		self.btnAdd = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ElementsList.showAddMenuHere(_:)))
 		self.btnAdd.enabled = false
 		self.navigationItem.setRightBarButtonItem(self.btnAdd, animated: false)
 
@@ -95,7 +95,7 @@ class ElementsList: DefaultTable {
 				if cell.data["action"] != nil {
 					controller.action = cell.data["action"] as! String
 				}
-				NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name: "ElementUpdated", object: nil)
+				NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshRows), name: "ElementUpdated", object: nil)
 			}
 		}
 	}
@@ -398,7 +398,7 @@ class ElementsList: DefaultTable {
 
 		window.addTextFieldWithConfigurationHandler{
 			(textField: UITextField!) in
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: "alertTextFieldDidChange:", name: UITextFieldTextDidChangeNotification, object: textField)
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ElementsList.alertTextFieldDidChange(_:)), name: UITextFieldTextDidChangeNotification, object: textField)
 			if action == "update" && item["name"] != nil {
 				textField.text = item["name"] as? String
 				self.tmpName = textField.text!

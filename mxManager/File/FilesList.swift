@@ -28,7 +28,7 @@ class FilesList: DefaultTable {
 		super.viewDidLoad()
 
 		let icon = UIImage.init(named: "icon-plus")
-		self.btnAdd = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "showAddMenuHere:")
+		self.btnAdd = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FilesList.showAddMenuHere(_:)))
 		self.btnAdd.enabled = false
 		self.navigationItem.setRightBarButtonItem(self.btnAdd, animated: false)
 
@@ -81,7 +81,7 @@ class FilesList: DefaultTable {
 				if cell.data["action"] != nil {
 					controller.action = cell.data["action"] as! String
 				}
-				NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshRows", name:"FileUpdated", object: nil)
+				NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshRows), name:"FileUpdated", object: nil)
 			}
 		}
 	}
@@ -359,7 +359,7 @@ class FilesList: DefaultTable {
 			(textField: UITextField!) in
 			NSNotificationCenter.defaultCenter().addObserver(
 				self,
-				selector: "alertTextFieldDidChange:",
+				selector: #selector(FilesList.alertTextFieldDidChange(_:)),
 				name: UITextFieldTextDidChangeNotification,
 				object: textField
 			)

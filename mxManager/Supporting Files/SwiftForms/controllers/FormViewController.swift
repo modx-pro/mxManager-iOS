@@ -90,9 +90,9 @@ class FormViewController : UITableViewController {
                     }
                     return
                 }
-                ++rowIndex
+                rowIndex += 1
             }
-            ++sectionIndex
+            sectionIndex += 1
         }
     }
     

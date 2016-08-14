@@ -128,7 +128,7 @@ public class JLTokenizingScope: JLScope {
             var i = 0
             while i < result.numberOfRanges {
                 ranges.append(result.rangeAtIndex(i))
-                i++
+                i += 1
             }
         }
         

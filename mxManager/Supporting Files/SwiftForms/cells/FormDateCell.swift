@@ -29,7 +29,7 @@ class FormDateCell: FormValueCell {
         hiddenTextField.inputView = datePicker
         hiddenTextField.inputAccessoryView = self.inputAccesoryView()
         datePicker.datePickerMode = UIDatePickerMode.DateAndTime
-		datePicker.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged)
+		datePicker.addTarget(self, action: #selector(FormDateCell.valueChanged(_:)), forControlEvents: .ValueChanged)
     }
     
     override func update() {
@@ -104,7 +104,7 @@ class FormDateCell: FormValueCell {
 		var buttons: [UIBarButtonItem] = []
 
 		if startValue != nil {
-			let clearButton: UIBarButtonItem = UIBarButtonItem(title: Utils.lexicon("btn_clear") as String, style: .Plain, target: self, action: "handleClearAction:")
+			let clearButton: UIBarButtonItem = UIBarButtonItem(title: Utils.lexicon("btn_clear") as String, style: .Plain, target: self, action: #selector(FormDateCell.handleClearAction(_:)))
 			clearButton.tintColor = Colors.defaultText()
 			buttons.append(clearButton)
 		}
@@ -112,7 +112,7 @@ class FormDateCell: FormValueCell {
 		let flexible = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 		buttons.append(flexible)
 
-		let cancelButton: UIBarButtonItem = UIBarButtonItem(title: Utils.lexicon("btn_cancel") as String, style: .Plain, target: self, action: "handleCancelAction:")
+		let cancelButton: UIBarButtonItem = UIBarButtonItem(title: Utils.lexicon("btn_cancel") as String, style: .Plain, target: self, action: #selector(FormDateCell.handleCancelAction(_:)))
 		cancelButton.tintColor = Colors.defaultText()
 		buttons.append(cancelButton)
 

@@ -44,9 +44,9 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadWillShow:", name: UIKeyboardWillChangeFrameNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DefaultForm.onKeyboadWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DefaultForm.onKeyboadWillShow(_:)), name: UIKeyboardWillChangeFrameNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DefaultForm.onKeyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
 	}
 
 	override func viewWillDisappear(animated: Bool) {
@@ -98,13 +98,13 @@ class DefaultForm: FormViewController, FormViewControllerDelegate {
 
 	func addSaveButton() {
 		let icon = UIImage.init(named: "icon-check")
-		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "submitForm:")
+		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DefaultForm.submitForm(_:)))
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}
 
 	func addHideKeyboardButton() {
 		let icon = UIImage.init(named: "icon-keyboard-hide")
-		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "finishEdit:")
+		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DefaultForm.finishEdit(_:)))
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}
 

@@ -55,9 +55,9 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboadWillShow:", name: UIKeyboardWillChangeFrameNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "onKeyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SiteSettings.onKeyboadWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SiteSettings.onKeyboadWillShow(_:)), name: UIKeyboardWillChangeFrameNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SiteSettings.onKeyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
 	}
 
 	override func viewWillDisappear(animated: Bool) {
@@ -291,14 +291,14 @@ class SiteSettings: DefaultView, UITextFieldDelegate, UITextViewDelegate {
 
 	func addSaveButton() {
 		let icon = UIImage.init(named: "icon-check")
-		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "submitForm:")
+		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(SiteSettings.submitForm(_:)))
 		btn.tintColor = Colors.defaultText()
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}
 
 	func addHideKeyboardButton() {
 		let icon = UIImage.init(named: "icon-keyboard-hide")
-		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: "finishEdit:")
+		let btn = UIBarButtonItem.init(image: icon, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(SiteSettings.finishEdit(_:)))
 		btn.tintColor = Colors.defaultText()
 		self.navigationItem.setRightBarButtonItem(btn, animated: false)
 	}

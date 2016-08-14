@@ -22,8 +22,8 @@ class ErrorLog: DefaultView {
 	}
 
 	func addRightButtons() {
-		self.refreshBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-refresh"), style: UIBarButtonItemStyle.Plain, target: self, action: "refreshLog")
-		self.clearBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-trash"), style: UIBarButtonItemStyle.Plain, target: self, action: "clearLog")
+		self.refreshBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-refresh"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ErrorLog.refreshLog))
+		self.clearBtn = UIBarButtonItem.init(image: UIImage.init(named: "icon-trash"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ErrorLog.clearLog))
 
 		self.navigationItem.setRightBarButtonItems([self.refreshBtn!, self.clearBtn!], animated: false)
 	}
